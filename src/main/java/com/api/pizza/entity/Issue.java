@@ -1,6 +1,6 @@
 package com.api.pizza.entity;
 
-import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +8,6 @@ import javax.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonGetter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,31 +47,32 @@ public class Issue {
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    @JsonFormat(pattern = "hh:mm:ss yyyy-MM-dd", timezone = "GMT+7")
+    @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date createDate;
 
     @Column(name = "issue_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE) // Changed to DATE type
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+7")
     private Date issueDate;
 
     @Column(name = "start")
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "hh:mm:ss yyyy-MM-dd", timezone = "GMT+7")
-    private Date start;
+    @Temporal(TemporalType.TIME)
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
+    private Date start; // Changed to Date type
 
     @Column(name = "end")
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "hh:mm:ss yyyy-MM-dd", timezone = "GMT+7")
-    private Date end;
+    @Temporal(TemporalType.TIME)
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
+    private Date end; // Changed to Date type
 
     @Column(name = "downtime")
-    private Duration downtime;
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
+    private String downtime;
 
     @Column(name = "updated_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @JsonFormat(pattern = "hh:mm:ss yyyy-MM-dd", timezone = "GMT+7")
+    @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date updatedDate;
 
     @Column(name = "status")
