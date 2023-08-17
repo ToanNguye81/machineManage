@@ -38,7 +38,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-<<<<<<< HEAD
         // Tìm kiếm user dựa trên username
         UserPrincipal userPrincipal = userService.findByUsername(user.getUsername());
         // Check username và password
@@ -47,35 +46,19 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
         }
         // Tạo một đối tượng Token và gán thông tin(token, ExpirationTime,userId)
-=======
-        UserPrincipal userPrincipal = userService.findByUsername(user.getUsername());
-        if (null == user || !new BCryptPasswordEncoder().matches(user.getPassword(), userPrincipal.getPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
-        }
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
         Token token = new Token();
         token.setToken(jwtUtil.generateToken(userPrincipal));
         token.setTokenExpDate(jwtUtil.generateExpirationDate());
         token.setCreatedBy(userPrincipal.getUserId());
         tokenService.createToken(token);
-<<<<<<< HEAD
         // Trả về token đã tạo để gửi về phía client
-=======
-        System.out.println(token.getToken());
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
         return ResponseEntity.ok(token.getToken());
     }
-
     @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('USER_CREATE', 'USER_UPDATE')")
-<<<<<<< HEAD
-=======
     /*
      * @PreAuthorize("hasRole('USER_READ') " + "|| hasRole('USER_CREATE')" +
      * "|| hasRole('USER_UPDATE')" + "|| (hasRole('USER_DELETE')")
      */
-
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
     public ResponseEntity hello() {
         return ResponseEntity.ok("hello  have USER_READ OR USER_CREATE OR USER_UPDATE oR USER_DELETE");
     }
@@ -107,18 +90,10 @@ public class AuthController {
         return ResponseEntity.ok("hello chi cho MANAGER");
     }
 
-<<<<<<< HEAD
     // @PreAuthorize("hasRole('USER_READ') " +
     // "|| (hasRole('USER_DELETE')")
     @GetMapping("/hello7")
     @PreAuthorize("hasAnyAuthority('USER_DELETE')")
-=======
-    @GetMapping("/hello7")
-    @PreAuthorize("hasAnyAuthority('USER_DELETE')")
-    // @PreAuthorize("hasRole('USER_READ') " +
-    // "|| (hasRole('USER_DELETE')")
-
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
     public ResponseEntity hello7() {
         return ResponseEntity.ok("hello 2 have USER_DELETE");
     }
