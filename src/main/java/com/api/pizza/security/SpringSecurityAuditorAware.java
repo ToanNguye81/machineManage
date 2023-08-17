@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-<<<<<<< HEAD
 /*  lấy thông tin người dùng hiện tại thực hiện thao tác cuối cùng 
  trên các thực thể được đánh dấu bởi @CreatedBy và @LastModifiedBy */
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Component
 public class SpringSecurityAuditorAware implements AuditorAware<Long> {
 

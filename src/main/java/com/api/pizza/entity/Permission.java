@@ -7,11 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-<<<<<<< HEAD
 @Table(name = "permission")
-=======
-@Table(name = "t_permission")
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Getter
 @Setter
 public class Permission extends BaseEntity {

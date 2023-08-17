@@ -9,11 +9,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-<<<<<<< HEAD
 @Table(name = "token")
-=======
-@Table(name = "t_token")
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Getter
 @Setter
 public class Token extends BaseEntity {

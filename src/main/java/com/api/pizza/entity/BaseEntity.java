@@ -17,10 +17,6 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Serializable {
-<<<<<<< HEAD
-
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,17 +27,10 @@ public abstract class BaseEntity implements Serializable {
 	private boolean deleted = false;
 
 	@CreatedDate
-<<<<<<< HEAD
 	private Date createdAt = new Date();
 
 	@LastModifiedDate
 	private Date updatedAt = new Date();
-=======
-	private Date createdAt;
-
-	@LastModifiedDate
-	private Date updatedAt;
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 
 	@CreatedBy
 	private Long createdBy;

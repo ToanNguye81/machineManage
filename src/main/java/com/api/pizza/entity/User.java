@@ -1,6 +1,5 @@
 package com.api.pizza.entity;
 
-<<<<<<< HEAD
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,17 +12,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "user")
-=======
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
-@Entity
-@Table(name = "t_user")
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Getter
 @Setter
 public class User extends BaseEntity {
@@ -34,7 +22,6 @@ public class User extends BaseEntity {
 	@Column(name = "password")
 	private String password;
 
-<<<<<<< HEAD
 	@JsonIgnore
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Employee employee;
@@ -42,10 +29,6 @@ public class User extends BaseEntity {
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-=======
-	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 			@JoinColumn(name = "role_id") })
 	private Set<Role> roles = new HashSet<>();
 

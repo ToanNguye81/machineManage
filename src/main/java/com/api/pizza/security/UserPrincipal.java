@@ -89,8 +89,4 @@ public class UserPrincipal implements UserDetails {
 	public void setAuthorities(Collection authorities) {
 		this.authorities = authorities;
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 }

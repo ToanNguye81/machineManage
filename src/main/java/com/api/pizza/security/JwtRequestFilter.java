@@ -22,11 +22,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-<<<<<<< HEAD
 //  kiểm tra và xác thực yêu cầu dựa trên thông tin chứa trong token JWT,
 //  cập nhật thông tin xác thực vào SecurityContextHolder để cho phép truy cập an toàn vào các phần tử của ứng dụng.
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

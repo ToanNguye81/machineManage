@@ -39,16 +39,8 @@ public class EmployeeController {
     @GetMapping("/employee")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         try {
-<<<<<<< HEAD
             List<Employee> employeeList = employeeRepository.findAll();
             Long totalElement = (long) employeeList.size();
-=======
-            // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
-            Pageable pageable = PageRequest.of(page, size);
-            Page<Employee> employeePage = gEmployeeRepository.findAll(pageable);
-            List<Employee> employeeList = employeePage.getContent();
-            Long totalElement = employeePage.getTotalElements();
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 
             return ResponseEntity.ok()
                     .header("totalCount", String.valueOf(totalElement))

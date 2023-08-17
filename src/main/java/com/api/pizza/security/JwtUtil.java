@@ -14,10 +14,7 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.util.Date;
 
-<<<<<<< HEAD
 // cung cấp các phương thức để tạo, kiểm tra và giải mã token JWT
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Component
 public class JwtUtil {
 

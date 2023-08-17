@@ -11,11 +11,8 @@ import com.api.pizza.service.UserService;
 import java.util.HashSet;
 import java.util.Set;
 
-<<<<<<< HEAD
 /* cung cấp các phương thức để tương tác với thông tin người dùng trong cơ sở dữ liệu,
  bao gồm cả việc tạo người dùng mới và truy vấn thông tin người dùng dựa trên tên người dùng. */
-=======
->>>>>>> 4bae4ffc16fb9c5849f13c41e8b82191c15ab5c4
 @Service
 public class UserServiceImpl implements UserService {
 
