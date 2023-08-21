@@ -442,6 +442,7 @@ let issueTable = $("#issue-table").DataTable({
       }
     },
     {data: "handle" },
+    
   ],
   columnDefs: [
     {
