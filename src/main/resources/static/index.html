@@ -19,8 +19,6 @@
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css" />
-  <!-- dater-ange picker -->
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -97,7 +95,7 @@
             <a href="/#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="dist/img/user1-128x128.jpg" alt="order Avatar" class="img-size-50 mr-3 img-circle" />
+                <img src="dist/img/user1-128x128.jpg" alt="issue Avatar" class="img-size-50 mr-3 img-circle" />
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     Brad Diesel
@@ -115,7 +113,7 @@
             <a href="/#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="dist/img/user8-128x128.jpg" alt="order Avatar" class="img-size-50 img-circle mr-3" />
+                <img src="dist/img/user8-128x128.jpg" alt="issue Avatar" class="img-size-50 img-circle mr-3" />
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     John Pierce
@@ -133,7 +131,7 @@
             <a href="/#" class="dropdown-item">
               <!-- Message Start -->
               <div class="media">
-                <img src="dist/img/user3-128x128.jpg" alt="order Avatar" class="img-size-50 img-circle mr-3" />
+                <img src="dist/img/user3-128x128.jpg" alt="issue Avatar" class="img-size-50 img-circle mr-3" />
                 <div class="media-body">
                   <h3 class="dropdown-item-title">
                     Nora Silvester
@@ -191,7 +189,7 @@
       class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Sidebar -->
       <div class="sidebar">
-        <!-- Sidebar order panel (optional) -->
+        <!-- Sidebar issue panel (optional) -->
         <div class="info">
           <a href="/#" class="d-block text-center">ADMIN TONA</a>
         </div>
@@ -308,10 +306,10 @@
             <div class="col-sm-6">
               <div class="row form-group">
                 <div class="col-sm-2 mt-2">
-                  <label for="createBy">Create by</label>
+                  <label for="inp-createBy">Create by</label>
                 </div>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inp-create-by" disabled>
+                  <input type="text" class="form-control" id="inp-createBy" disabled>
                 </div>
               </div>
             </div>
@@ -345,10 +343,10 @@
             <div class="col-sm-6">
               <div class="row form-group">
                 <div class="col-sm-2 mt-2">
-                  <label for="inp-date">Date</label>
+                  <label for="inp-issue-date">Date</label>
                 </div>
                 <div class="col-sm-4 input-group">
-                  <input type="date" class="form-control float-right" id="inp-date">
+                  <input type="date" class="form-control float-right" id="inp-issue-date">
                 </div>
                 <div class="col-sm-2 mt-2">
                   <label for="inp-start">Start</label>
@@ -494,39 +492,46 @@
 
         </div>
         <h3 style="text-align: center">Issue Table</h3>
-        <table class="table table-bordered table-striped table-hover text-center" id="order-table">
+        <table class="table table-bissueed table-striped table-hover text-center" id="issue-table">
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Issue Date</th>
-              <th>Shipped Date</th>
-              <th>Required Date</th>
-              <th>Status</th>
-              <th>Comments</th>
-              <th>Action</th>
+              <th>id</th>
+              <th>department</th>
+              <th>equipment</th>
+              <th>error</th>
+              <th>ycsc</th>
+              <th>issueDate</th>
+              <th>downtime</th>
+              <th>status</th>
+              <th>description</th>
+              <th>action</th>
+              <th>bigIssue</th>
+              <th>notes</th>
+              <th>changedParts</th>
+              <th>handle</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
 
-        <!-- Modal delete order-->
-        <div class="modal fade" id="modal-delete-order">
+        <!-- Modal delete issue-->
+        <div class="modal fade" id="modal-delete-issue">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-danger">Xác nhận xóa order</h5>
+                <h5 class="modal-title text-danger">Xác nhận xóa issue</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <h6 class="text-danger">Bạn có chác muốn xóa order</h6>
+                <h6 class="text-danger">Bạn có chác muốn xóa issue</h6>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   Close
                 </button>
-                <button type="button" class="btn btn-danger" id="btn-confirm-delete-order">
+                <button type="button" class="btn btn-danger" id="btn-confirm-delete-issue">
                   Delete
                 </button>
               </div>
@@ -534,11 +539,11 @@
           </div>
         </div>
         <!-- Modal create-->
-        <div class="modal hide" id="modal-update-order">
+        <div class="modal hide" id="modal-update-issue">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-primary">Manage order</h5>
+                <h5 class="modal-title text-primary">Manage issue</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -546,34 +551,34 @@
               <div class="modal-body">
                 <div class="row form-group">
                   <div class="col-sm-4">
-                    <label for="department-of-order">Customer</label>
+                    <label for="department-of-issue">Customer</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="text" id="department-of-order" class="form-control" disabled />
+                    <input type="text" id="department-of-issue" class="form-control" disabled />
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col-sm-4">
-                    <label for="order-date">Issue date</label>
+                    <label for="issue-issue-date">Issue date</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="date" id="inp-order-date" class="form-control" />
+                    <input type="date" id="inp-issue-issue-date" class="form-control" />
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col-sm-4">
-                    <label for="required-date">Required date</label>
+                    <label for="required-issue-date">Required date</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="date" id="inp-required-date" class="form-control" />
+                    <input type="date" id="inp-required-issue-date" class="form-control" />
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col-sm-4">
-                    <label for="shipped-date">Shipped date</label>
+                    <label for="shipped-issue-date">Shipped date</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="date" id="inp-shipped-date" class="form-control" />
+                    <input type="date" id="inp-shipped-issue-date" class="form-control" />
                   </div>
                 </div>
                 <div class="row form-group">
@@ -597,7 +602,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                   Close
                 </button>
-                <button type="button" class="btn btn-primary" id="btn-save-order">
+                <button type="button" class="btn btn-primary" id="btn-save-issue">
                   Save Data
                 </button>
               </div>
@@ -617,7 +622,7 @@
       <b>Version</b> 3.1.0
     </div>
   </footer>
-  <!-- jQuery -->
+  jQuery
   <script src="plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -628,7 +633,18 @@
   <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <!-- Select2 -->
   <script src="plugins/select2/js/select2.full.min.js"></script>
-  <!-- AdminLTE App -->
+  <!-- DataTables  & Plugins -->
+   <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+   <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+   <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+   <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+   <script src="plugins/jszip/jszip.min.js"></script>
+   <script src="plugins/pdfmake/pdfmake.min.js"></script>
+   <script src="plugins/pdfmake/vfs_fonts.js"></script>
+   <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+   <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+   <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+ <!-- AdminLTE App -->
   <script src="dist/js/adminlte.js"></script>
   <script src="./src/index.js"></script>
 </body>
