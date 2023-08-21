@@ -294,48 +294,6 @@ let issue = {
 
 $("#btn-add-issue").click(issue.onCreateNewIssueClick);
 
-// // Hàm thêm một issue mới
-// function addIssue() {
-//   const newIssue = gatherIssueData();
-
-//   console.log(newIssue);
-//   // Gửi yêu cầu tạo issue mới
-//   createNewIssue(newIssue);
-// }
-
-// // Hàm thu thập dữ liệu của issue từ các trường nhập liệu
-// function gatherIssueData() {
-//   let department = $("#sel-department").val();
-//   let equipment = $("#sel-equipment").val();
-//   let error = $("#sel-error").val();
-//   let description = $("#inp-description").val();
-//   let bigIssue = $("#big-issue").prop("checked");
-//   let ycsc = $("#inp-ycsc").val();
-//   let notes = $("#inp-notes").val();
-//   let status = $(".status-radio:checked").filter(":checked").val() || "done";
-//   let action = $("#inp-action").val();
-
-//   return {
-//     department,
-//     equipment,
-//     error,
-//     description,
-//     bigIssue,
-//     ycsc,
-//     notes,
-//     // createDate: null,
-//     start,
-//     end,
-//     downtime,
-//     // updatedDate: null,
-//     status,
-//     // createBy: null,
-//     // updateBy: null,
-//     issueDate: start,
-//     action,
-//     gChangedParts,
-//   };
-// }
 
 // // Hàm gửi yêu cầu tạo issue mới
 // function createNewIssue(newIssue) {
@@ -442,7 +400,7 @@ let issueTable = $("#issue-table").DataTable({
       }
     },
     {data: "handle" },
-    
+
   ],
   columnDefs: [
     {
