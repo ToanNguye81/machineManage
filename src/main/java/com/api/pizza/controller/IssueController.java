@@ -1,6 +1,8 @@
 package com.api.pizza.controller;
 
 import com.api.pizza.entity.Issue;
+import com.api.pizza.entity.ChangedPart;
+import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IIssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,9 @@ import java.util.List;
 public class IssueController {
     @Autowired
     private final IIssueRepository issueRepository;
+    
+    @Autowired
+    IChangedPartRepository changedPartRepository;
 
     @Autowired
     public IssueController(IIssueRepository issueRepository) {
@@ -47,10 +52,10 @@ public class IssueController {
             @RequestBody Issue pIssue) {
         System.out.println("======================");
         try {
-            System.out.println(pIssue);
             Issue newIssue = new Issue();
             newIssue.setCreateDate(new Date());
             newIssue.setAction(pIssue.getAction());
+            newIssue.setIssueDate(pIssue.getIssueDate());
             newIssue.setBigIssue(pIssue.getBigIssue());
             newIssue.setChangedParts(pIssue.getChangedParts());
             newIssue.setCreateBy(pIssue.getCreateBy());
@@ -65,9 +70,20 @@ public class IssueController {
             newIssue.setStatus(pIssue.getStatus());
             newIssue.setUpdateBy(pIssue.getUpdateBy());
             newIssue.setYcsc(pIssue.getYcsc());
-            // Set other properties as needed
-
             Issue savedIssue = issueRepository.save(newIssue);
+            // Set changed parts
+            List<ChangedPart> changedParts = pIssue.getChangedParts();
+            if (changedParts != null) {
+                for (ChangedPart changedPart : changedParts) {
+                    changedPart.setIssue(savedIssue); // Set the parent Issue
+                    changedPart.setCode(changedPart.getCode()); // Set the parent Issue
+                    changedPart.setName(changedPart.getName()); // Set the parent Issue
+                    changedPart.setPrice(changedPart.getPrice()); // Set the parent Issue
+                    changedPart.setQuantity(changedPart.getQuantity()); // Set the parent Issue
+                    changedPartRepository.save(changedPart); // Save the associated ChangedParts
+                }
+            }
+
             return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()

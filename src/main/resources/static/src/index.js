@@ -38,19 +38,37 @@ let downtime = $("#inp-downtime");
   // Đặt giá trị vào input downtime
   downtime.val(`${hours}:${minutes}:${seconds}`);
 }
+
+//load sparePart to select
+function loadSparePartToSelect(pSparePart) {
+  console.log(pSparePart);
+  pSparePart.forEach((sparePart) => {
+    $("<option>", {
+      text: sparePart.code + "-" + sparePart.name,
+      value: sparePart.id, // Set the value to spare part's ID
+      "data-code": sparePart.code,
+      "data-name": sparePart.name,
+      "data-price": sparePart.price,
+    }).appendTo($("#sel-spare-part"));
+  });
+}
+
 function addPartToTable() {
   var selectedOption = $("#sel-spare-part option:selected");
-  var code = selectedOption.val();
+  var partId = selectedOption.val(); // Get the selected part's ID
+  var partCode = selectedOption.data("code");
+  var partName = selectedOption.data("name");
 
-  if (code === "" || code === "0") return;
+  if (!partId) return; // Check if partId is not empty or falsy
 
-  var existingPart = gChangedParts.find((part) => part.code === code);
+  var existingPart = gChangedParts.find((part) => part.id === partId);
   if (existingPart) {
     existingPart.quantity++;
   } else {
     gChangedParts.push({
-      code: code,
-      name: selectedOption.text(),
+      id: partId, // Store the selected part's ID
+      code: partCode,
+      name: partName,
       quantity: 1,
     });
   }
@@ -62,47 +80,47 @@ function updateTable() {
 
   gChangedParts.forEach((part) => {
     if (part.quantity > 0) {
-      var row = createTableRow(part.code, part.name, part.quantity);
+      var row = createTableRow(part.id, part.code, part.name, part.quantity); // Pass part's ID to createTableRow
       tbody.append(row);
     }
   });
 }
 
-function createTableRow(code, name, quantity) {
+function createTableRow(id, code, name, quantity) {
   var row = $("<tr></tr>").append(
     `<td>${code}</td><td>${name}</td><td><button class="btn btn-sm btn-success btn-increment">+</button> <span class="quantity">${quantity}</span> <button class="btn btn-sm btn-warning btn-decrement">-</button></td><td><button class="btn btn-danger btn-sm btn-remove">Remove</button></td>`
   );
 
-  row.find(".btn-increment").click(() => incrementQuantity(code));
-  row.find(".btn-decrement").click(() => decrementQuantity(code));
-  row.find(".btn-remove").click(() => removePart(code));
+  row.find(".btn-increment").click(() => incrementQuantity(id));
+  row.find(".btn-decrement").click(() => decrementQuantity(id));
+  row.find(".btn-remove").click(() => removePart(id));
 
   return row;
 }
 
-function updateQuantity(code, increment) {
-  var part = gChangedParts.find((part) => part.code === code);
+function updateQuantity(id, increment) {
+  var part = gChangedParts.find((part) => part.id === id); // Find the part by ID
   if (part) {
     part.quantity += increment;
     updateTable();
   }
 }
 
-function incrementQuantity(code) {
-  updateQuantity(code, 1);
+function incrementQuantity(id) {
+  updateQuantity(id, 1);
 }
 
-function decrementQuantity(code) {
-  var part = gChangedParts.find((part) => part.code === code);
+function decrementQuantity(id) {
+  var part = gChangedParts.find((part) => part.id === id); // Find the part by ID
   if (part && part.quantity > 1) {
-    updateQuantity(code, -1);
+    updateQuantity(id, -1);
   } else {
-    removePart(code);
+    removePart(id);
   }
 }
 
-function removePart(code) {
-  gChangedParts = gChangedParts.filter((part) => part.code !== code);
+function removePart(id) {
+  gChangedParts = gChangedParts.filter((part) => part.id !== id); // Filter by ID
   updateTable();
 }
 
@@ -144,18 +162,7 @@ function loadEquipmentToSelect(pEquipment) {
   });
 }
 
-//load sparePart to select
-function loadSparePartToSelect(pSparePart) {
-  console.log(pSparePart);
-  pSparePart.forEach((sparePart) => {
-    $("<option>", {
-      text: sparePart.code + "-" + sparePart.name,
-      value: sparePart.id,
-      "data-code": sparePart.code,
-      "data-price": sparePart.price,
-    }).appendTo($("#sel-spare-part"));
-  });
-}
+
 // on get department change
 function onGetDepartmentChange(event) {
   gDepartmentId = event.target.value;
@@ -419,18 +426,21 @@ let issueTable = $("#issue-table").DataTable({
   buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
   columns: [
     {data: "id" },
+    {data: "issueDate"},
     {data: "department"},
     {data: "equipment"},
     {data: "error"},
-    {data: "ycsc"},
-    {data: "issueDate"},
     {data: "downtime"},
-    {data: "status"},
     {data: "description"},
     {data: "action"},
     {data: "bigIssue"},
-    {data: "notes"},
-    {data: "changedParts"},
+    {data: "status"},
+    {
+      data: "changedParts",
+      render: function (data, type, row) {
+        return buildChangedPartsCell(data);
+      }
+    },
     {data: "handle" },
   ],
   columnDefs: [
@@ -441,6 +451,15 @@ let issueTable = $("#issue-table").DataTable({
     },
   ],
 });
+
+function buildChangedPartsCell(changedParts) {
+  // Đảm bảo rằng changedParts thực sự là một mảng
+  if (Array.isArray(changedParts)) {
+    return changedParts.map((part, index) => `${part.quantity} - ${part.code} - ${part.name} `).join("<br>");
+  }
+
+  return ""; // Trả về chuỗi trống nếu changedParts không phải là mảng
+}
 
 function loadIssueOnTable(pIssue) {
   "use strict";

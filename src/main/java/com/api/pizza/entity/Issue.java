@@ -87,7 +87,7 @@ public class Issue {
     @Column(name = "action")
     private String action;
 
-    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "issue")
     private List<ChangedPart> changedParts;
 
 }
