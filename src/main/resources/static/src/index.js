@@ -206,7 +206,7 @@ let issue = {
         contentType: "application/json",
         success: (data) => {
           alert("Issue created successfully");
-          // getIssueFromDb();
+          getIssueFromDb();
           // resetIssueInput();
         },
         error: (err) => alert(err.responseText),
@@ -244,7 +244,7 @@ let issue = {
         contentType: "application/json",
         success: (data) => {
           alert("Issue updated successfully");
-          // getIssueFromDb();
+          getIssueFromDb();
           gIssueId = 0;
           resetIssueInput();
         },
@@ -265,7 +265,7 @@ let issue = {
         method: "DELETE",
         success: () => {
           alert("All issue were successfully deleted");
-          // getIssueFromDb();
+          getIssueFromDb();
           $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
@@ -276,7 +276,7 @@ let issue = {
         method: "DELETE",
         success: () => {
           alert(`Issue with id: ${gIssueId} was successfully deleted`);
-          // getIssueFromDb();
+          getIssueFromDb();
           $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
