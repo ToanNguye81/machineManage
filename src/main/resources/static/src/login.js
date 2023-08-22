@@ -26,8 +26,9 @@ let user = {
         success: (res) => {
           // Lưu token vào cookie (thời gian hết hạn trong 1 giờ)
           document.cookie = "token=" + res + ";expires=1h;path=/";
+          console.log(document.cookie)
           // Chuyển hướng người dùng đến trang sau khi đăng nhập thành công
-          window.location.href = "/hello";
+          window.location.href = "localhost:8080/hello";
           console.error("Đăng nhập không thất bại.");
         },
         error: (e) => {

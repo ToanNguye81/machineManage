@@ -55,6 +55,8 @@ public class AuthController {
         return ResponseEntity.ok(token.getToken());
     }
     @GetMapping("/hello")
+    @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")
+
     /*
      * @PreAuthorize("hasRole('USER_READ') " + "|| hasRole('USER_CREATE')" +
      * "|| hasRole('USER_UPDATE')" + "|| (hasRole('USER_DELETE')")
