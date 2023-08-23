@@ -1,8 +1,8 @@
 let gChangedParts = [];
 
 
-$.get(`/department`, loadDepartmentToSelect);
-$.get(`/spare-part`, loadSparePartToSelect);
+$.get(`/machine/department`, loadDepartmentToSelect);
+$.get(`/machine/spare-part`, loadSparePartToSelect);
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#inp-issue-date").val((new Date()).toISOString().split('T')[0]);
@@ -166,7 +166,7 @@ function loadEquipmentToSelect(pEquipment) {
 // on get department change
 function onGetDepartmentChange(event) {
   gDepartmentId = event.target.value;
-  $.get(`/department/${gDepartmentId}/equipment`, loadEquipmentToSelect);
+  $.get(`/machine/department/${gDepartmentId}/equipment`, loadEquipmentToSelect);
 }
 let issue = {
   newIssue: {
@@ -207,7 +207,7 @@ let issue = {
     console.log(this.newIssue)
     if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: "/issue",
+        url: `/machine/issue`,
         method: "POST",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -224,7 +224,7 @@ let issue = {
     let vSelectedRow = $(this).parents("tr");
     let vSelectedData = issueTable.row(vSelectedRow).data();
     gIssueId = vSelectedData.id;
-    $.get(`/issue/${gIssueId}`, loadIssueToInput);
+    $.get(`/machine/issue/${gIssueId}`, loadIssueToInput);
   },
   onSaveIssueClick() {
     this.newIssue = {
@@ -245,7 +245,7 @@ let issue = {
     };
     if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: `/issue/${gIssueId}`,
+        url: `/machine/issue/${gIssueId}`,
         method: "PUT",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -268,7 +268,7 @@ let issue = {
   onDeleteConfirmClick() {
     if (gIssueId == 0) {
       $.ajax({
-        url: "/issue",
+        url: "/machine/issue",
         method: "DELETE",
         success: () => {
           alert("All issue were successfully deleted");
@@ -279,7 +279,7 @@ let issue = {
       });
     } else {
       $.ajax({
-        url: `/issue/${gIssueId}`,
+        url: `/machine/issue/${gIssueId}`,
         method: "DELETE",
         success: () => {
           alert(`Issue with id: ${gIssueId} was successfully deleted`);
@@ -372,7 +372,7 @@ function validateIssue(pIssue) {
 getIssueFromDb();
 function getIssueFromDb() {
   "use strict";
-  $.get("/issue", (issue) => {
+  $.get("/machine/issue", (issue) => {
     console.log(issue)
     loadIssueOnTable(issue);
   });
