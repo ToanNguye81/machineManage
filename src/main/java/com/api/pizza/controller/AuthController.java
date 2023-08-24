@@ -54,13 +54,9 @@ public class AuthController {
         // Trả về token đã tạo để gửi về phía client
         return ResponseEntity.ok(token.getToken());
     }
+
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")
-
-    /*
-     * @PreAuthorize("hasRole('USER_READ') " + "|| hasRole('USER_CREATE')" +
-     * "|| hasRole('USER_UPDATE')" + "|| (hasRole('USER_DELETE')")
-     */
     public ResponseEntity hello() {
         return ResponseEntity.ok("hello  have USER_READ OR USER_CREATE OR USER_UPDATE oR USER_DELETE");
     }
@@ -105,5 +101,4 @@ public class AuthController {
     public ResponseEntity hello5() {
         return ResponseEntity.ok("hello chi cho ADMIN");
     }
-
 }
