@@ -17,7 +17,7 @@ import com.api.pizza.repository.UserRepository;
 import com.api.pizza.service.UserService;
 
 /**
- * @author hieuha
+ * @author toan
  *
  */
 @RestController
@@ -36,7 +36,7 @@ public class WithoutAuthorizeController {
     }
 
     /**
-     * Test trường hợp khôngcheck quyền Authorize
+     * Test trường hợp không check quyền Authorize
      * Tạo mới user
      * 
      * @param user

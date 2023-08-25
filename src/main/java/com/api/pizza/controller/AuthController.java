@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.pizza.entity.Token;
@@ -54,13 +55,9 @@ public class AuthController {
         // Trả về token đã tạo để gửi về phía client
         return ResponseEntity.ok(token.getToken());
     }
+
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")
-
-    /*
-     * @PreAuthorize("hasRole('USER_READ') " + "|| hasRole('USER_CREATE')" +
-     * "|| hasRole('USER_UPDATE')" + "|| (hasRole('USER_DELETE')")
-     */
     public ResponseEntity hello() {
         return ResponseEntity.ok("hello  have USER_READ OR USER_CREATE OR USER_UPDATE oR USER_DELETE");
     }

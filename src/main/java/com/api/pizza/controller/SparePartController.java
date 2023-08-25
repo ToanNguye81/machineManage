@@ -60,6 +60,7 @@ public class SparePartController {
         }
 
     }
+    
 
     // get de by id
     @GetMapping("/spare-part/{sparePartId}")
