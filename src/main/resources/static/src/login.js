@@ -25,11 +25,11 @@ let user = {
         contentType: "application/json",
         success: (res) => {
           // Lưu token vào cookie (thời gian hết hạn trong 1 giờ)
-          document.cookie = "token=" + res + ";expires=1h;path=/";
+          document.cookie = "token=" + res;
           console.log(document.cookie)
           // Chuyển hướng người dùng đến trang sau khi đăng nhập thành công
-          window.location.href = "localhost:8080/hello";
-          console.error("Đăng nhập không thất bại.");
+          console.log("Đăng nhập không thất bại.");
+          // window.location.href = "/index";
         },
         error: (e) => {
           // Xử lý lỗi nếu có
@@ -66,5 +66,11 @@ let user = {
     }
   },
 };
-$("#btn-login").on("click", user.login);
-$("#btn-register").on("click", user.register);
+$("#btn-login").on("click", function(e) {
+  e.preventDefault();
+  user.login();
+});
+$("#btn-register").on("click", function(e) {
+  e.preventDefault();
+  user.register();
+});

@@ -102,5 +102,4 @@ public class AuthController {
     public ResponseEntity hello5() {
         return ResponseEntity.ok("hello chi cho ADMIN");
     }
-
 }
