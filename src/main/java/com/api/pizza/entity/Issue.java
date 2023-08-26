@@ -1,6 +1,5 @@
 package com.api.pizza.entity;
 
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,11 +22,13 @@ public class Issue {
     @Column(name = "id", unique = true)
     private int id;
 
-    @Column(name = "department")
-    private String department;
-
-    @Column(name = "equipment")
-    private String equipment;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+   
+    @ManyToOne
+    @JoinColumn(name = "equipment_id")
+    private Equipment equipment;
 
     @Column(name = "error")
     private String error;

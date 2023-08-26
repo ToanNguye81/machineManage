@@ -74,7 +74,6 @@ public class EquipmentController {
                 Equipment vEquipment = new Equipment();
 
                 vEquipment.setCode(pEquipment.getCode());
-                vEquipment.setDescription(pEquipment.getDescription());
                 vEquipment.setName(pEquipment.getName());
 
                 // save equipment & return
@@ -112,7 +111,6 @@ public class EquipmentController {
                     Equipment vEquipment = vEquipmentData.get();
 
                     vEquipment.setCode(pEquipment.getCode());
-                    vEquipment.setDescription(pEquipment.getDescription());
                     vEquipment.setName(pEquipment.getName());
 
                     Equipment vSavedEquipment = gEquipmentRepository.save(vEquipment);

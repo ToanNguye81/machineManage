@@ -51,7 +51,6 @@ public class DepartmentController {
             Department vDepartment = new Department();
             vDepartment.setName(pDepartment.getName());
             vDepartment.setCode(pDepartment.getCode());
-            vDepartment.setDescription(pDepartment.getDescription());
             Department vDepartmentSave = gDepartmentRepository.save(vDepartment);
             return new ResponseEntity<>(vDepartmentSave, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -90,7 +89,6 @@ public class DepartmentController {
                 Department vDepartment = vDepartmentData.get();
                 vDepartment.setName(pDepartment.getName());
                 vDepartment.setCode(pDepartment.getCode());
-                vDepartment.setDescription(pDepartment.getDescription());
 
                 Department vDepartmentSave = gDepartmentRepository.save(vDepartment);
                 return new ResponseEntity<>(vDepartmentSave, HttpStatus.OK);

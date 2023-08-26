@@ -1,5 +1,6 @@
 package com.api.pizza.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -25,9 +26,6 @@ public class Equipment {
     @Column(name = "name", unique = true)
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Employee employee;
@@ -39,5 +37,9 @@ public class Equipment {
 
     @ManyToMany(mappedBy = "equipments")
     private Set<Component> components;
+
+    @OneToMany(mappedBy = "equipment")
+    @JsonIgnore
+    private List<Issue> issues;
 
 }
