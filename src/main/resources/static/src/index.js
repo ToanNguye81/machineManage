@@ -1,8 +1,8 @@
 let gChangedParts = [];
 
 
-$.get(`/machine/department`, loadDepartmentToSelect);
-$.get(`/machine/spare-part`, loadSparePartToSelect);
+$.get(`/department`, loadDepartmentToSelect);
+$.get(`/spare-part`, loadSparePartToSelect);
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#inp-issue-date").val((new Date()).toISOString().split('T')[0]);
@@ -13,8 +13,8 @@ $("#inp-end,#inp-start").on("blur", function () {
 });
 function calculateDowntime() {
   let start = $("#inp-start");
-let end = $("#inp-end");
-let downtime = $("#inp-downtime");
+  let end = $("#inp-end");
+  let downtime = $("#inp-downtime");
   const [startHour, startMinute, startSecond] = start
     .val()
     .split(":")
@@ -144,7 +144,6 @@ function loadDepartmentToSelect(pDepartment) {
     $("<option>", {
       text: department.name,
       value: department.id,
-      "data-code": department.code,
     }).appendTo($("#sel-department"));
   });
 }
@@ -153,7 +152,7 @@ function loadEquipmentToSelect(pEquipment) {
   console.log(pEquipment);
   $("#sel-equipment")
     .empty()
-    .append('<option selected="selected" value="">Choose equipment</option>');
+    .append('<option selected="selected" value="0">Choose equipment</option>');
   pEquipment.forEach((equipment) => {
     $("<option>", {
       text: equipment.name,
@@ -165,13 +164,18 @@ function loadEquipmentToSelect(pEquipment) {
 
 // on get department change
 function onGetDepartmentChange(event) {
-  gDepartmentId = event.target.value;
-  $.get(`/machine/department/${gDepartmentId}/equipment`, loadEquipmentToSelect);
+  gDepartmentId = $(event.target).find(':selected').data('id');
+  if (event.target.value == 0) {
+    $("#sel-equipment").empty().append('<option selected="selected" value="0">Choose equipment</option>');
+  }
+  else {
+    $.get(`/department/${gDepartmentId}/equipment`, loadEquipmentToSelect);
+  }
 }
 let issue = {
   newIssue: {
-    department: "",
-    equiment: "",
+    departmentId: "",
+    equipmentId: "",
     createBy: "",
     error: "",
     ycsc: "",
@@ -188,26 +192,26 @@ let issue = {
 
   onCreateNewIssueClick() {
     this.newIssue = {
-      department : $("#sel-department").val(),
-      equipment : $("#sel-equipment").val(),
+      departmentId: $("#sel-department").val().trim(),
+      equipmentId: $("#sel-equipment").val().trim(),
       createBy: $("#inp-createBy").val().trim(),
-      error : $("#inp-error").val().trim(),
-      ycsc : $("#inp-ycsc").val().trim(),
+      error: $("#inp-error").val().trim(),
+      ycsc: $("#inp-ycsc").val().trim(),
       issueDate: $("#inp-issue-date").val().trim(),
       start: $("#inp-start").val().trim(),
       end: $("#inp-end").val().trim(),
       downtime: $("#inp-downtime").val().trim(),
-      status : $(".status-radio:checked").filter(":checked").val() || "done",
-      description : $("#inp-description").val().trim(),
-      action : $("#inp-action").val().trim(),
-      bigIssue : $("#big-issue").prop("checked"),
-      notes : $("#inp-notes").val(),
+      status: $(".status-radio:checked").filter(":checked").val() || "done",
+      description: $("#inp-description").val().trim(),
+      action: $("#inp-action").val().trim(),
+      bigIssue: $("#big-issue").prop("checked"),
+      notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
     console.log(this.newIssue)
     if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: `/machine/issue`,
+        url: `/issue`,
         method: "POST",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -221,15 +225,15 @@ let issue = {
     }
   },
   onUpdateIssueClick() {
-    let vSelectedRow = $(this).parents("tr");
-    let vSelectedData = issueTable.row(vSelectedRow).data();
-    gIssueId = vSelectedData.id;
-    $.get(`/machine/issue/${gIssueId}`, loadIssueToInput);
+    let vSelectedData = $(this).attr("id"); // Use closest() instead of parents() for better accuracy
+    gIssueId = vSelectedData;
+    console.log(gIssueId)
+    $.get(`/issue/${gIssueId}`, loadIssueToInput);
   },
   onSaveIssueClick() {
     this.newIssue = {
       department: $("#inp-department").val().trim(),
-      equiment: $("#inp-equipment").val().trim(),
+      equipment: $("#inp-equipment").val().trim(),
       createBy: $("#inp-createBy").val().trim(),
       error: $("#inp-error").val().trim(),
       ycsc: $("#inp-ycsc").val().trim(),
@@ -245,7 +249,7 @@ let issue = {
     };
     if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: `/machine/issue/${gIssueId}`,
+        url: `/issue/${gIssueId}`,
         method: "PUT",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -268,7 +272,7 @@ let issue = {
   onDeleteConfirmClick() {
     if (gIssueId == 0) {
       $.ajax({
-        url: "/machine/issue",
+        url: "/issue",
         method: "DELETE",
         success: () => {
           alert("All issue were successfully deleted");
@@ -279,7 +283,7 @@ let issue = {
       });
     } else {
       $.ajax({
-        url: `/machine/issue/${gIssueId}`,
+        url: `/issue/${gIssueId}`,
         method: "DELETE",
         success: () => {
           alert(`Issue with id: ${gIssueId} was successfully deleted`);
@@ -336,7 +340,7 @@ function validateIssue(pIssue) {
       vResult = false;
       throw "100.inp department";
     }
-    if (pIssue.equiment == "") {
+    if (pIssue.equipment == "") {
       vResult = false;
       throw "200.inp equipment";
     }
@@ -372,42 +376,40 @@ function validateIssue(pIssue) {
 getIssueFromDb();
 function getIssueFromDb() {
   "use strict";
-  $.get("/machine/issue", (issue) => {
+  $.get("/issue", (issue) => {
     console.log(issue)
     loadIssueOnTable(issue);
   });
 }
 let issueTable = $("#issue-table").DataTable({
-  // responsive: true,
+  responsive: true,
   lengthChange: false,
-  // autoWidth: false,
+  autoWidth: false,
   buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
   columns: [
-    {data: "id" },
-    {data: "issueDate"},
-    {data: "department"},
-    {data: "equipment"},
-    {data: "error"},
-    {data: "downtime"},
-    {data: "description"},
-    {data: "action"},
-    {data: "bigIssue"},
-    {data: "status"},
+    { data: "id" },
+    { data: "issueDate" },
+    { data: "department" },
+    { data: "equipment" },
+    { data: "error" },
+    { data: "downtime" },
+    { data: "description" },
+    { data: "action" },
+    { data: "bigIssue" },
+    { data: "status" },
     {
       data: "changedParts",
       render: function (data, type, row) {
         return buildChangedPartsCell(data);
       }
     },
-    {data: "handle" },
+    {data: "id",
+    render: (data) =>
+      `<div>
+        <i class="fas fa-edit text-primary" id="${data}"></i>
+        <i class="fas fa-trash text-danger" id="${data}"></i>
+      </div>` },
 
-  ],
-  columnDefs: [
-    {
-      targets: -1,
-      defaultContent: `<i class="fas fa-edit text-primary"></i>
-      | <i class="fas fa-trash text-danger"></i>`,
-    },
   ],
 });
 
@@ -429,4 +431,35 @@ function loadIssueOnTable(pIssue) {
     .buttons()
     .container()
     .appendTo("#issue-table_wrapper .col-md-6:eq(0)");
+}
+
+
+$("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
+$("#issue-table").on(
+  "click",
+  ".fa-trash",
+  issue.onDeleteIssueByIdClick
+);
+$("#update-issue").click(issue.onSaveIssueClick);
+$("#delete-issue").click(issue.onDeleteConfirmClick);
+
+function loadIssueToInput(pIssues) {
+  console.log(pIssues)
+
+  $("#sel-department").val(pIssues.department);
+  $("#sel-equipment").val(pIssues.equipment);
+  $("#inp-createBy").val(pIssues.createBy);
+  $("#inp-error").val(pIssues.error);
+  $("#inp-ycsc").val(pIssues.ycsc);
+  $("#inp-issue-date").val(pIssues.issueDate);
+  $("#inp-start").val(pIssues.start);
+  $("#inp-end").val(pIssues.end);
+  $("#inp-downtime").val(pIssues.downtime);
+  $(".status-radio").val(pIssues.status);
+  $("#inp-description").val(pIssues.description);
+  $("#inp-action").val(pIssues.action);
+  $("#big-issue").val(pIssues.bigIssue);
+  $("#inp-notes").val(pIssues.notes);
+  $("#inp-notes").val(pIssues.notes);
+  gChangedParts=pIssues.changedParts;
 }
