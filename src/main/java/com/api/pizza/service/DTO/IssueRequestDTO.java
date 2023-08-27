@@ -24,6 +24,9 @@ public class IssueRequestDTO {
     private String updateBy;
     private String action;
     private List<ChangedPartDTO> changedParts;
+    public Integer getDepartmentId() {
+        return null;
+    }
 
 // Constructors, getters, setters
 }

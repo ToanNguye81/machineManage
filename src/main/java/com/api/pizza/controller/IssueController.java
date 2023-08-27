@@ -2,8 +2,13 @@ package com.api.pizza.controller;
 
 import com.api.pizza.entity.Issue;
 import com.api.pizza.entity.ChangedPart;
+import com.api.pizza.entity.Department;
 import com.api.pizza.repository.IChangedPartRepository;
+import com.api.pizza.repository.IDepartmentRepository;
+import com.api.pizza.repository.IEquipmentRepository;
 import com.api.pizza.repository.IIssueRepository;
+import com.api.pizza.service.DTO.IssueRequestDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
@@ -22,6 +26,12 @@ public class IssueController {
     
     @Autowired
     IChangedPartRepository changedPartRepository;
+    
+    @Autowired
+    IDepartmentRepository departmentRepository;
+    
+    @Autowired
+    IEquipmentRepository equipmentRepository;
 
     @Autowired
     public IssueController(IIssueRepository issueRepository) {
@@ -50,40 +60,45 @@ public class IssueController {
     // Create a new issue
     @PostMapping("/issue")
     public ResponseEntity<Object> createNewIssue(
-            @RequestBody Issue pIssue) {
+            @RequestBody IssueRequestDTO pIssue) {
         System.out.println("======================");
         try {
             Issue newIssue = new Issue();
+            // Lấy department từ cơ sở dữ liệu
+        Department department = departmentRepository.findById(pIssue.getDepartmentId()).orElse(null);
+        if (department != null) {
+            newIssue.setDepartment(department);
+        }
             newIssue.setCreateDate(new Date());
-            newIssue.setAction(pIssue.getAction());
-            newIssue.setIssueDate(pIssue.getIssueDate());
-            newIssue.setBigIssue(pIssue.getBigIssue());
-            newIssue.setChangedParts(pIssue.getChangedParts());
-            newIssue.setCreateBy(pIssue.getCreateBy());
-            newIssue.setDepartment(pIssue.getDepartment());
-            newIssue.setDescription(pIssue.getDescription());
-            newIssue.setDowntime(pIssue.getDowntime());
-            newIssue.setEnd(pIssue.getEnd());
-            newIssue.setEquipment(pIssue.getEquipment());
-            newIssue.setError(pIssue.getError());
-            newIssue.setStart(pIssue.getStart());
-            newIssue.setNotes(pIssue.getNotes());
-            newIssue.setStatus(pIssue.getStatus());
-            newIssue.setUpdateBy(pIssue.getUpdateBy());
-            newIssue.setYcsc(pIssue.getYcsc());
+            // newIssue.setAction(pIssue.getAction());
+            // newIssue.setIssueDate(pIssue.getIssueDate());
+            // newIssue.setBigIssue(pIssue.getBigIssue());
+            // newIssue.setChangedParts(pIssue.getChangedParts());
+            // newIssue.setCreateBy(pIssue.getCreateBy());
+            // newIssue.setDepartment(pIssue.getDepartment());
+            // newIssue.setDescription(pIssue.getDescription());
+            // newIssue.setDowntime(pIssue.getDowntime());
+            // newIssue.setEnd(pIssue.getEnd());
+            // newIssue.setEquipment(pIssue.getEquipment());
+            // newIssue.setError(pIssue.getError());
+            // newIssue.setStart(pIssue.getStart());
+            // newIssue.setNotes(pIssue.getNotes());
+            // newIssue.setStatus(pIssue.getStatus());
+            // newIssue.setUpdateBy(pIssue.getUpdateBy());
+            // newIssue.setYcsc(pIssue.getYcsc());
             Issue savedIssue = issueRepository.save(newIssue);
-            // Set changed parts
-            List<ChangedPart> changedParts = pIssue.getChangedParts();
-            if (changedParts != null) {
-                for (ChangedPart changedPart : changedParts) {
-                    changedPart.setIssue(savedIssue); // Set the parent Issue
-                    changedPart.setCode(changedPart.getCode()); // Set the parent Issue
-                    changedPart.setName(changedPart.getName()); // Set the parent Issue
-                    changedPart.setPrice(changedPart.getPrice()); // Set the parent Issue
-                    changedPart.setQuantity(changedPart.getQuantity()); // Set the parent Issue
-                    changedPartRepository.save(changedPart); // Save the associated ChangedParts
-                }
-            }
+            // // Set changed parts
+            // List<ChangedPart> changedParts = pIssue.getChangedParts();
+            // if (changedParts != null) {
+            //     for (ChangedPart changedPart : changedParts) {
+            //         changedPart.setIssue(savedIssue); // Set the parent Issue
+            //         changedPart.setCode(changedPart.getCode()); // Set the parent Issue
+            //         changedPart.setName(changedPart.getName()); // Set the parent Issue
+            //         changedPart.setPrice(changedPart.getPrice()); // Set the parent Issue
+            //         changedPart.setQuantity(changedPart.getQuantity()); // Set the parent Issue
+            //         changedPartRepository.save(changedPart); // Save the associated ChangedParts
+            //     }
+            // }
 
             return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
         } catch (Exception e) {

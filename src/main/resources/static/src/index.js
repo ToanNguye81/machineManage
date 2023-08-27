@@ -1,11 +1,10 @@
 let gChangedParts = [];
 
-
 $.get(`/department`, loadDepartmentToSelect);
 $.get(`/spare-part`, loadSparePartToSelect);
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
-$("#inp-issue-date").val((new Date()).toISOString().split('T')[0]);
+$("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
 $("#sel-department").change(onGetDepartmentChange);
 
 $("#inp-end,#inp-start").on("blur", function () {
@@ -134,7 +133,9 @@ disableFields();
 // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
 $("#big-issue").on("change", function () {
   const isChecked = $(this).prop("checked");
-  $("#inp-ycsc,#inp-notes,#inp-description").prop("disabled", !isChecked).val("");
+  $("#inp-ycsc,#inp-notes,#inp-description")
+    .prop("disabled", !isChecked)
+    .val("");
 });
 
 //load department to select
@@ -161,14 +162,16 @@ function loadEquipmentToSelect(pEquipment) {
   });
 }
 
-
 // on get department change
 function onGetDepartmentChange(event) {
-  gDepartmentId = $(event.target).find(':selected').data('id');
+  gDepartmentId = $(event.target).find(":selected").data("id");
   if (event.target.value == 0) {
-    $("#sel-equipment").empty().append('<option selected="selected" value="0">Choose equipment</option>');
-  }
-  else {
+    $("#sel-equipment")
+      .empty()
+      .append(
+        '<option selected="selected" value="0">Choose equipment</option>'
+      );
+  } else {
     $.get(`/department/${gDepartmentId}/equipment`, loadEquipmentToSelect);
   }
 }
@@ -208,26 +211,22 @@ let issue = {
       notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
-    console.log(this.newIssue)
+    console.log(this.newIssue);
     if (validateIssue(this.newIssue)) {
       $.ajax({
         url: `/issue`,
         method: "POST",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
-        success: (data) => {
-          alert("Issue created successfully");
-          getIssueFromDb();
-          // resetIssueInput();
-        },
-        error: (err) => alert(err.responseText),
+        success: handleIssueCreationSuccess,
+        error: handleIssueCreationError,
       });
     }
   },
   onUpdateIssueClick() {
     let vSelectedData = $(this).attr("id"); // Use closest() instead of parents() for better accuracy
     gIssueId = vSelectedData;
-    console.log(gIssueId)
+    console.log(gIssueId);
     $.get(`/issue/${gIssueId}`, loadIssueToInput);
   },
   onSaveIssueClick() {
@@ -298,31 +297,20 @@ let issue = {
 
 $("#btn-add-issue").click(issue.onCreateNewIssueClick);
 
+// Hàm xử lý thành công khi tạo vấn đề mới
+function handleIssueCreationSuccess(data) {
+  console.log("New issue created:", data);
+  // Thực hiện hành động sau khi tạo issue thành công
+  alert("Issue created successfully");
+  getIssueFromDb();
+}
 
-// // Hàm gửi yêu cầu tạo issue mới
-// function createNewIssue(newIssue) {
-//   console.log(newIssue);
-//   $.ajax({
-//     url: "/issue",
-//     method: "POST",
-//     data: JSON.stringify(newIssue),
-//     contentType: "application/json",
-//     success: handleIssueCreationSuccess,
-//     error: handleIssueCreationError,
-//   });
-// }
-
-// // Hàm xử lý thành công khi tạo vấn đề mới
-// function handleIssueCreationSuccess(data) {
-//   console.log("New issue created:", data);
-//   // Thực hiện hành động sau khi tạo issue thành công
-// }
-
-// // Hàm xử lý lỗi khi tạo vấn đề mới
-// function handleIssueCreationError(error) {
-//   console.error("Error creating new issue:", error);
-//   // Xử lý lỗi hoặc hiển thị thông báo lỗi
-// }
+// Hàm xử lý lỗi khi tạo vấn đề mới
+function handleIssueCreationError(error) {
+  console.error("Error creating new issue:", error);
+  // Xử lý lỗi hoặc hiển thị thông báo lỗi
+  (error) => alert(error.responseText);
+}
 
 function clearForm() {
   $(
@@ -377,7 +365,7 @@ getIssueFromDb();
 function getIssueFromDb() {
   "use strict";
   $.get("/issue", (issue) => {
-    console.log(issue)
+    console.log(issue);
     loadIssueOnTable(issue);
   });
 }
@@ -401,22 +389,25 @@ let issueTable = $("#issue-table").DataTable({
       data: "changedParts",
       render: function (data, type, row) {
         return buildChangedPartsCell(data);
-      }
+      },
     },
-    {data: "id",
-    render: (data) =>
-      `<div>
+    {
+      data: "id",
+      render: (data) =>
+        `<div>
         <i class="fas fa-edit text-primary" id="${data}"></i>
         <i class="fas fa-trash text-danger" id="${data}"></i>
-      </div>` },
-
+      </div>`,
+    },
   ],
 });
 
 function buildChangedPartsCell(changedParts) {
   // Đảm bảo rằng changedParts thực sự là một mảng
   if (Array.isArray(changedParts)) {
-    return changedParts.map((part, index) => `${part.quantity} - ${part.code} - ${part.name} `).join("<br>");
+    return changedParts
+      .map((part, index) => `${part.quantity} - ${part.code} - ${part.name} `)
+      .join("<br>");
   }
 
   return ""; // Trả về chuỗi trống nếu changedParts không phải là mảng
@@ -433,18 +424,13 @@ function loadIssueOnTable(pIssue) {
     .appendTo("#issue-table_wrapper .col-md-6:eq(0)");
 }
 
-
 $("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
-$("#issue-table").on(
-  "click",
-  ".fa-trash",
-  issue.onDeleteIssueByIdClick
-);
+$("#issue-table").on("click", ".fa-trash", issue.onDeleteIssueByIdClick);
 $("#update-issue").click(issue.onSaveIssueClick);
 $("#delete-issue").click(issue.onDeleteConfirmClick);
 
 function loadIssueToInput(pIssues) {
-  console.log(pIssues)
+  console.log(pIssues);
 
   $("#sel-department").val(pIssues.department);
   $("#sel-equipment").val(pIssues.equipment);
@@ -461,5 +447,5 @@ function loadIssueToInput(pIssues) {
   $("#big-issue").val(pIssues.bigIssue);
   $("#inp-notes").val(pIssues.notes);
   $("#inp-notes").val(pIssues.notes);
-  gChangedParts=pIssues.changedParts;
+  gChangedParts = pIssues.changedParts;
 }
