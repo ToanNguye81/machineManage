@@ -1,5 +1,6 @@
 package com.api.pizza.controller;
 
+import com.api.pizza.entity.ChangedPart;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
@@ -70,7 +71,11 @@ public ResponseEntity<Object> createIssue(@Valid @RequestBody IssueDto issueDto)
         // System.out.println(newIssue);
         // Save the new issue using the IssueServiceImpl (Assuming you have a save method)
         Issue savedIssue = issueService.saveIssueFromDto(issueDto); // Using saveIssueFromDto method
-        
+        List<ChangedPart> changedParts = savedIssue.getChangedParts();
+        for (ChangedPart changedPart : changedParts) {
+            changedPart.setIssue(savedIssue);
+           changedPartRepository.save(changedPart);
+        }
         return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
     } catch (Exception e) {
         String errorMessage = "Failed to create specified Issue: " + e.getMessage();

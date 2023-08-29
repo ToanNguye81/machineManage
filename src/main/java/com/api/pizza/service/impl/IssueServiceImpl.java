@@ -54,11 +54,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setCreateBy(dto.getCreateBy());
         issue.setUpdateBy(dto.getUpdateBy());
         issue.setAction(dto.getAction());
-        
-        // List<ChangedPart> changedParts = convertChangedParts(dto.getChangedParts()); // Chuyển đổi changedParts từ DTO
-        // issue.setChangedParts(changedParts); // Gán changedParts vào Issue
-         // Gán danh sách changedParts trực tiếp từ IssueDto
-         issue.setChangedParts(dto.getChangedParts());
+        issue.setChangedParts(dto.getChangedParts());
         
         return issue;
     }
