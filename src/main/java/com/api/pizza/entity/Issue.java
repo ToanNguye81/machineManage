@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,10 +25,12 @@ public class Issue {
     private int id;
 
     @ManyToOne
+    @NotNull(message = "input department")
     @JoinColumn(name = "department_id")
     private Department department;
    
     @ManyToOne
+    @NotNull(message = "input equipment")
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 

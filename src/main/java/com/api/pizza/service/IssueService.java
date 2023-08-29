@@ -1,5 +1,8 @@
 package com.api.pizza.service;
 
-public interface IssueService {
+import com.api.pizza.entity.Issue;
+import com.api.pizza.service.dto.IssueDto;
 
+public interface IssueService {
+    Issue saveIssueFromDto(IssueDto dto);
 }
