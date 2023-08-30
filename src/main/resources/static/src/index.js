@@ -164,7 +164,7 @@ function loadEquipmentToSelect(pEquipment) {
 
 // on get department change
 function onGetDepartmentChange(event) {
-  gDepartmentId = $(event.target).find(":selected").data("id");
+  gDepartmentId = event.target.value;
   if (event.target.value == 0) {
     $("#sel-equipment")
       .empty()
