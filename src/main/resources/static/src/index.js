@@ -377,8 +377,8 @@ let issueTable = $("#issue-table").DataTable({
   columns: [
     { data: "id" },
     { data: "issueDate" },
-    { data: "department" },
-    { data: "equipment" },
+    { data: "department.name" },
+    { data: "equipment.name" },
     { data: "error" },
     { data: "downtime" },
     { data: "description" },

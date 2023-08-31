@@ -49,9 +49,9 @@ public class Issue {
     @Column(name = "notes")
     private String notes;
 
+    @CreatedDate
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
     @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date createDate;
 
@@ -74,9 +74,9 @@ public class Issue {
     @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
     private String downtime;
 
+    @LastModifiedDate
     @Column(name = "updated_date", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
     @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date updatedDate;
 
