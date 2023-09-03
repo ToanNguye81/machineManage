@@ -4,5 +4,5 @@ import com.api.pizza.entity.Issue;
 import com.api.pizza.service.dto.IssueDto;
 
 public interface IssueService {
-    Issue saveIssueFromDto(IssueDto dto);
+    Issue saveIssueFromDto(Issue issue,IssueDto dto);
 }

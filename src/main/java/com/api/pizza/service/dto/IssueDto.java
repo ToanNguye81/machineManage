@@ -9,8 +9,6 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Setter
@@ -39,8 +37,6 @@ public class IssueDto {
     private String downtime;
 
     private String status;
-    private String createBy;
-    private String updateBy;
     private String action;
     private List<ChangedPart> changedParts;
 }

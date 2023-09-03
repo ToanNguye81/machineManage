@@ -1,7 +1,5 @@
 package com.api.pizza.service.impl;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +24,13 @@ public class IssueServiceImpl implements IssueService {
     private IIssueRepository issueRepo;
 
     @Override
-    public Issue saveIssueFromDto(IssueDto dto) {
-        Issue issue = convertToIssue(dto); // Chuyển đổi từ DTO sang Issue
-        return issueRepo.save(issue); // Lưu đối tượng Issue vào cơ sở dữ liệu
+    public Issue saveIssueFromDto(Issue issue, IssueDto dto) {
+        Issue savedIssue = convertToIssue(issue,dto); // Chuyển đổi từ DTO sang Issue
+        return issueRepo.save(savedIssue); // Lưu đối tượng Issue vào cơ sở dữ liệu
     }
 
-    private Issue convertToIssue(IssueDto dto) {
-        Issue issue = new Issue();
+    private Issue convertToIssue(Issue issue,IssueDto dto) {
+        issue.setDepartment(departmentRepo.findById(dto.getDepartmentId()).orElse(null));
         issue.setDepartment(departmentRepo.findById(dto.getDepartmentId()).orElse(null));
         issue.setEquipment(equipmentRepo.findById(dto.getEquipmentId()).orElse(null));
         issue.setError(dto.getError());
@@ -40,17 +38,14 @@ public class IssueServiceImpl implements IssueService {
         issue.setBigIssue(dto.getBigIssue());
         issue.setYcsc(dto.getYcsc());
         issue.setNotes(dto.getNotes());
-        issue.setIssueDate(dto.getIssueDate()); // Chuyển đổi chuỗi ngày sang Date
-        issue.setStart(dto.getStart()); // Chuyển đổi chuỗi thời gian sang Date
-        issue.setEnd(dto.getEnd()); // Chuyển đổi chuỗi thời gian sang Date
+        issue.setIssueDate(dto.getIssueDate()); 
+        issue.setStart(dto.getStart()); 
+        issue.setEnd(dto.getEnd()); 
         issue.setDowntime(dto.getDowntime());
         issue.setStatus(dto.getStatus());
-        issue.setCreateBy(dto.getCreateBy());
-        issue.setUpdateBy(dto.getUpdateBy());
         issue.setAction(dto.getAction());
         issue.setChangedParts(dto.getChangedParts());
-        issue.setCreateDate(new Date());
-        issue.setUpdatedDate(new Date());
         return issue;
     }
+
 }
