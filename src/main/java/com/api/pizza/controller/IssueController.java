@@ -62,22 +62,19 @@ public class IssueController {
         return ResponseEntity.ok(issue);
     }
 
+ // Create new issue
     @PostMapping("/issue")
     public ResponseEntity<Object> createIssue(@Valid @RequestBody IssueDto issueDto) {
         try {
-            System.out.println("===========================");
-            // Issue newIssue = issueService.convertToIssue(issueDto);
-            System.out.println("=========newIssue==================");
-            // System.out.println(newIssue);
-            // Save the new issue using the IssueServiceImpl (Assuming you have a save
-            // method)
             Issue newIssue = new Issue();
             Issue savedIssue = issueService.saveIssueFromDto(newIssue, issueDto); // Using saveIssueFromDto method
-            List<ChangedPart> changedParts = savedIssue.getChangedParts();
-            for (ChangedPart changedPart : changedParts) {
-                changedPart.setIssue(savedIssue);
-                changedPartRepository.save(changedPart);
-            }
+           
+        List<ChangedPart> newChangedParts = issueDto.getChangedParts(); 
+        for (ChangedPart changedPart : newChangedParts) {
+            changedPart.setIssue(savedIssue);
+            changedPartRepository.save(changedPart);
+        }
+
             return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
         } catch (Exception e) {
             String errorMessage = "Failed to create specified Issue: " + e.getMessage();
@@ -87,7 +84,8 @@ public class IssueController {
 
     // Update issue
     @PutMapping("/issue/{issueId}")
-    public ResponseEntity<Issue> updateIssue(@PathVariable int issueId, @RequestBody IssueDto issueDto) {
+    public ResponseEntity<Issue> updateIssue(@PathVariable int issueId,
+    @Valid @RequestBody IssueDto issueDto) {
         Issue existingIssue = issueRepository.findById(issueId).orElse(null);
 
         if (existingIssue == null) {
@@ -103,19 +101,14 @@ public class IssueController {
             changedPartRepository.deleteById(oldPart.getId());
         }
 
-        List<ChangedPart> newChangedParts = new ArrayList<>();
-
-        for (ChangedPart oldChangedPart : updatedIssue.getChangedParts()) {
-            ChangedPart newChangedPart = new ChangedPart();
-            newChangedPart.setCode(oldChangedPart.getCode());
-            newChangedPart.setName(oldChangedPart.getName());
-            newChangedPart.setQuantity(oldChangedPart.getQuantity());
-            newChangedPart.setIssue(updatedIssue); // Associate with the updated issue
-            newChangedParts.add(newChangedPart);
+         // Update changedParts 
+        List<ChangedPart> newChangedParts = issueDto.getChangedParts(); 
+        for (ChangedPart changedPart : newChangedParts) {
+            changedPart.setIssue(updatedIssue);
+            changedPartRepository.save(changedPart);
         }
-        
-        changedPartRepository.saveAll(newChangedParts);
-        
+
+
         // Return the updated issue
         return ResponseEntity.ok(updatedIssue);
     }

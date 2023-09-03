@@ -31,7 +31,6 @@ public class IssueServiceImpl implements IssueService {
 
     private Issue convertToIssue(Issue issue,IssueDto dto) {
         issue.setDepartment(departmentRepo.findById(dto.getDepartmentId()).orElse(null));
-        issue.setDepartment(departmentRepo.findById(dto.getDepartmentId()).orElse(null));
         issue.setEquipment(equipmentRepo.findById(dto.getEquipmentId()).orElse(null));
         issue.setError(dto.getError());
         issue.setDescription(dto.getDescription());
@@ -44,7 +43,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setDowntime(dto.getDowntime());
         issue.setStatus(dto.getStatus());
         issue.setAction(dto.getAction());
-        issue.setChangedParts(dto.getChangedParts());
+        // issue.setChangedParts(dto.getChangedParts());
         return issue;
     }
 
