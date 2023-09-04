@@ -69,12 +69,15 @@ public class IssueController {
             Issue newIssue = new Issue();
             Issue savedIssue = issueService.saveIssueFromDto(newIssue, issueDto); // Using saveIssueFromDto method
            
+            // Add changedPart
         List<ChangedPart> newChangedParts = issueDto.getChangedParts(); 
+        ArrayList<ChangedPart> changedPartArr = new ArrayList<>();
         for (ChangedPart changedPart : newChangedParts) {
             changedPart.setIssue(savedIssue);
             changedPartRepository.save(changedPart);
+            changedPartArr.add(changedPart);
         }
-
+            savedIssue.setChangedParts(changedPartArr);
             return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
         } catch (Exception e) {
             String errorMessage = "Failed to create specified Issue: " + e.getMessage();
@@ -110,7 +113,7 @@ public class IssueController {
 
 
         // Return the updated issue
-        return ResponseEntity.ok(updatedIssue);
+        return new ResponseEntity<>(updatedIssue, HttpStatus.OK);
     }
 
     // Delete an issue
