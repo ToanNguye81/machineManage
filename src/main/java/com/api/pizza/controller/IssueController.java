@@ -2,9 +2,10 @@ package com.api.pizza.controller;
 
 import com.api.pizza.entity.ChangedPart;
 import com.api.pizza.entity.Issue;
+import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
-import com.api.pizza.repository.IEquipmentRepository;
+import com.api.pizza.repository.IIssueRepository;
 import com.api.pizza.repository.IIssueRepository;
 import com.api.pizza.service.IssueService;
 import com.api.pizza.service.dto.IssueDto;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class IssueController {
     @Autowired
-    private final IIssueRepository issueRepository;
+    IIssueRepository issueRepository;
 
     @Autowired
     IChangedPartRepository changedPartRepository;
@@ -35,13 +36,6 @@ public class IssueController {
     @Autowired
     IDepartmentRepository departmentRepository;
 
-    @Autowired
-    IEquipmentRepository equipmentRepository;
-
-    @Autowired
-    public IssueController(IIssueRepository issueRepository) {
-        this.issueRepository = issueRepository;
-    }
 
     // Get all issues
     @GetMapping("/issue")
@@ -49,34 +43,33 @@ public class IssueController {
         return issueRepository.findAll();
     }
 
-    // Get issue by ID
-    @GetMapping("/issue/{id}")
-    public ResponseEntity<Issue> getIssueById(@PathVariable int id) {
-        Issue issue = issueRepository.findById(id)
-                .orElse(null);
-
-        if (issue == null) {
-            return ResponseEntity.notFound().build();
+  // get issue by id
+    @GetMapping("/issue/{issueId}")
+    public ResponseEntity<Object> getIssueById(@Valid @PathVariable Integer issueId) {
+        Optional<Issue> vIssueData = issueRepository.findById(issueId);
+        if (vIssueData.isPresent()) {
+                Issue vIssue = vIssueData.get();
+                return new ResponseEntity<>(vIssue, HttpStatus.OK);
+        } else {
+            Issue vIssueNull = new Issue();
+            return new ResponseEntity<>(vIssueNull, HttpStatus.NOT_FOUND);
         }
-
-        return ResponseEntity.ok(issue);
     }
-
- // Create new issue
+    // Create new issue
     @PostMapping("/issue")
     public ResponseEntity<Object> createIssue(@Valid @RequestBody IssueDto issueDto) {
         try {
             Issue newIssue = new Issue();
             Issue savedIssue = issueService.saveIssueFromDto(newIssue, issueDto); // Using saveIssueFromDto method
-           
+
             // Add changedPart
-        List<ChangedPart> newChangedParts = issueDto.getChangedParts(); 
-        ArrayList<ChangedPart> changedPartArr = new ArrayList<>();
-        for (ChangedPart changedPart : newChangedParts) {
-            changedPart.setIssue(savedIssue);
-            changedPartRepository.save(changedPart);
-            changedPartArr.add(changedPart);
-        }
+            List<ChangedPart> newChangedParts = issueDto.getChangedParts();
+            ArrayList<ChangedPart> changedPartArr = new ArrayList<>();
+            for (ChangedPart changedPart : newChangedParts) {
+                changedPart.setIssue(savedIssue);
+                changedPartRepository.save(changedPart);
+                changedPartArr.add(changedPart);
+            }
             savedIssue.setChangedParts(changedPartArr);
             return new ResponseEntity<>(savedIssue, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -88,7 +81,7 @@ public class IssueController {
     // Update issue
     @PutMapping("/issue/{issueId}")
     public ResponseEntity<Issue> updateIssue(@PathVariable int issueId,
-    @Valid @RequestBody IssueDto issueDto) {
+            @Valid @RequestBody IssueDto issueDto) {
         Issue existingIssue = issueRepository.findById(issueId).orElse(null);
 
         if (existingIssue == null) {
@@ -104,13 +97,12 @@ public class IssueController {
             changedPartRepository.deleteById(oldPart.getId());
         }
 
-         // Update changedParts 
-        List<ChangedPart> newChangedParts = issueDto.getChangedParts(); 
+        // Update changedParts
+        List<ChangedPart> newChangedParts = issueDto.getChangedParts();
         for (ChangedPart changedPart : newChangedParts) {
             changedPart.setIssue(updatedIssue);
             changedPartRepository.save(changedPart);
         }
-
 
         // Return the updated issue
         return new ResponseEntity<>(updatedIssue, HttpStatus.OK);
