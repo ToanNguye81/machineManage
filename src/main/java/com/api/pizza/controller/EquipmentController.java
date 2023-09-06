@@ -28,15 +28,15 @@ import com.api.pizza.repository.IEquipmentRepository;
 @RequestMapping("/")
 public class EquipmentController {
     @Autowired
-    IEquipmentRepository gEquipmentRepository;
+    IEquipmentRepository equipmentRepository;
     @Autowired
-    IDepartmentRepository gDepartmentRepository;
+    IDepartmentRepository departmentRepository;
 
     // get all Equipment
     @GetMapping("/equipment")
     public ResponseEntity<List<Equipment>> getAllEquipments() {
         try {
-            List<Equipment> equipmentList = gEquipmentRepository.findAll();
+            List<Equipment> equipmentList = equipmentRepository.findAll();
             Long totalElement = (long) equipmentList.size();
 
             return ResponseEntity.ok()
@@ -50,7 +50,7 @@ public class EquipmentController {
     // get equipment by id
     @GetMapping("/equipment/{equipmentId}")
     public ResponseEntity<Object> getEquipmentById(@PathVariable Integer equipmentId) {
-        Optional<Equipment> vEquipmentData = gEquipmentRepository.findById(equipmentId);
+        Optional<Equipment> vEquipmentData = equipmentRepository.findById(equipmentId);
         if (vEquipmentData.isPresent()) {
             try {
                 Equipment vEquipment = vEquipmentData.get();
@@ -68,7 +68,7 @@ public class EquipmentController {
     @PostMapping("/department/{departmentId}/equipment")
     public ResponseEntity<Object> createNewEquipment(@Valid @RequestBody Equipment pEquipment,
             @PathVariable Integer departmentId) {
-        Optional<Department> vDepartmentData = gDepartmentRepository.findById(departmentId);
+        Optional<Department> vDepartmentData = departmentRepository.findById(departmentId);
         if (vDepartmentData.isPresent()) {
             try {
                 Equipment vEquipment = new Equipment();
@@ -77,7 +77,7 @@ public class EquipmentController {
                 vEquipment.setName(pEquipment.getName());
 
                 // save equipment & return
-                Equipment vSavedEquipment = gEquipmentRepository.save(vEquipment);
+                Equipment vSavedEquipment = equipmentRepository.save(vEquipment);
                 return new ResponseEntity<>(vSavedEquipment, HttpStatus.CREATED);
             } catch (Exception e) {
                 return ResponseEntity.unprocessableEntity()
@@ -93,7 +93,7 @@ public class EquipmentController {
     // get equipment by department id
     @GetMapping("/department/{departmentId}/equipment")
     public ResponseEntity<Object> getEquipmentByDepartmentId(@Valid @PathVariable Integer departmentId) {
-        List<Equipment> equipmentList = gEquipmentRepository.findByDepartmentId(departmentId);
+        List<Equipment> equipmentList = equipmentRepository.findByDepartmentId(departmentId);
         return new ResponseEntity<>(equipmentList, HttpStatus.OK);
     }
 
@@ -103,9 +103,9 @@ public class EquipmentController {
             @PathVariable Integer departmentId,
             @PathVariable Integer equipmentId,
             @Valid @RequestBody Equipment pEquipment) {
-        Optional<Equipment> vEquipmentData = gEquipmentRepository.findById(equipmentId);
+        Optional<Equipment> vEquipmentData = equipmentRepository.findById(equipmentId);
         if (vEquipmentData.isPresent()) {
-            Optional<Department> vDepartmentData = gDepartmentRepository.findById(departmentId);
+            Optional<Department> vDepartmentData = departmentRepository.findById(departmentId);
             if (vDepartmentData.isPresent()) {
                 try {
                     Equipment vEquipment = vEquipmentData.get();
@@ -113,7 +113,7 @@ public class EquipmentController {
                     vEquipment.setCode(pEquipment.getCode());
                     vEquipment.setName(pEquipment.getName());
 
-                    Equipment vSavedEquipment = gEquipmentRepository.save(vEquipment);
+                    Equipment vSavedEquipment = equipmentRepository.save(vEquipment);
                     return new ResponseEntity<>(vSavedEquipment, HttpStatus.OK);
                 } catch (Exception e) {
                     return ResponseEntity.unprocessableEntity()
@@ -131,11 +131,11 @@ public class EquipmentController {
 
     // Delete equipment by id
     @DeleteMapping("/equipment/{equipmentId}")
-    private ResponseEntity<Object> deleteEquipmentById(@PathVariable Integer equipmentId) {
-        Optional<Equipment> vEquipmentData = gEquipmentRepository.findById(equipmentId);
+    public ResponseEntity<Object> deleteEquipmentById(@PathVariable Integer equipmentId) {
+        Optional<Equipment> vEquipmentData = equipmentRepository.findById(equipmentId);
         if (vEquipmentData.isPresent()) {
             try {
-                gEquipmentRepository.deleteById(equipmentId);
+                equipmentRepository.deleteById(equipmentId);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } catch (Exception e) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

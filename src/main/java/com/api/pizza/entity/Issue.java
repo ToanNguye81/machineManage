@@ -95,7 +95,7 @@ public class Issue {
     @Column(name = "action")
     private String action;
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany(mappedBy = "issue",cascade = CascadeType.ALL)
     private List<ChangedPart> changedParts;
 
 }

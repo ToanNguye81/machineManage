@@ -129,7 +129,7 @@ public class EmployeeController {
 
     // Delete employee by id
     @DeleteMapping("/employee/{employeeId}")
-    private ResponseEntity<Object> deleteEmployeeById(
+    public ResponseEntity<Object> deleteEmployeeById(
             @PathVariable Integer employeeId) {
         Optional<Employee> vEmployeeData = employeeRepository.findById(employeeId);
         if (vEmployeeData.isPresent()) {

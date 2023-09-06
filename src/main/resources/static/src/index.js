@@ -9,10 +9,8 @@ $("#btn-clear-form").click(clearForm);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
 $("#sel-department").change(onGetDepartmentChange);
 $("#sel-status").change(changedColor);
+$("#inp-end,#inp-start").on("blur", calculateDowntime);
 changedColor();
-$("#inp-end,#inp-start").on("blur", function () {
-  calculateDowntime();
-});
 function calculateDowntime() {
   let start = $("#inp-start");
   let end = $("#inp-end");
@@ -136,7 +134,7 @@ disableFields();
 // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
 $("#big-issue").on("change", function () {
   const isChecked = $(this).prop("checked");
-    $("#inp-ycsc,#inp-notes,#inp-description")
+  $("#inp-ycsc,#inp-notes,#inp-description")
     .prop("disabled", !isChecked)
 });
 
@@ -173,12 +171,12 @@ function onGetDepartmentChange(event) {
     // Handle the case when "Choose department" is selected
     $("#sel-equipment").empty().append('<option value="0">Choose equipment</option>');
   } else {
-   // Load equipment based on the selected department
-   $.get(`/department/${gDepartmentId}/equipment`, function (pEquipment) {
-    loadEquipmentToSelect(pEquipment);
-    // After setting the equipment value,
-    $("#sel-equipment").trigger("change");
-  });
+    // Load equipment based on the selected department
+    $.get(`/department/${gDepartmentId}/equipment`, function (pEquipment) {
+      loadEquipmentToSelect(pEquipment);
+      // After setting the equipment value,
+      $("#sel-equipment").trigger("change");
+    });
   }
 }
 
@@ -279,30 +277,17 @@ let issue = {
     gIssueId = vSelectedData.id;
   },
   onDeleteConfirmClick() {
-    if (gIssueId == 0) {
-      $.ajax({
-        url: "/issue",
-        method: "DELETE",
-        success: () => {
-          alert("All issue were successfully deleted");
-          getIssueFromDb();
-          $("#modal-delete-issue").modal("hide");
-        },
-        error: (err) => alert(err.responseText),
-      });
-    } else {
-      $.ajax({
-        url: `/issue/${gIssueId}`,
-        method: "DELETE",
-        success: () => {
-          alert(`Issue with id: ${gIssueId} was successfully deleted`);
-          getIssueFromDb();
-          $("#modal-delete-issue").modal("hide");
-        },
-        error: (err) => alert(err.responseText),
-      });
-    }
-  },
+    $.ajax({
+      url: `/issue/${gIssueId}`,
+      method: "DELETE",
+      success: () => {
+        alert(`Issue with id: ${gIssueId} was successfully deleted`);
+        $("#modal-delete-issue").modal("hide");
+        getIssueFromDb();
+      },
+      error: (err) => alert(err.responseText),
+    });
+  }
 };
 // Hàm xử lý thành công khi tạo vấn đề mới
 function handleIssueCreationSuccess(data) {
@@ -323,7 +308,7 @@ function clearForm() {
   $(
     "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action"
   ).val("");
-  $("btn-update-issue").prop("disabled",true)
+  $("btn-update-issue").prop("disabled", true)
   gChangedParts = [];
   updatePartTable();
 }
@@ -432,15 +417,9 @@ function loadIssueOnTable(pIssue) {
     .appendTo("#issue-table_wrapper .col-md-6:eq(0)");
 }
 
-$("#btn-add-issue").click(issue.onCreateNewIssueClick);
-$("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
-$("#issue-table").on("click", ".fa-trash", issue.onDeleteIssueByIdClick);
-$("#btn-update-issue").click(issue.onSaveIssueClick);
-$("#delete-issue").click(issue.onDeleteConfirmClick);
-
 function loadIssueToInput(pIssues) {
-  gDepartmentId=pIssues.department.id;
-  gEquipmentId=pIssues.equipment.id;
+  gDepartmentId = pIssues.department.id;
+  gEquipmentId = pIssues.equipment.id;
   $("#sel-department").val(gDepartmentId);
   $("#sel-equipment").val(gEquipmentId);
   $("#inp-createBy").val(pIssues.createBy);
@@ -454,7 +433,7 @@ function loadIssueToInput(pIssues) {
   $("#sel-status").val(pIssues.status);
   $("#inp-description").val(pIssues.description);
   $("#inp-action").val(pIssues.action);
-  $("#big-issue").prop("checked",pIssues.bigIssue);
+  $("#big-issue").prop("checked", pIssues.bigIssue);
   $("#inp-notes").val(pIssues.notes);
   gChangedParts = pIssues.changedParts;
   // After setting the department value, trigger a change event to load equipment
@@ -464,9 +443,15 @@ function loadIssueToInput(pIssues) {
   updatePartTable();
 }
 
-function changedColor () {
+function changedColor() {
   const selectedOption = $("#sel-status option:selected");
   const backgroundColor = selectedOption.css('background-color');
   $("#sel-status").css('background-color', backgroundColor);
 }
 
+
+$("#btn-add-issue").click(issue.onCreateNewIssueClick);
+$("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
+$("#issue-table").on("click", ".fa-trash", issue.onDeleteIssueByIdClick);
+$("#btn-update-issue").click(issue.onSaveIssueClick);
+$("#btn-confirm-delete-issue").click(issue.onDeleteConfirmClick);

@@ -26,13 +26,13 @@ import com.api.pizza.repository.IDepartmentRepository;
 @RequestMapping("/")
 public class DepartmentController {
     @Autowired
-    IDepartmentRepository gDepartmentRepository;
+    IDepartmentRepository departmentRepository;
 
     // get all Department
     @GetMapping("/department")
     public ResponseEntity<List<Department>> getAllDepartments() {
         try {
-            List<Department> departmentList = gDepartmentRepository.findAll();
+            List<Department> departmentList = departmentRepository.findAll();
             Long totalElement = (long) departmentList.size();
 
             return ResponseEntity.ok()
@@ -51,7 +51,7 @@ public class DepartmentController {
             Department vDepartment = new Department();
             vDepartment.setName(pDepartment.getName());
             vDepartment.setCode(pDepartment.getCode());
-            Department vDepartmentSave = gDepartmentRepository.save(vDepartment);
+            Department vDepartmentSave = departmentRepository.save(vDepartment);
             return new ResponseEntity<>(vDepartmentSave, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
@@ -64,7 +64,7 @@ public class DepartmentController {
     @GetMapping("/department/{departmentId}")
     public ResponseEntity<Object> getNameById(
             @PathVariable Integer departmentId) {
-        Optional<Department> vDepartmentData = gDepartmentRepository.findById(departmentId);
+        Optional<Department> vDepartmentData = departmentRepository.findById(departmentId);
         if (vDepartmentData.isPresent()) {
             try {
                 Department vDepartment = vDepartmentData.get();
@@ -83,14 +83,14 @@ public class DepartmentController {
     public ResponseEntity<Object> updateDepartment(
             @PathVariable Integer departmentId,
             @Valid @RequestBody Department pDepartment) {
-        Optional<Department> vDepartmentData = gDepartmentRepository.findById(departmentId);
+        Optional<Department> vDepartmentData = departmentRepository.findById(departmentId);
         if (vDepartmentData.isPresent()) {
             try {
                 Department vDepartment = vDepartmentData.get();
                 vDepartment.setName(pDepartment.getName());
                 vDepartment.setCode(pDepartment.getCode());
 
-                Department vDepartmentSave = gDepartmentRepository.save(vDepartment);
+                Department vDepartmentSave = departmentRepository.save(vDepartment);
                 return new ResponseEntity<>(vDepartmentSave, HttpStatus.OK);
             } catch (Exception e) {
                 return ResponseEntity.unprocessableEntity()
@@ -104,12 +104,12 @@ public class DepartmentController {
 
     // Delete de by id
     @DeleteMapping("/department/{departmentId}")
-    private ResponseEntity<Object> deleteDepartmentById(
+    public ResponseEntity<Object> deleteDepartmentById(
             @PathVariable Integer departmentId) {
-        Optional<Department> vDepartmentData = gDepartmentRepository.findById(departmentId);
+        Optional<Department> vDepartmentData = departmentRepository.findById(departmentId);
         if (vDepartmentData.isPresent()) {
             try {
-                gDepartmentRepository.deleteById(departmentId);
+                departmentRepository.deleteById(departmentId);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             } catch (Exception e) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -107,7 +107,7 @@ public class SparePartController {
 
     // Delete de by id
     @DeleteMapping("/spare-part/{sparePartId}")
-    private ResponseEntity<Object> deleteSparePartById(
+    public ResponseEntity<Object> deleteSparePartById(
             @PathVariable Integer sparePartId) {
         Optional<SparePart> vSparePartData = gSparePartRepository.findById(sparePartId);
         if (vSparePartData.isPresent()) {

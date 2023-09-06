@@ -38,7 +38,7 @@ public class Equipment {
     @ManyToMany(mappedBy = "equipments")
     private Set<Component> components;
 
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Issue> issues;
 

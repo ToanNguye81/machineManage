@@ -40,7 +40,7 @@ public class Department {
     @JoinTable(name = "department_error", joinColumns = @JoinColumn(name = "department_id"), inverseJoinColumns = @JoinColumn(name = "error_id"))
     private Set<Error> errors;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Issue> issues;
 }

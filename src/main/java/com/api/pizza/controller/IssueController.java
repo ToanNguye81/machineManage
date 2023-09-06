@@ -1,6 +1,7 @@
 package com.api.pizza.controller;
 
 import com.api.pizza.entity.ChangedPart;
+import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
@@ -108,17 +109,20 @@ public class IssueController {
         return new ResponseEntity<>(updatedIssue, HttpStatus.OK);
     }
 
-    // Delete an issue
-    @DeleteMapping("/issue/{id}")
-    public ResponseEntity<Void> deleteIssue(@PathVariable int id) {
-        Issue issue = issueRepository.findById(id)
-                .orElse(null);
-
-        if (issue == null) {
-            return ResponseEntity.notFound().build();
+     // Delete issue by id
+    @DeleteMapping("/issue/{issueId}")
+    public ResponseEntity<Object> deleteIssueById(@PathVariable Integer issueId) {
+        Optional<Issue> vIssueData = issueRepository.findById(issueId);
+        if (vIssueData.isPresent()) {
+            try {
+                issueRepository.deleteById(issueId);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            Issue vIssueNull = new Issue();
+            return new ResponseEntity<>(vIssueNull, HttpStatus.NOT_FOUND);
         }
-
-        issueRepository.delete(issue);
-        return ResponseEntity.noContent().build();
     }
 }
