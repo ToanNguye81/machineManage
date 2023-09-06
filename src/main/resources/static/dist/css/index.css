@@ -1,0 +1,11 @@
+i {
+    cursor: pointer;
+}
+
+/* Tùy chỉnh kiểu dáng của ô tích */
+.custom-checkbox {
+    transform: scale(1.5);
+    /* Đặt tỷ lệ kích thước */
+    margin-right: 10px;
+    /* Khoảng cách giữa ô tích và label */
+}

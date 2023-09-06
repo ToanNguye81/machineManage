@@ -26,21 +26,8 @@
   <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-  <style>
-    i {
-      cursor: pointer;
-    }
-
-    ;
-
-    /* Tùy chỉnh kiểu dáng của ô tích */
-    .custom-checkbox {
-      transform: scale(1.5);
-      /* Đặt tỷ lệ kích thước */
-      margin-right: 10px;
-      /* Khoảng cách giữa ô tích và label */
-    }
-  </style>
+ <!-- css index plus -->
+ <link rel="stylesheet" href="dist/css/index.css" />
 </head>
 
 <body>
@@ -257,8 +244,6 @@
         <div class="jumbotron container pt-3">
 
           <!-- checkbox -->
-
-
           <div class="row text-right">
             <div class="col-sm-6">
               <div class="row form-group">
@@ -273,17 +258,23 @@
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="row justify-content-end text-right">
-                <div class="col-sm-3 mt-3">
-                  <div class="form-group">
-                    <div class="form-group clearfix">
-                      <div class="icheck-success d-inline">
-                        <input type="checkbox" id="big-issue">
-                        <label for="big-issue">
-                          BIG ISSUE
-                        </label>
-                      </div>
-                    </div>
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="sel-status">Status</label>
+                </div>
+                <div class="col-sm-6">
+                  <select name="" id="sel-status" class="form-control sel-status text-white">
+                    <option value="done" class="bg-success">Done</option>
+                    <option value="follow" class="bg-warning">Follow</option>
+                    <option value="pending" class="bg-danger">Pending</option>
+                  </select>
+                </div>
+                <div class="col-sm-4 mt-2">
+                  <div class="icheck-success d-inline">
+                    <input type="checkbox" id="big-issue">
+                    <label for="big-issue" class="mr-2">
+                      BIG ISSUE
+                    </label>
                   </div>
                 </div>
               </div>
@@ -369,37 +360,6 @@
                 </div>
                 <div class="col-sm-4 input-group">
                   <input type="text" class="form-control float-right" id="inp-downtime">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row text-right">
-            <div class="col-sm-6">
-              <!-- radio buttons-->
-              <div class="row form-group">
-                <div class="col-sm-2 mt-2">
-                  <label for="sel-status">Status</label>
-                </div>
-                <div class="col-sm-8 d-flex justify-content-around">
-                  <div class="icheck-success d-inline">
-                    <input type="radio" id="status-done" class="status-radio" name="sonata" value="done">
-                    <label for="status-done">
-                      Done
-                    </label>
-                  </div>
-                  <div class="icheck-warning d-inline">
-                    <input type="radio" id="status-follow" class="status-radio" name="sonata" value="follow">
-                    <label for="status-follow">
-                      Follow
-                    </label>
-                  </div>
-                  <div class="icheck-danger d-inline">
-                    <input type="radio" id="status-pending" class="status-radio" name="sonata" value="pending">
-                    <label for="status-pending">
-                      Pending
-                    </label>
-                  </div>
                 </div>
               </div>
             </div>

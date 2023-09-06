@@ -8,7 +8,8 @@ $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
 $("#sel-department").change(onGetDepartmentChange);
-
+$("#sel-status").change(changedColor);
+changedColor();
 $("#inp-end,#inp-start").on("blur", function () {
   calculateDowntime();
 });
@@ -210,7 +211,7 @@ let issue = {
       start: $("#inp-start").val().trim(),
       end: $("#inp-end").val().trim(),
       downtime: $("#inp-downtime").val().trim(),
-      status: $(".status-radio:checked").filter(":checked").val() || "done",
+      status: $("#sel-status").val() || "done",
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
       bigIssue: $("#big-issue").prop("checked"),
@@ -247,7 +248,7 @@ let issue = {
       start: $("#inp-start").val().trim(),
       end: $("#inp-end").val().trim(),
       downtime: $("#inp-downtime").val().trim(),
-      status: $(".status-radio:checked").filter(":checked").val() || "done",
+      status: $("#sel-status").val() || "done",
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
       bigIssue: $("#big-issue").prop("checked"),
@@ -320,7 +321,7 @@ function handleIssueCreationError(error) {
 
 function clearForm() {
   $(
-    "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue, .status-radio:checked,#inp-action"
+    "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action"
   ).val("");
   $("btn-update-issue").prop("disabled",true)
   gChangedParts = [];
@@ -450,15 +451,22 @@ function loadIssueToInput(pIssues) {
   $("#inp-end").val(pIssues.end);
   $("#inp-downtime").val(pIssues.downtime);
   // Set the value of the status radio input
-  $(".status-radio[value='" + pIssues.status + "']").prop("checked", true);
+  $("#sel-status").val(pIssues.status);
   $("#inp-description").val(pIssues.description);
   $("#inp-action").val(pIssues.action);
   $("#big-issue").prop("checked",pIssues.bigIssue);
   $("#inp-notes").val(pIssues.notes);
   gChangedParts = pIssues.changedParts;
   // After setting the department value, trigger a change event to load equipment
-  $("#sel-department").trigger("change");
+  $("select").trigger("change");
   $("#big-issue").trigger("change");
   $("#btn-update-issue").prop("disabled", false);
   updatePartTable();
 }
+
+function changedColor () {
+  const selectedOption = $("#sel-status option:selected");
+  const backgroundColor = selectedOption.css('background-color');
+  $("#sel-status").css('background-color', backgroundColor);
+}
+
