@@ -455,3 +455,18 @@ $("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
 $("#issue-table").on("click", ".fa-trash", issue.onDeleteIssueByIdClick);
 $("#btn-update-issue").click(issue.onSaveIssueClick);
 $("#btn-confirm-delete-issue").click(issue.onDeleteConfirmClick);
+
+ //Date range picker with time picker
+ $('#time-condition').daterangepicker({
+   timePicker: true,
+   timePickerIncrement: 30,
+   locale: {
+     format: 'MM/DD/YYYY hh:mm:ss'
+   }
+ })
+
+//  $('#reservationdatetime').daterangepicker({
+//   opens: 'left'
+// }, function(start, end, label) {
+//   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+// });

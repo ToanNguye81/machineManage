@@ -3,13 +3,15 @@ package com.api.pizza.controller;
 import com.api.pizza.entity.ChangedPart;
 import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
-import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
 import com.api.pizza.repository.IIssueRepository;
-import com.api.pizza.repository.IIssueRepository;
 import com.api.pizza.service.IssueService;
 import com.api.pizza.service.dto.IssueDto;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,10 +40,23 @@ public class IssueController {
     IDepartmentRepository departmentRepository;
 
 
-    // Get all issues
-    @GetMapping("/issue")
-    public List<Issue> getAllIssues() {
-        return issueRepository.findAll();
+        // get all issue
+    @GetMapping(value = "/issue")
+    public ResponseEntity<List<Issue>> getAllIssue(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
+        Pageable pageable = PageRequest.of(page, size);
+        // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
+        Page<Issue> issuePage = issueRepository.findAll(pageable);
+        // để lấy danh sách các đối tượng
+        List<Issue> issueList = issuePage.getContent();
+        // Đếm tổng phần tử
+        Long totalElement = issuePage.getTotalElements();
+        // Trả về thành công
+        return ResponseEntity.ok()
+                .header("totalCount", String.valueOf(totalElement))
+                .body(issueList);
     }
 
   // get issue by id
