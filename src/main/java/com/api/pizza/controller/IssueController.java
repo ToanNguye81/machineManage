@@ -1,25 +1,23 @@
 package com.api.pizza.controller;
 
 import com.api.pizza.entity.ChangedPart;
-import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
 import com.api.pizza.repository.IIssueRepository;
 import com.api.pizza.service.IssueService;
 import com.api.pizza.service.dto.IssueDto;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import com.api.pizza.specification.IssueSpecification;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -40,24 +38,49 @@ public class IssueController {
     IDepartmentRepository departmentRepository;
 
 
-        // get all issue
+    //     // get all issue
+    // @GetMapping(value = "/issue")
+    // public ResponseEntity<List<Issue>> getAllIssue(
+    //         @RequestParam(value = "page", defaultValue = "0") int page,
+    //         @RequestParam(value = "size", defaultValue = "10") int size) {
+    //     // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
+    //     Pageable pageable = PageRequest.of(page, size);
+    //     // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
+    //     Page<Issue> issuePage = issueRepository.findAll(pageable);
+    //     // để lấy danh sách các đối tượng
+    //     List<Issue> issueList = issuePage.getContent();
+    //     // Đếm tổng phần tử
+    //     Long totalElement = issuePage.getTotalElements();
+    //     // Trả về thành công
+    //     return ResponseEntity.ok()
+    //             .header("totalCount", String.valueOf(totalElement))
+    //             .body(issueList);
+    // }
+
     @GetMapping(value = "/issue")
-    public ResponseEntity<List<Issue>> getAllIssue(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
-        // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
-        Pageable pageable = PageRequest.of(page, size);
-        // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
-        Page<Issue> issuePage = issueRepository.findAll(pageable);
-        // để lấy danh sách các đối tượng
-        List<Issue> issueList = issuePage.getContent();
-        // Đếm tổng phần tử
-        Long totalElement = issuePage.getTotalElements();
-        // Trả về thành công
-        return ResponseEntity.ok()
-                .header("totalCount", String.valueOf(totalElement))
-                .body(issueList);
+    public ResponseEntity<List<Issue>> getIssues(
+        @RequestParam(name = "departmentId", required = false) String departmentId,
+        @RequestParam(name = "equipmentId", required = false) String equipmentId,
+        @RequestParam(name = "error", required = false) String error,
+        @RequestParam(name = "bigIssue", required = false) Boolean bigIssue,
+        @RequestParam(name = "ycsc", required = false) String ycsc,
+        @RequestParam(name = "issueDateStart", required = false) Date issueDateStart,
+        @RequestParam(name = "issueDateEnd", required = false) Date issueDateEnd,
+        @RequestParam(name = "createDateStart", required = false) Date createDateStart,
+        @RequestParam(name = "createDateEnd", required = false) Date createDateEnd,
+        @RequestParam(name = "status", required = false) String status) {
+    
+        Specification<Issue> specification = IssueSpecification.filterByParameters(
+                departmentId, equipmentId, error, bigIssue, ycsc,
+                issueDateStart, issueDateEnd, createDateStart, createDateEnd, status);
+                System.out.println("====================");
+
+        List<Issue> issues = issueService.getFilteredIssues(specification);
+    
+        return ResponseEntity.ok(issues);
     }
+    
+
 
   // get issue by id
     @GetMapping("/issue/{issueId}")

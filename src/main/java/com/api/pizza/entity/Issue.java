@@ -28,12 +28,12 @@ public class Issue {
     private int id;
 
     @ManyToOne
-    @NotNull(message = "input department")
+    @NotNull(message = "Department is required")
     @JoinColumn(name = "department_id")
     private Department department;
-   
+
     @ManyToOne
-    @NotNull(message = "input equipment")
+    @NotNull(message = "Equipment is required")
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
@@ -53,7 +53,7 @@ public class Issue {
     private String notes;
 
     @CreatedDate
-    @Column(name = "create_date")
+    @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date createDate;
@@ -78,7 +78,7 @@ public class Issue {
     private String downtime;
 
     @LastModifiedDate
-    @Column(name = "updated_date", nullable = true)
+    @Column(name = "updated_date")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
     private Date updatedDate;
