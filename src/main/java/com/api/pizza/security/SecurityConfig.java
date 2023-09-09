@@ -25,13 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * Thêm JwtRequestFilter vào danh sách các bộ lọc trước
          * UsernamePasswordAuthenticationFilter
          */
-        http.authorizeRequests()
-        .antMatchers("/login.html", "/login", "/register", "/css/**", "/js/**").permitAll() // Cho phép truy cập vào các trang và tài nguyên này mà không cần xác thực.
-        .anyRequest().authenticated() // Đòi hỏi xác thực cho các yêu cầu khác.
-        .and()
+        http
+        .authorizeRequests()
+            // .antMatchers("/login.html", "/login", "/register", "/css/**", "/js/**").permitAll() // Cho phép truy cập vào các URL này mà không cần xác thực.
+            .antMatchers("/login.html").permitAll() // Cho phép truy cập vào các URL này mà không cần xác thực.
+            .antMatchers("/index.html").authenticated() // Cho phép truy cập vào các URL này mà không cần xác thực.
+            // .anyRequest().authenticated() // Đòi hỏi xác thực cho các yêu cầu khác.
+            .and()
         .formLogin()
-        .loginPage("/login.html") // Trang đăng nhập
-        .and()
+            .loginPage("/login.html") // Trang đăng nhập
+            .and()
         .logout();
     
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
