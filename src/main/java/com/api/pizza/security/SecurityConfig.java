@@ -8,10 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
-//  cấu hình các bộ lọc bảo mật cho ứng dụng, bao gồm thêm bộ lọc xử lý token JWT và vô hiệu hóa tính năng CSRF.
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -27,16 +25,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         http
         .authorizeRequests()
-            // .antMatchers("/login.html", "/login", "/register", "/css/**", "/js/**").permitAll() // Cho phép truy cập vào các URL này mà không cần xác thực.
-            .antMatchers("/login.html").permitAll() // Cho phép truy cập vào các URL này mà không cần xác thực.
-            .antMatchers("/index.html").authenticated() // Cho phép truy cập vào các URL này mà không cần xác thực.
-            // .anyRequest().authenticated() // Đòi hỏi xác thực cho các yêu cầu khác.
+        .antMatchers("/index.html","/chart.html","/customer.html").hasRole("MANAGER") // Yêu cầu xác thực cho trang index.html,...
+        // .antMatchers("/index.html","/chart.html","/customer.html").authenticated() // Yêu cầu xác thực cho trang index.html,...
+        .antMatchers("/plugins/**","/src/**","/dist/**","/images/**").permitAll() // Cho phép truy cập tự do cho các tài nguyên tĩnh trong /static
             .and()
         .formLogin()
-            .loginPage("/login.html") // Trang đăng nhập
+            .loginPage("/login.html")
+            .permitAll()
             .and()
-        .logout();
-    
+        .logout()
+            .logoutUrl("/logout")
+            .permitAll();
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();// Vô hiệu hóa tính năng CSRF (Cross-Site Request Forgery)
     }
