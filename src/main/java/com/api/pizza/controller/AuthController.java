@@ -55,6 +55,12 @@ public class AuthController {
         return ResponseEntity.ok(token.getToken());
     }
 
+    // @GetMapping("/index.html")
+    // @PreAuthorize("hasRole('MANAGER')")
+    // public String index() {
+    //     return "/index.html";
+    // }
+
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")
     public ResponseEntity hello() {
@@ -63,12 +69,10 @@ public class AuthController {
 
     @GetMapping("/hello2")
     @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")
-    // @PreAuthorize("hasRole('USER_READ') " +
-    // "|| (hasRole('USER_DELETE')")
-
     public ResponseEntity hello2() {
         return ResponseEntity.ok("hello 2 have USER_READ OR USER_DELETE");
     }
+
 
     @GetMapping("/hello3")
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")

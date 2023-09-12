@@ -24,18 +24,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * UsernamePasswordAuthenticationFilter
          */
         http
-        .authorizeRequests()
-        .antMatchers("/index.html","/chart.html","/customer.html").hasRole("MANAGER") // Yêu cầu xác thực cho trang index.html,...
-        // .antMatchers("/index.html","/chart.html","/customer.html").authenticated() // Yêu cầu xác thực cho trang index.html,...
-        .antMatchers("/plugins/**","/src/**","/dist/**","/images/**").permitAll() // Cho phép truy cập tự do cho các tài nguyên tĩnh trong /static
-            .and()
-        .formLogin()
-            .loginPage("/login.html")
-            .permitAll()
-            .and()
-        .logout()
-            .logoutUrl("/logout")
-            .permitAll();
+                .authorizeRequests()
+                .antMatchers("/","/index.html", "/chart.html", "/customer.html").hasRole("MANAGER")
+                // // Yêu cầu xác thực cho trang index.html,...
+                // .antMatchers("/index.html","/chart.html","/customer.html").authenticated() //
+                // Yêu cầu xác thực cho trang index.html,...
+                .antMatchers("/plugins/**", "/src/**", "/dist/**", "/images/**","/favicon.ico/**").permitAll() // Cho phép truy cập tự do
+                                                                                             // cho các tài nguyên tĩnh
+                                                                                             // trong /static
+                .and()
+                .formLogin()
+                .loginPage("/login.html")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .permitAll();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();// Vô hiệu hóa tính năng CSRF (Cross-Site Request Forgery)
