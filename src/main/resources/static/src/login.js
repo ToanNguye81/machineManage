@@ -24,12 +24,15 @@ let user = {
         data: JSON.stringify(this.userInfo),
         contentType: "application/json",
         success: (res) => {
-          // Lưu token vào cookie (thời gian hết hạn trong 1 giờ)
-          document.cookie = "token=" + res;
-          console.log(document.cookie)
+
+          // Đặt thời gian hết hạn của cookie (ví dụ: 1 giờ)
+          const expirationDate = new Date();
+          expirationDate.setHours(expirationDate.getHours() + 1);
+          // Đặt cookie với tên "token", giá trị là token, và thời gian hết hạn
+          document.cookie = `token=${res}; expires=${expirationDate.toUTCString()}; path=/`;
+
           // Chuyển hướng người dùng đến trang sau khi đăng nhập thành công
-          console.log("Đăng nhập không thất bại.");
-          // window.location.href = "/index";
+          window.location.href = "/index.html";
         },
         error: (e) => {
           // Xử lý lỗi nếu có
@@ -57,6 +60,7 @@ let user = {
         contentType: "application/json",
         success: (res) => {
           alert("Đăng kí thành công. Hãy đăng nhập lại");
+
         },
         error: (e) => {
           // Xử lý lỗi nếu có
@@ -66,11 +70,13 @@ let user = {
     }
   },
 };
-$("#btn-login").on("click", function(e) {
+
+
+$("#btn-login").on("click", function (e) {
   e.preventDefault();
   user.login();
 });
-$("#btn-register").on("click", function(e) {
+$("#btn-register").on("click", function (e) {
   e.preventDefault();
   user.register();
 });
