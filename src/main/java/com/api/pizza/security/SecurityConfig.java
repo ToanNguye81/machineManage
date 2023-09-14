@@ -33,9 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/","/index.html", "/chart.html", "/customer.html").hasRole("MANAGER")
-                // // Yêu cầu xác thực cho trang index.html,...
-                // .antMatchers("/index.html","/chart.html","/customer.html").authenticated() //
-                // Yêu cầu xác thực cho trang index.html,...
                 .antMatchers("/plugins/**", "/src/**", "/dist/**", "/images/**","/favicon.ico/**").permitAll() // Cho phép truy cập tự do
                                                                                              // cho các tài nguyên tĩnh
                                                                                              // trong /static
@@ -52,17 +49,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();// Vô hiệu hóa tính năng CSRF (Cross-Site Request Forgery)
     }
-
-    //   @Bean
-    // public PasswordEncoder passwordEncoder() {
-    //     return new BCryptPasswordEncoder();
-    // }
-
-    // @Bean
-    // public AuthenticationProvider authenticationProvider() {
-    //     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    //     authProvider.setUserDetailsService(userDetailsService());
-    //     authProvider.setPasswordEncoder(passwordEncoder());
-    //     return authProvider;
-    // }
 }
