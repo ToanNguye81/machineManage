@@ -53,16 +53,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();// Vô hiệu hóa tính năng CSRF (Cross-Site Request Forgery)
     }
 
-      @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    //   @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
+    // @Bean
+    // public AuthenticationProvider authenticationProvider() {
+    //     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    //     authProvider.setUserDetailsService(userDetailsService());
+    //     authProvider.setPasswordEncoder(passwordEncoder());
+    //     return authProvider;
+    // }
 }
