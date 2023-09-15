@@ -289,17 +289,61 @@ let issue = {
     });
   }
 };
+
+
+let sparePart = {
+  newSparePart: {
+    code: "",
+    name: "",
+    price: 0,
+    inStock: 0,
+  },
+
+  onCreateNewSparePartClick() {
+    $("#modal-create-part").modal("show");
+  }
+  ,
+
+  onSaveNewSparePartClick() {
+    this.newSparePart= {
+      code: $("#inp-part-code").val().trim(),
+      name: $("#inp-part-name").val().trim(),
+      price: $("#inp-part-price").val().trim(),
+    };
+    console.log(this.newSparePart);
+    if (true) {
+      $.ajax({
+        url: `/spare-part`,
+        method: "POST",
+        data: JSON.stringify(this.newSparePart),
+        contentType: "application/json",
+        success: handlePartCreationSuccess,
+        error: handleIssueCreationError,
+      });
+    }
+  }
+}
+
+// Hàm xử lý thành công khi tạo vấn đề mới
+function handlePartCreationSuccess(data) {
+  console.log("New data created:", data);
+  // Thực hiện hành động sau khi tạo issue thành công
+  alert("Data created successfully");
+  // getPartFromDb();
+    $("#modal-create-part").modal("hide");
+}
+
 // Hàm xử lý thành công khi tạo vấn đề mới
 function handleIssueCreationSuccess(data) {
-  console.log("New issue created:", data);
+  console.log("New data created:", data);
   // Thực hiện hành động sau khi tạo issue thành công
-  alert("Issue created successfully");
+  alert("Data created successfully");
   getIssueFromDb();
 }
 
 // Hàm xử lý lỗi khi tạo vấn đề mới
 function handleIssueCreationError(error) {
-  console.error("Error creating new issue:", error);
+  console.error("Error creating new data:", error);
   // Xử lý lỗi hoặc hiển thị thông báo lỗi
   (error) => alert(error.responseText);
 }
@@ -455,6 +499,8 @@ $("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
 $("#issue-table").on("click", ".fa-trash", issue.onDeleteIssueByIdClick);
 $("#btn-update-issue").click(issue.onSaveIssueClick);
 $("#btn-confirm-delete-issue").click(issue.onDeleteConfirmClick);
+$("#btn-create-new-part").click(sparePart.onCreateNewSparePartClick);
+$("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 
  //Date range picker with time picker
  $('#time-condition').daterangepicker({
