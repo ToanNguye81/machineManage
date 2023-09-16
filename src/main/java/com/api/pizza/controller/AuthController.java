@@ -55,11 +55,6 @@ public class AuthController {
         return ResponseEntity.ok(token.getToken());
     }
 
-    // @GetMapping("/index.html")
-    // @PreAuthorize("hasRole('MANAGER')")
-    // public String index() {
-    //     return "/index.html";
-    // }
 
     @GetMapping("/hello")
     @PreAuthorize("hasAnyAuthority('USER_READ','USER_DELETE')")

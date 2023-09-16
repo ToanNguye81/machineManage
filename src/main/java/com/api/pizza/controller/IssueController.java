@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/")
+// @PreAuthorize("hasRole('EMPLOYEE')")
 public class IssueController {
     @Autowired
     IIssueRepository issueRepository;
@@ -57,6 +59,7 @@ public class IssueController {
     //             .body(issueList);
     // }
 
+    @PreAuthorize("hasRole('EMPLOYEE')")
     @GetMapping(value = "/issue")
     public ResponseEntity<List<Issue>> getIssues(
         @RequestParam(name = "departmentId", required = false) String departmentId,
@@ -73,7 +76,6 @@ public class IssueController {
         Specification<Issue> specification = IssueSpecification.filterByParameters(
                 departmentId, equipmentId, error, bigIssue, ycsc,
                 issueDateStart, issueDateEnd, createDateStart, createDateEnd, status);
-                System.out.println("====================");
 
         List<Issue> issues = issueService.getFilteredIssues(specification);
     
@@ -94,6 +96,7 @@ public class IssueController {
             return new ResponseEntity<>(vIssueNull, HttpStatus.NOT_FOUND);
         }
     }
+
     // Create new issue
     @PostMapping("/issue")
     public ResponseEntity<Object> createIssue(@Valid @RequestBody IssueDto issueDto) {
