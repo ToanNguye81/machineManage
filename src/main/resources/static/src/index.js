@@ -184,7 +184,7 @@ let issue = {
   newIssue: {
     departmentId: "",
     equipmentId: "",
-    createBy: "",
+    createdBy: "",
     error: "",
     ycsc: "",
     issueDate: "",
@@ -202,7 +202,7 @@ let issue = {
     this.newIssue = {
       departmentId: $("#sel-department").val().trim(),
       equipmentId: $("#sel-equipment").val().trim(),
-      createBy: $("#inp-createBy").val().trim(),
+      createdBy: $("#inp-createdBy").val().trim(),
       error: $("#inp-error").val().trim(),
       ycsc: $("#inp-ycsc").val().trim(),
       issueDate: $("#inp-issue-date").val().trim(),
@@ -239,7 +239,7 @@ let issue = {
     this.newIssue = {
       departmentId: $("#sel-department").val().trim(),
       equipmentId: $("#sel-equipment").val().trim(),
-      createBy: $("#inp-createBy").val().trim(),
+      createdBy: $("#inp-createdBy").val().trim(),
       error: $("#inp-error").val().trim(),
       ycsc: $("#inp-ycsc").val().trim(),
       issueDate: $("#inp-issue-date").val().trim(),
@@ -466,7 +466,7 @@ function loadIssueToInput(pIssues) {
   gEquipmentId = pIssues.equipment.id;
   $("#sel-department").val(gDepartmentId);
   $("#sel-equipment").val(gEquipmentId);
-  $("#inp-createBy").val(pIssues.createBy);
+  $("#inp-createdBy").val(pIssues.createdBy);
   $("#inp-error").val(pIssues.error);
   $("#inp-ycsc").val(pIssues.ycsc);
   $("#inp-issue-date").val(pIssues.issueDate);

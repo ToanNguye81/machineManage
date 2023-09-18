@@ -61,7 +61,6 @@ public class WithoutAuthorizeController {
     @PreAuthorize("hasAnyAuthority('USER_CREATE')")
     public User register(@RequestBody User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-
         return userService.createUser(user);
     }
 }

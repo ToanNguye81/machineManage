@@ -14,7 +14,21 @@ import java.util.Date;
 
 @Getter
 @Setter
+/*
+ * MappedSuperclass
+ * Annotation này cho biết rằng BaseEntity là một superclass (lớp cha) và sẽ
+ * không có một bảng cơ sở dữ liệu riêng cho nó. Thay vào đó, các entity class
+ * khác có thể kế thừa các thuộc tính từ lớp này và sử dụng chung các thuộc tính
+ * đánh dấu bởi @CreatedDate, @LastModifiedDate, @CreatedBy, và @LastModifiedBy.
+ */
 @MappedSuperclass
+/*
+ * EntityListeners(AuditingEntityListener.class)
+ * Annotation này liên kết lớp với một AuditingEntityListener, một thành phần
+ * của Spring Data JPA, để tự động cập nhật các trường được đánh dấu
+ * bởi @CreatedDate, @LastModifiedDate, @CreatedBy, và @LastModifiedBy khi các
+ * thay đổi diễn ra.
+ */
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +51,8 @@ public abstract class BaseEntity implements Serializable {
 
 	@LastModifiedBy
 	private Long updatedBy;
+	
+    // Các getter và setter cho createdByUsername và updatedByUsername
 
 	/**
 	 * @return the id
@@ -93,32 +109,5 @@ public abstract class BaseEntity implements Serializable {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	/**
-	 * @return the createdBy
-	 */
-	public Long getCreatedBy() {
-		return createdBy;
-	}
-
-	/**
-	 * @param createdBy the createdBy to set
-	 */
-	public void setCreatedBy(Long createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	/**
-	 * @return the updatedBy
-	 */
-	public Long getUpdatedBy() {
-		return updatedBy;
-	}
-
-	/**
-	 * @param updatedBy the updatedBy to set
-	 */
-	public void setUpdatedBy(Long updatedBy) {
-		this.updatedBy = updatedBy;
-	}
+	
 }

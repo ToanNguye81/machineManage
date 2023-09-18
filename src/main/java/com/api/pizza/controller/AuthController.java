@@ -1,5 +1,8 @@
 package com.api.pizza.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +35,6 @@ public class AuthController {
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-
         return userService.createUser(user);
     }
 
@@ -45,14 +47,21 @@ public class AuthController {
             // Trả về lỗi nếu thông tin không chính xác
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
         }
+        
         // Tạo một đối tượng Token và gán thông tin(token, ExpirationTime,userId)
         Token token = new Token();
         token.setToken(jwtUtil.generateToken(userPrincipal));
         token.setTokenExpDate(jwtUtil.generateExpirationDate());
-        token.setCreatedBy(userPrincipal.getUserId());
+        token.setId(userPrincipal.getUserId());
         tokenService.createToken(token);
-        // Trả về token đã tạo để gửi về phía client
-        return ResponseEntity.ok(token.getToken());
+        
+        // Trả về token và thông tin tài khoản
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token.getToken());
+        response.put("userId", userPrincipal.getUserId());
+        response.put("username", userPrincipal.getUsername());
+        // Response đã tạo để gửi về phía client
+        return ResponseEntity.ok(response);
     }
 
 
