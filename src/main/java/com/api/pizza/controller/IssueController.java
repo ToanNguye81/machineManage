@@ -11,6 +11,9 @@ import com.api.pizza.service.dto.IssueDto;
 import com.api.pizza.specification.IssueSpecification;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +48,7 @@ public class IssueController {
     // @GetMapping(value = "/issue")
     // public ResponseEntity<List<Issue>> getAllIssue(
     // @RequestParam(value = "page", defaultValue = "0") int page,
-    // @RequestParam(value = "size", defaultValue = "10") int size) {
+    // @RequestParam(value = "size", defaultValue = "100") int size) {
     // // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
     // Pageable pageable = PageRequest.of(page, size);
     // // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
