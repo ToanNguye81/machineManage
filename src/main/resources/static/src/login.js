@@ -29,7 +29,7 @@ let user = {
           const expirationDate = new Date();
           expirationDate.setHours(expirationDate.getHours() + 1);
           // Đặt cookie với tên "token", giá trị là token, và thời gian hết hạn
-          document.cookie = `token=${res}; expires=${expirationDate.toUTCString()}; path=/`;
+          document.cookie = `token=${res.token}; expires=${expirationDate.toUTCString()}; path=/`;
 
           // Chuyển hướng người dùng đến trang sau khi đăng nhập thành công
           window.location.href = "/index.html";

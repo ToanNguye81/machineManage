@@ -26,10 +26,10 @@
   <link rel="stylesheet" href="/plugins/dropzone/min/dropzone.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
- <!-- css index plus -->
- <link rel="stylesheet" href="/dist/css/index.css" />
-   <!-- daterange picker -->
-   <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+  <!-- css index plus -->
+  <link rel="stylesheet" href="/dist/css/index.css" />
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
 </head>
 
 <body>
@@ -464,47 +464,47 @@
             <!-- Date and time range -->
             <div class="card-body row mb-0">
               <div class="col-sm-4">
-                  <div class="form-group">
-                    <label>Date and time range:</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="far fa-clock"></i></span>
-                      </div>
-                      <input type="text" class="form-control float-right" id="time-condition">
-                    </div>
-                  </div>
-              </div>
-              <div class="col-sm-3">
                 <div class="form-group">
-                    <label for="status">Status</label>
-                    <div class="input-group">
-                      <select  type="text" class="form-control float-right" id="status-condition">
-                        <option value="done" class="bg-success">Done</option>
-                        <option value="follow" class="bg-warning">Follow</option>
-                        <option value="pending" class="bg-danger">Pending</option>
-                      </select>
+                  <label>Date and time range:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
                     </div>
+                    <input type="text" class="form-control float-right" id="time-condition">
+                  </div>
                 </div>
               </div>
               <div class="col-sm-3">
                 <div class="form-group">
-                    <label for="big-issue-condition">Big Issue</label>
-                    <div class="input-group">
-                      <select  type="text" class="form-control float-right" id="big-issue-condition">
-                        <option value="1" >Big Issue</option>
-                        <option value="0" >Not Big Issue</option>
-                      </select>
-                    </div>
+                  <label for="status">Status</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="status-condition">
+                      <option value="done" class="bg-success">Done</option>
+                      <option value="follow" class="bg-warning">Follow</option>
+                      <option value="pending" class="bg-danger">Pending</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="big-issue-condition">Big Issue</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="big-issue-condition">
+                      <option value="1">Big Issue</option>
+                      <option value="0">Not Big Issue</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="col-sm-2">
                 <div class="form-group">
-                    <label for="act">Action</label>
-                    <div class="input-group">
-                     <button class="btn btn-primary co-sm-12" id="btn-search" >
+                  <label for="act">Action</label>
+                  <div class="input-group">
+                    <button class="btn btn-primary co-sm-12" id="btn-search">
                       <i class="fa fa-search"></i>
-                     </button>
-                    </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -533,7 +533,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Modal delete issue-->
         <div class="modal fade" id="modal-delete-issue">
           <div class="modal-dialog">
@@ -562,14 +562,13 @@
         <div class="modal fade" id="modal-create-part">
           <div class="modal-dialog">
             <div class="modal-content">
-
               <div class="modal-header">
                 <h5 class="modal-title text-primary">Create New Part</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              
+
               <div class="modal-body">
                 <div class="row form-group">
                   <div class="col-sm-4">
@@ -606,6 +605,21 @@
                     <input type="number" id="inp-in-stock" class="form-control" />
                   </div>
                 </div>
+                <div class="row form-group">
+                  <div class="col-sm-4">
+                    <label for="inp-image">Image</label>
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="file" id="imageInput" accept="image/*" multiple>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col-sm-12">
+                      <div id="imagePreviewContainer">
+                          <!-- Hình ảnh được hiển thị tại đây -->
+                      </div>
+                  </div>
+              </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -654,8 +668,8 @@
   <script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <!-- InputMask -->
-<script src="/plugins/moment/moment.min.js"></script>
-<script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
+  <script src="/plugins/moment/moment.min.js"></script>
+  <script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
   <!-- date-range-picker -->
   <script src="/plugins/daterangepicker/daterangepicker.js"></script>
   <!-- AdminLTE App -->

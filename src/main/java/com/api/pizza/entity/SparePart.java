@@ -30,4 +30,8 @@ public class SparePart {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "image")
+    private byte[] image; // Sử dụng kiểu dữ liệu byte[] cho ảnh
+
+
 }

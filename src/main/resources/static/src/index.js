@@ -516,3 +516,22 @@ $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 // }, function(start, end, label) {
 //   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 // });
+
+
+  // Lắng nghe sự kiện khi người dùng chọn tệp ảnh
+  $('#imageInput').on('change', function() {
+    const selectedFiles = this.files;
+
+    if (selectedFiles.length > 0) {
+        const imagePreviewContainer = $('#imagePreviewContainer');
+        imagePreviewContainer.empty();
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+            const reader = new FileReader();
+            const imagePreview = $('<img>');
+            imagePreview.attr('src', URL.createObjectURL(selectedFiles[i]));
+            imagePreview.css({'max-width': '100%', 'max-height': '300px'});
+            imagePreviewContainer.append(imagePreview);
+        }
+    }
+});
