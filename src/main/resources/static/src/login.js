@@ -19,7 +19,7 @@ let user = {
     ) {
       // Gửi thông tin đăng nhập đến server
       $.ajax({
-        url: "/login",
+        url: "/machine/login",
         type: "POST",
         data: JSON.stringify(this.userInfo),
         contentType: "application/json",
@@ -32,7 +32,7 @@ let user = {
           document.cookie = `token=${res.token}; expires=${expirationDate.toUTCString()}; path=/`;
 
           // Chuyển hướng người dùng đến trang sau khi đăng nhập thành công
-          window.location.href = "/index.html";
+          window.location.href = "machine/index.html";
         },
         error: (e) => {
           // Xử lý lỗi nếu có
@@ -54,7 +54,7 @@ let user = {
     ) {
       // Gửi thông tin đăng nhập đến server
       $.ajax({
-        url: "/register",
+        url: "/machine/register",
         type: "POST",
         data: JSON.stringify(this.userInfo),
         contentType: "application/json",
