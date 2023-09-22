@@ -2,8 +2,8 @@ let gChangedParts = [];
 let gEquipmentId = 0;
 let gDepartmentId = 0;
 
-$.get(`/machine/department`, loadDepartmentToSelect);
-$.get(`/machine/spare-part`, loadSparePartToSelect);
+$.get(`department`, loadDepartmentToSelect);
+$.get(`spare-part`, loadSparePartToSelect);
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
@@ -172,7 +172,7 @@ function onGetDepartmentChange(event) {
     $("#sel-equipment").empty().append('<option value="0">Choose equipment</option>');
   } else {
     // Load equipment based on the selected department
-    $.get(`/machine/department/${gDepartmentId}/equipment`, function (pEquipment) {
+    $.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
       loadEquipmentToSelect(pEquipment);
       // After setting the equipment value,
       $("#sel-equipment").trigger("change");
@@ -219,7 +219,7 @@ let issue = {
     console.log(this.newIssue);
     if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: `/machine/issue`,
+        url: `issue`,
         method: "POST",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -256,7 +256,7 @@ let issue = {
     if (validateIssue(this.newIssue)) {
       console.log(this.newIssue)
       $.ajax({
-        url: `/machine/issue/${gIssueId}`,
+        url: `issue/${gIssueId}`,
         method: "PUT",
         data: JSON.stringify(this.newIssue),
         contentType: "application/json",
@@ -278,7 +278,7 @@ let issue = {
   },
   onDeleteConfirmClick() {
     $.ajax({
-      url: `/machine/issue/${gIssueId}`,
+      url: `issue/${gIssueId}`,
       method: "DELETE",
       success: () => {
         alert(`Issue with id: ${gIssueId} was successfully deleted`);
@@ -313,7 +313,7 @@ let sparePart = {
     console.log(this.newSparePart);
     if (true) {
       $.ajax({
-        url: `/machine/spare-part`,
+        url: `spare-part`,
         method: "POST",
         data: JSON.stringify(this.newSparePart),
         contentType: "application/json",
@@ -401,7 +401,7 @@ function validateIssue(pIssue) {
 getIssueFromDb();
 function getIssueFromDb() {
   "use strict";
-  $.get("/machine/issue", (issue) => {
+  $.get("issue", (issue) => {
     console.log(issue);
     loadIssueOnTable(issue);
   });
