@@ -19,7 +19,7 @@ let user = {
     ) {
       // Gửi thông tin đăng nhập đến server
       $.ajax({
-        url: "/machine/login",
+        url: "login",
         type: "POST",
         data: JSON.stringify(this.userInfo),
         contentType: "application/json",

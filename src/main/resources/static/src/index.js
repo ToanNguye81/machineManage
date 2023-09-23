@@ -297,6 +297,7 @@ let sparePart = {
     name: "",
     price: 0,
     inStock: 0,
+    image: ""
   },
 
   onCreateNewSparePartClick() {
@@ -305,7 +306,10 @@ let sparePart = {
   ,
 
   onSaveNewSparePartClick() {
-    this.newSparePart= {
+    // Lấy giá trị của trường image từ đối tượng newSparePart
+    const image = this.newSparePart.image;
+    console.log(image);
+    this.newSparePart = {
       code: $("#inp-part-code").val().trim(),
       name: $("#inp-part-name").val().trim(),
       price: $("#inp-part-price").val().trim(),
@@ -330,7 +334,7 @@ function handlePartCreationSuccess(data) {
   // Thực hiện hành động sau khi tạo issue thành công
   alert("Data created successfully");
   // getPartFromDb();
-    $("#modal-create-part").modal("hide");
+  $("#modal-create-part").modal("hide");
 }
 
 // Hàm xử lý thành công khi tạo vấn đề mới
@@ -502,14 +506,14 @@ $("#btn-confirm-delete-issue").click(issue.onDeleteConfirmClick);
 $("#btn-create-new-part").click(sparePart.onCreateNewSparePartClick);
 $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 
- //Date range picker with time picker
- $('#time-condition').daterangepicker({
-   timePicker: true,
-   timePickerIncrement: 30,
-   locale: {
-     format: 'MM/DD/YYYY hh:mm:ss'
-   }
- })
+//Date range picker with time picker
+$('#time-condition').daterangepicker({
+  timePicker: true,
+  timePickerIncrement: 30,
+  locale: {
+    format: 'MM/DD/YYYY hh:mm:ss'
+  }
+})
 
 //  $('#reservationdatetime').daterangepicker({
 //   opens: 'left'
@@ -517,21 +521,19 @@ $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 //   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 // });
 
+// Lắng nghe sự kiện khi người dùng chọn tệp ảnh
+$('#imageInput').on('change', function () {
+  const selectedFile = this.files[0];
 
-  // Lắng nghe sự kiện khi người dùng chọn tệp ảnh
-  $('#imageInput').on('change', function() {
-    const selectedFiles = this.files;
+  if (selectedFile) {
+    const reader = new FileReader();
+    const imagePreview = $('#imagePreview')[0]; // Sử dụng [0] để lấy phần tử DOM
 
-    if (selectedFiles.length > 0) {
-        const imagePreviewContainer = $('#imagePreviewContainer');
-        imagePreviewContainer.empty();
-
-        for (let i = 0; i < selectedFiles.length; i++) {
-            const reader = new FileReader();
-            const imagePreview = $('<img>');
-            imagePreview.attr('src', URL.createObjectURL(selectedFiles[i]));
-            imagePreview.css({'max-width': '100%', 'max-height': '300px'});
-            imagePreviewContainer.append(imagePreview);
-        }
-    }
+    // Lắng nghe sự kiện khi tệp ảnh được đọc thành công
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result;
+    };
+    // Đọc tệp ảnh dưới dạng URL dữ liệu
+    reader.readAsDataURL(selectedFile);
+  }
 });

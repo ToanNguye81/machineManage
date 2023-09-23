@@ -610,16 +610,17 @@
                     <label for="inp-image">Image</label>
                   </div>
                   <div class="col-sm-8">
-                    <input type="file" id="imageInput" accept="image/*" multiple>
+                    <input type="file" id="imageInput" accept="image/*">
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col-sm-12">
-                      <div id="imagePreviewContainer">
-                          <!-- Hình ảnh được hiển thị tại đây -->
-                      </div>
+                    <div id="imagePreviewContainer">
+                      <!-- Hình ảnh được hiển thị tại đây -->
+                      <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; max-height: 300px;">
+                    </div>
                   </div>
-              </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
