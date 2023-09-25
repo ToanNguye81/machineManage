@@ -297,7 +297,7 @@ let sparePart = {
     name: "",
     price: 0,
     inStock: 0,
-    image: ""
+    image:[]
   },
 
   onCreateNewSparePartClick() {
@@ -305,27 +305,75 @@ let sparePart = {
   }
   ,
 
+  // onSaveNewSparePartClick() {
+    
+  //   const selectedFile = document.getElementById("imageInput").files[0];
+
+  //   if (selectedFile) {
+  //       readImageFile(selectedFile, (imageBytes) => {
+  //           // Xử lý dữ liệu ảnh ở đây, trong biến imageBytes
+  //           console.log(imageBytes);
+  //           this.newSparePart.image = imageBytes
+  //       });
+  //   } else {
+  //       console.error("Không có tệp ảnh được chọn.");
+  //   }
+
+  //   this.newSparePart = {
+  //     code: $("#inp-part-code").val().trim(),
+  //     name: $("#inp-part-name").val().trim(),
+  //     price: $("#inp-part-price").val().trim(),
+  //   };
+  //   console.log(this.newSparePart);
+
+  //   if (true) {
+  //     $.ajax({
+  //       url: `spare-part`,
+  //       method: "POST",
+  //       data: JSON.stringify(this.newSparePart),
+  //       contentType: "application/json",
+  //       success: handlePartCreationSuccess,
+  //       error: handleIssueCreationError,
+  //     });
+  //   }
+  // }
   onSaveNewSparePartClick() {
-    // Lấy giá trị của trường image từ đối tượng newSparePart
-    const image = this.newSparePart.image;
-    console.log(image);
-    this.newSparePart = {
-      code: $("#inp-part-code").val().trim(),
-      name: $("#inp-part-name").val().trim(),
-      price: $("#inp-part-price").val().trim(),
-    };
-    console.log(this.newSparePart);
-    if (true) {
-      $.ajax({
-        url: `spare-part`,
-        method: "POST",
-        data: JSON.stringify(this.newSparePart),
-        contentType: "application/json",
-        success: handlePartCreationSuccess,
-        error: handleIssueCreationError,
+    const selectedFile = document.getElementById("imageInput").files[0];
+
+    if (selectedFile) {
+      readImageFile(selectedFile, (imageBytes) => {
+        // Xử lý dữ liệu ảnh ở đây, trong biến imageBytes
+        console.log(imageBytes);
+
+        // Cập nhật thuộc tính image của newSparePart
+        this.newSparePart.image = imageBytes;
+
+        // Tiếp tục cập nhật các thuộc tính khác
+        this.newSparePart.code = $("#inp-part-code").val().trim();
+        this.newSparePart.name = $("#inp-part-name").val().trim();
+        this.newSparePart.price = $("#inp-part-price").val().trim();
+
+        // Gọi hàm thực hiện lưu trữ sản phẩm sau khi đã cập nhật đầy đủ thông tin
+        this.saveSparePart();
       });
+    } else {
+      console.error("Không có tệp ảnh được chọn.");
     }
-  }
+  },
+
+  saveSparePart() {
+    console.log(this.newSparePart);
+
+    // Tiếp tục gửi dữ liệu sản phẩm lên máy chủ sau khi đã cập nhật đầy đủ thông tin
+    $.ajax({
+      url: `spare-part`,
+      method: "POST",
+      data: JSON.stringify(this.newSparePart),
+      contentType: "application/json",
+      success: handlePartCreationSuccess,
+      error: handleIssueCreationError,
+    });
+  },
 }
 
 // Hàm xử lý thành công khi tạo vấn đề mới
@@ -521,19 +569,13 @@ $('#time-condition').daterangepicker({
 //   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 // });
 
-// Lắng nghe sự kiện khi người dùng chọn tệp ảnh
-$('#imageInput').on('change', function () {
-  const selectedFile = this.files[0];
-
-  if (selectedFile) {
+function readImageFile(file, callback) {
     const reader = new FileReader();
-    const imagePreview = $('#imagePreview')[0]; // Sử dụng [0] để lấy phần tử DOM
 
-    // Lắng nghe sự kiện khi tệp ảnh được đọc thành công
     reader.onload = function (e) {
-      imagePreview.src = e.target.result;
+        const imageBytes = new Uint8Array(e.target.result);
+        callback(imageBytes);
     };
-    // Đọc tệp ảnh dưới dạng URL dữ liệu
-    reader.readAsDataURL(selectedFile);
-  }
-});
+
+    reader.readAsArrayBuffer(file);
+}
