@@ -49,9 +49,33 @@ function loadSparePartToSelect(pSparePart) {
       "data-code": sparePart.code,
       "data-name": sparePart.name,
       "data-price": sparePart.price,
+      
     }).appendTo($("#sel-spare-part"));
   });
 }
+/* function loadSparePartToSelect(pSparePart) {
+  console.log(pSparePart);
+  pSparePart.forEach((sparePart) => {
+    const option = $("<option>", {
+      text: sparePart.code + "-" + sparePart.name,
+      value: sparePart.id, // Set the value to spare part's ID
+      "data-code": sparePart.code,
+      "data-name": sparePart.name,
+      "data-price": sparePart.price,
+    });
+    option.appendTo($("#sel-spare-part"));
+
+    // Hiển thị ảnh khi tải danh sách spare parts
+    option.data("image-url", sparePart.imageUrl);
+  });
+
+  // Lắng nghe sự kiện khi thay đổi lựa chọn và hiển thị ảnh tương ứng
+  $("#sel-spare-part").change(function () {
+    const selectedOption = $(this).find("option:selected");
+    const imageUrl = selectedOption.data("image-url");
+    $("#imagePreview").attr("src", imageUrl);
+  });
+} */
 
 function addPartToTable() {
   var selectedOption = $("#sel-spare-part option:selected");
@@ -297,14 +321,47 @@ let sparePart = {
     name: "",
     price: 0,
     inStock: 0,
-    image: []
+    imageUrl: ""
   },
-
   onCreateNewSparePartClick() {
     $("#modal-create-part").modal("show");
   }
   ,
+  onSaveNewSparePartClick() {
+    const selectedFile = document.getElementById("imageInput").files[0];
+  
+    // Khởi tạo newSparePart với các trường thông tin khác
+    this.newSparePart = {
+      code: $("#inp-part-code").val().trim(),
+      name: $("#inp-part-name").val().trim(),
+      price: $("#inp-part-price").val().trim(),
+      imageUrl: "", // Khởi tạo đường dẫn ảnh rỗng
+    };
 
+ 
+  
+    // Kiểm tra xem có ảnh nào được chọn không
+    if (selectedFile) {
+      readImageFile(selectedFile, (imageBytes) => {
+        // Xử lý dữ liệu ảnh ở đây, trong biến imageBytes
+        // Gọi API để tải ảnh lên và lấy đường dẫn
+        uploadImageAndGetUrl(imageBytes)
+          .then((imageUrl) => {
+            this.newSparePart.imageUrl = imageUrl; // Lưu đường dẫn ảnh vào thuộc tính imageUrl
+            sendCreateNewPartReq(this.newSparePart); // Gửi AJAX request sau khi đã có đường dẫn ảnh
+            // Hiển thị ảnh sau khi đã tải lên
+            $("#imagePreview").attr("src", imageUrl);
+          })
+          .catch((error) => {
+            console.error("Error uploading image:", error);
+            // Xử lý lỗi khi tải ảnh lên
+          });
+      });
+    } else {
+      // Nếu không có ảnh, gửi AJAX request trực tiếp
+      sendCreateNewPartReq(this.newSparePart);
+    }
+  }
   // onSaveNewSparePartClick() {
   //   const selectedFile = document.getElementById("imageInput").files[0];
   //   let imageData =[];
@@ -339,32 +396,6 @@ let sparePart = {
   //     });
   //   }
   // }
-  onSaveNewSparePartClick() {
-    const selectedFile = document.getElementById("imageInput").files[0];
-
-    // Khởi tạo newSparePart với các trường thông tin khác
-    this.newSparePart = {
-      code: $("#inp-part-code").val().trim(),
-      name: $("#inp-part-name").val().trim(),
-      price: $("#inp-part-price").val().trim(),
-    };
-
-    // Kiểm tra xem có ảnh nào được chọn không
-    if (selectedFile) {
-      readImageFile(selectedFile, (imageBytes) => {
-        // Xử lý dữ liệu ảnh ở đây, trong biến imageBytes
-        console.log(imageBytes);
-        this.newSparePart.image = imageBytes;
-        console.log(this.newSparePart)
-
-        // Gửi AJAX request sau khi đã xử lý ảnh
-        sendCreateNewPartReq(this.newSparePart);
-      });
-    } else {
-      // Nếu không có ảnh, gửi AJAX request trực tiếp
-      sendCreateNewPartReq(this.newSparePart);
-    }
-  }
 }
 
 function sendCreateNewPartReq(data) {
