@@ -52,8 +52,8 @@ public class SparePartController {
             vSparePart.setName(pSparePart.getName());
             vSparePart.setCode(pSparePart.getCode());
             vSparePart.setPrice(pSparePart.getPrice());
-            // vSparePart.setImageUrl(pSparePart.getImageUrl());
-            // vSparePart.setInStock(pSparePart.getInStock());
+            vSparePart.setImageUrl(pSparePart.getImageUrl());
+            vSparePart.setInStock(pSparePart.getInStock());
             SparePart vSparePartSave = gSparePartRepository.save(vSparePart);
             return new ResponseEntity<>(vSparePartSave, HttpStatus.CREATED);
         } catch (Exception e) {
