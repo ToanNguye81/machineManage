@@ -53,29 +53,6 @@ function loadSparePartToSelect(pSparePart) {
     }).appendTo($("#sel-spare-part"));
   });
 }
-/* function loadSparePartToSelect(pSparePart) {
-  console.log(pSparePart);
-  pSparePart.forEach((sparePart) => {
-    const option = $("<option>", {
-      text: sparePart.code + "-" + sparePart.name,
-      value: sparePart.id, // Set the value to spare part's ID
-      "data-code": sparePart.code,
-      "data-name": sparePart.name,
-      "data-price": sparePart.price,
-    });
-    option.appendTo($("#sel-spare-part"));
-
-    // Hiển thị ảnh khi tải danh sách spare parts
-    option.data("image-url", sparePart.imageUrl);
-  });
-
-  // Lắng nghe sự kiện khi thay đổi lựa chọn và hiển thị ảnh tương ứng
-  $("#sel-spare-part").change(function () {
-    const selectedOption = $(this).find("option:selected");
-    const imageUrl = selectedOption.data("image-url");
-    $("#imagePreview").attr("src", imageUrl);
-  });
-} */
 
 function addPartToTable() {
   var selectedOption = $("#sel-spare-part option:selected");
@@ -538,11 +515,6 @@ $('#time-condition').daterangepicker({
   }
 })
 
-//  $('#reservationdatetime').daterangepicker({
-//   opens: 'left'
-// }, function(start, end, label) {
-//   console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-// });
 
 // Add an event listener to the file input field
 $("#imageInput").on("change", function () {
