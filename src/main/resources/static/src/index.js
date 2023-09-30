@@ -304,30 +304,66 @@ let sparePart = {
     $("#modal-create-part").modal("show");
   }
   ,
+  // onSaveNewSparePartClick() {
+  //   // Khởi tạo newSparePart với các trường thông tin khác
+  //   this.newSparePart = {
+  //     code: $("#inp-part-code").val().trim(),
+  //     name: $("#inp-part-name").val().trim(),
+  //     price: $("#inp-part-price").val().trim(),
+  //     imageUrl: $("#imageInput")[0].files[0]
+  //       ? URL.createObjectURL($("#imageInput")[0].files[0])
+  //       : "", // Ternary operator to set imageUrl
+  //   };
+
+  //   console.log(this.newSparePart)
+
+  //   // Gửi AJAX request (with imageUrl set to the URL of the selected image or an empty string)
+  //   $.ajax({
+  //     url: `spare-part`,
+  //     method: "POST",
+  //     data: JSON.stringify(this.newSparePart),
+  //     contentType: "application/json",
+  //     success: handlePartCreationSuccess,
+  //     error: handleIssueCreationError,
+  //   });
+  // }
+
+  // }
   onSaveNewSparePartClick() {
-    // Khởi tạo newSparePart với các trường thông tin khác
-    this.newSparePart = {
-      code: $("#inp-part-code").val().trim(),
-      name: $("#inp-part-name").val().trim(),
-      price: $("#inp-part-price").val().trim(),
-      imageUrl: $("#imageInput")[0].files[0]
-        ? URL.createObjectURL($("#imageInput")[0].files[0])
-        : "", // Ternary operator to set imageUrl
-    };
+    const code = $("#inp-part-code").val().trim();
+    const name = $("#inp-part-name").val().trim();
+    const price = $("#inp-part-price").val().trim();
+    const imageInput = $("#imageInput")[0];
 
-    console.log(this.newSparePart)
+    // Kiểm tra xem có ảnh được chọn không
+    let imageFile = null;
+    if (imageInput.files.length > 0) {
+      imageFile = imageInput.files[0];
+    }
 
-    // Gửi AJAX request (with imageUrl set to the URL of the selected image or an empty string)
+    const formData = new FormData();
+    formData.append("code", code);
+    formData.append("name", name);
+    formData.append("price", price);
+
+    // Kiểm tra xem có ảnh được chọn không
+    if (imageFile !== null) {
+      formData.append("image", imageFile);
+    }
+
+    // Gửi yêu cầu AJAX để tạo Part mới
     $.ajax({
-      url: `spare-part`,
+      url: "spare-part",
       method: "POST",
-      data: JSON.stringify(this.newSparePart),
-      contentType: "application/json",
+      data: formData,
+      contentType: false,
+      processData: false,
       success: handlePartCreationSuccess,
       error: handleIssueCreationError,
     });
   }
 }
+
 // Hàm xử lý thành công khi tạo vấn đề mới
 function handlePartCreationSuccess(data) {
   console.log("New data created:", data);
@@ -505,6 +541,8 @@ $("#btn-update-issue").click(issue.onSaveIssueClick);
 $("#btn-confirm-delete-issue").click(issue.onDeleteConfirmClick);
 $("#btn-create-new-part").click(sparePart.onCreateNewSparePartClick);
 $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
+// Lắng nghe sự kiện khi người dùng chọn hình ảnh
+$("#imageInput").change(handleImageSelection);
 
 //Date range picker with time picker
 $('#time-condition').daterangepicker({
@@ -516,28 +554,54 @@ $('#time-condition').daterangepicker({
 })
 
 
-// Add an event listener to the file input field
-$("#imageInput").on("change", function () {
-  const selectedFile = this.files[0]; // Get the selected file
+// // Add an event listener to the file input field
+// $("#imageInput").on("change", function () {
+//   const selectedFile = this.files[0]; // Get the selected file
 
-  if (selectedFile) {
-    // Check if a file is selected
-    readImageFile(selectedFile, (imageBytes) => {
-      // Update the image preview with the selected image
-      // You can also display the image immediately here
-      const imageUrl = URL.createObjectURL(selectedFile);
-      $("#imagePreview").attr("src", imageUrl);
-    });
+//   if (selectedFile) {
+//     // Check if a file is selected
+//     readImageFile(selectedFile, (imageBytes) => {
+//       // Update the image preview with the selected image
+//       // You can also display the image immediately here
+//       const imageUrl = URL.createObjectURL(selectedFile);
+//       $("#imagePreview").attr("src", imageUrl);
+//     });
+//   }
+// });
+
+// // Function to read the selected image file
+// function readImageFile(file, callback) {
+//   const reader = new FileReader();
+
+//   reader.onload = function (e) {
+//     const imageBytes = new Uint8Array(e.target.result);
+//     callback(imageBytes);
+//   };
+//   reader.readAsArrayBuffer(file);
+// }
+
+// Xử lý sự kiện khi người dùng chọn hình ảnh và hiển thị nó
+function handleImageSelection() {
+  const imageInput = $("#imageInput")[0];
+  const imagePreview = $("#imagePreview")[0];
+
+  // Kiểm tra xem đã chọn hình ảnh hay chưa
+  if (imageInput.files && imageInput.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      // Hiển thị hình ảnh trên trình duyệt
+      imagePreview.src = e.target.result;
+    };
+
+    // Đọc và hiển thị hình ảnh
+    reader.readAsDataURL(imageInput.files[0]);
   }
-});
-
-// Function to read the selected image file
-function readImageFile(file, callback) {
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    const imageBytes = new Uint8Array(e.target.result);
-    callback(imageBytes);
-  };
-  reader.readAsArrayBuffer(file);
 }
+
+
+// Xử lý sự kiện khi người dùng bấm nút "Tạo Part Mới"
+
+// Lắng nghe sự kiện khi người dùng bấm nút "Tạo Part Mới"
+// $("#btn-save-new-part")change.onSaveNewSparePartClick);
+
