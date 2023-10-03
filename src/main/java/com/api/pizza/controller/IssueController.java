@@ -63,7 +63,7 @@ public class IssueController {
     // .body(issueList);
     // }
 
-    @PreAuthorize("hasRole('EMPLOYEE')")
+    // @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','MANAGER')")
     @GetMapping(value = "/issue")
     public ResponseEntity<List<Issue>> getIssues(
             @RequestParam(name = "departmentId", required = false) String departmentId,
@@ -79,7 +79,8 @@ public class IssueController {
 
         Specification<Issue> specification = IssueSpecification.filterByParameters(
                 departmentId, equipmentId, error, bigIssue, ycsc,
-                issueDateStart, issueDateEnd, createDateStart, createDateEnd, status);
+                issueDateStart, issueDateEnd, createDateStart, createDateEnd,
+                status);
 
         List<Issue> issues = issueService.getFilteredIssues(specification);
 
