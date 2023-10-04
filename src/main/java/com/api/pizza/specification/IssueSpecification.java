@@ -3,15 +3,16 @@ package com.api.pizza.specification;
 import com.api.pizza.entity.Issue;
 import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class IssueSpecification {
 
     public static Specification<Issue> filterByParameters(
             String departmentId, String equipmentId, String error, Boolean bigIssue,
-            String ycsc, Date issueDateStart, Date issueDateEnd,
-            Date createDateStart, Date createDateEnd, String status) {
+            String ycsc, LocalDate issueDateStart, LocalDate issueDateEnd,
+            LocalDate createDateStart, LocalDate createDateEnd, String status) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -44,6 +45,7 @@ public class IssueSpecification {
                 predicate = criteriaBuilder.and(predicate,
                         criteriaBuilder.between(root.get("issueDate"), issueDateStart, issueDateEnd));
             }
+            
 
             if (createDateStart != null && createDateEnd != null) {
                 predicate = criteriaBuilder.and(predicate,
@@ -58,4 +60,5 @@ public class IssueSpecification {
             return predicate;
         };
     }
+
 }
