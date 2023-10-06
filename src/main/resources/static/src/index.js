@@ -554,32 +554,6 @@ $('#time-condition').daterangepicker({
 })
 
 
-// // Add an event listener to the file input field
-// $("#imageInput").on("change", function () {
-//   const selectedFile = this.files[0]; // Get the selected file
-
-//   if (selectedFile) {
-//     // Check if a file is selected
-//     readImageFile(selectedFile, (imageBytes) => {
-//       // Update the image preview with the selected image
-//       // You can also display the image immediately here
-//       const imageUrl = URL.createObjectURL(selectedFile);
-//       $("#imagePreview").attr("src", imageUrl);
-//     });
-//   }
-// });
-
-// // Function to read the selected image file
-// function readImageFile(file, callback) {
-//   const reader = new FileReader();
-
-//   reader.onload = function (e) {
-//     const imageBytes = new Uint8Array(e.target.result);
-//     callback(imageBytes);
-//   };
-//   reader.readAsArrayBuffer(file);
-// }
-
 // Xử lý sự kiện khi người dùng chọn hình ảnh và hiển thị nó
 function handleImageSelection() {
   const imageInput = $("#imageInput")[0];
@@ -598,10 +572,3 @@ function handleImageSelection() {
     reader.readAsDataURL(imageInput.files[0]);
   }
 }
-
-
-// Xử lý sự kiện khi người dùng bấm nút "Tạo Part Mới"
-
-// Lắng nghe sự kiện khi người dùng bấm nút "Tạo Part Mới"
-// $("#btn-save-new-part")change.onSaveNewSparePartClick);
-
