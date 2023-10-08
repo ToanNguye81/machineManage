@@ -49,7 +49,7 @@ public class IssueSpecification {
 
             if (createDateStart != null && createDateEnd != null) {
                 predicate = criteriaBuilder.and(predicate,
-                        criteriaBuilder.between(root.get("createDate"), createDateStart, createDateEnd));
+                        criteriaBuilder.between(root.get("createdAt"), createDateStart, createDateEnd));
             }
 
             if (!Objects.equals(status, "")) {
