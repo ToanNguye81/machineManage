@@ -13,6 +13,16 @@ public class IssueSpecification {
             String departmentId, String equipmentId, String error, Boolean bigIssue,
             String ycsc, LocalDate issueDateStart, LocalDate issueDateEnd,
             LocalDate createDateStart, LocalDate createDateEnd, String status) {
+
+
+               
+                System.out.println("=Dste=====");
+System.out.println(issueDateStart);
+System.out.println(issueDateEnd);
+System.out.println(createDateStart);
+System.out.println(createDateEnd);
+                System.out.println("=Dste=====");
+
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 

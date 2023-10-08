@@ -80,6 +80,7 @@ public class IssueController {
             @RequestParam(name = "createDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateEnd,
             @RequestParam(name = "status", required = false) String status) {
 
+            
         Specification<Issue> specification = IssueSpecification.filterByParameters(
                 departmentId, equipmentId, error, bigIssue, ycsc,
                 issueDateStart, issueDateEnd, createDateStart, createDateEnd,
