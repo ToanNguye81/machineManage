@@ -5,6 +5,8 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 public class IssueSpecification {
@@ -17,10 +19,10 @@ public class IssueSpecification {
 
                
                 System.out.println("=Dste=====");
-System.out.println(issueDateStart);
-System.out.println(issueDateEnd);
-System.out.println(createDateStart);
-System.out.println(createDateEnd);
+                System.out.println(issueDateStart);
+                System.out.println(issueDateEnd);
+                System.out.println(createDateStart);
+                System.out.println(createDateEnd);
                 System.out.println("=Dste=====");
 
         return (root, query, criteriaBuilder) -> {
@@ -52,14 +54,22 @@ System.out.println(createDateEnd);
             }
 
             if (issueDateStart != null && issueDateEnd != null) {
-                predicate = criteriaBuilder.and(predicate,
-                        criteriaBuilder.between(root.get("issueDate"), issueDateStart, issueDateEnd));
+              predicate = criteriaBuilder.and(predicate,
+        criteriaBuilder.between(root.get("issueDate"), 
+            Date.from(issueDateStart.atStartOfDay(ZoneId.systemDefault()).toInstant()), 
+            Date.from(issueDateEnd.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant())
+        )
+    );
             }
-            
+                
 
             if (createDateStart != null && createDateEnd != null) {
                 predicate = criteriaBuilder.and(predicate,
-                        criteriaBuilder.between(root.get("createdAt"), createDateStart, createDateEnd));
+                criteriaBuilder.between(root.get("createdAt"), 
+                    Date.from(createDateStart.atStartOfDay(ZoneId.systemDefault()).toInstant()), 
+                    Date.from(createDateEnd.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant())
+                )
+            );
             }
 
             if (!Objects.equals(status, "")) {
