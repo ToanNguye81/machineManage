@@ -13,8 +13,16 @@ public class IssueSpecification {
 
     public static Specification<Issue> filterByParameters(
             String departmentId, String equipmentId, String error, Boolean bigIssue,
-            String ycsc, LocalDate issueDateStart, LocalDate issueDateEnd,
-            LocalDate createDateStart, LocalDate createDateEnd, String status) {
+            String ycsc, 
+            LocalDate issueDateStart,
+            LocalDate issueDateEnd,
+            LocalDate createDateStart,
+            LocalDate createDateEnd,
+            // Date issueDateStart,
+            // Date issueDateEnd,
+            // Date createDateStart,
+            // Date createDateEnd,
+             String status) {
 
 
                
@@ -71,6 +79,18 @@ public class IssueSpecification {
                 )
             );
             }
+
+    // if (issueDateStart != null && issueDateEnd != null) {
+    //     predicate = criteriaBuilder.and(predicate,
+    //         criteriaBuilder.between(root.get("issueDate"), issueDateStart, issueDateEnd)
+    //     );
+    // }
+    
+    // if (createDateStart != null && createDateEnd != null) {
+    //     predicate = criteriaBuilder.and(predicate,
+    //         criteriaBuilder.between(root.get("createdAt"), createDateStart, createDateEnd)
+    //     );
+    // }
 
             if (!Objects.equals(status, "")) {
                 predicate = criteriaBuilder.and(predicate,
