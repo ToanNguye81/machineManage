@@ -552,6 +552,14 @@ $('#time-condition').daterangepicker({
     format: 'MM/DD/YYYY hh:mm:ss'
   }
 })
+//Date range picker with time picker
+$('#created-issue-search').daterangepicker({
+  timePicker: true,
+  timePickerIncrement: 30,
+  locale: {
+    format: 'MM/DD/YYYY hh:mm:ss'
+  }
+})
 
 
 // Xử lý sự kiện khi người dùng chọn hình ảnh và hiển thị nó

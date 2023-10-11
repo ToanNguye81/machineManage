@@ -462,10 +462,51 @@
               <h3 class="card-title">Issue Table</h3>
             </div>
             <!-- Date and time range -->
-            <div class="card-body row mb-0">
-              <div class="col-sm-4">
+            <div class="card-body row mb-0 mt-0 pt-0 pb-0">
+              <div class="col-sm-3">
                 <div class="form-group">
-                  <label>Date and time range:</label>
+                  <label>Created date and time range:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="created-issue-search">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="department-search">Choose Department</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="department-search">
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="equipment-search">Choose Equipment</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="equipment-search">
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="error-search">Choose Error</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="error-search">
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Date and time range -->
+            <div class="card-body row mb-0 mt-0 pt-0 pb-0">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>Issue date and time range:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-clock"></i></span>
@@ -499,7 +540,7 @@
               </div>
               <div class="col-sm-2">
                 <div class="form-group">
-                  <label for="act">Action</label>
+                  <label for="act">Search</label>
                   <div class="input-group">
                     <button class="btn btn-primary co-sm-12" id="btn-search">
                       <i class="fa fa-search"></i>
