@@ -6,6 +6,7 @@ $.get(`department`, loadDepartmentToSelect);
 $.get(`spare-part`, loadSparePartToSelect);
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
+$("#btn-search").click(loadSearchIssueToTable);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
 $("#sel-department").change(onGetDepartmentChange);
 $("#sel-status").change(changedColor);
@@ -49,7 +50,6 @@ function loadSparePartToSelect(pSparePart) {
       "data-code": sparePart.code,
       "data-name": sparePart.name,
       "data-price": sparePart.price,
-
     }).appendTo($("#sel-spare-part"));
   });
 }
@@ -127,7 +127,9 @@ function removePart(id) {
 
 // Vô hiệu hóa các trường YCSC, downtime, status và sel-part ngay khi trang được tải
 const disableFields = () => {
-  $("#inp-ycsc,#inp-notes,#inp-description, #btn-update-issue").prop("disabled", true).val("");
+  $("#inp-ycsc,#inp-notes,#inp-description, #btn-update-issue")
+    .prop("disabled", true)
+    .val("");
 };
 
 disableFields();
@@ -135,8 +137,7 @@ disableFields();
 // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
 $("#big-issue").on("change", function () {
   const isChecked = $(this).prop("checked");
-  $("#inp-ycsc,#inp-notes,#inp-description")
-    .prop("disabled", !isChecked)
+  $("#inp-ycsc,#inp-notes,#inp-description").prop("disabled", !isChecked);
 });
 
 //load department to select
@@ -152,7 +153,9 @@ function loadDepartmentToSelect(pDepartment) {
 
 // Function to load equipment options into the select input
 function loadEquipmentToSelect(pEquipment) {
-  $("#sel-equipment").empty().append('<option value="0">Choose equipment</option>');
+  $("#sel-equipment")
+    .empty()
+    .append('<option value="0">Choose equipment</option>');
   pEquipment.forEach((equipment) => {
     $("<option>", {
       text: equipment.name,
@@ -170,7 +173,9 @@ function onGetDepartmentChange(event) {
   gDepartmentId = event.target.value;
   if (gDepartmentId == 0) {
     // Handle the case when "Choose department" is selected
-    $("#sel-equipment").empty().append('<option value="0">Choose equipment</option>');
+    $("#sel-equipment")
+      .empty()
+      .append('<option value="0">Choose equipment</option>');
   } else {
     // Load equipment based on the selected department
     $.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
@@ -234,7 +239,6 @@ let issue = {
     gIssueId = vSelectedData;
     console.log(gIssueId);
     $.get(`machine/issue/${gIssueId}`, loadIssueToInput);
-
   },
   onSaveIssueClick() {
     this.newIssue = {
@@ -255,7 +259,7 @@ let issue = {
       changedParts: gChangedParts,
     };
     if (validateIssue(this.newIssue)) {
-      console.log(this.newIssue)
+      console.log(this.newIssue);
       $.ajax({
         url: `issue/${gIssueId}`,
         method: "PUT",
@@ -263,7 +267,7 @@ let issue = {
         contentType: "application/json",
         success: (data) => {
           alert("Issue updated successfully");
-          clearForm()
+          clearForm();
           getIssueFromDb();
           gIssueId = 0;
         },
@@ -288,9 +292,8 @@ let issue = {
       },
       error: (err) => alert(err.responseText),
     });
-  }
+  },
 };
-
 
 let sparePart = {
   newSparePart: {
@@ -298,12 +301,11 @@ let sparePart = {
     name: "",
     price: 0,
     inStock: 0,
-    imageUrl: ""
+    imageUrl: "",
   },
   onCreateNewSparePartClick() {
     $("#modal-create-part").modal("show");
-  }
-  ,
+  },
   // onSaveNewSparePartClick() {
   //   // Khởi tạo newSparePart với các trường thông tin khác
   //   this.newSparePart = {
@@ -361,8 +363,8 @@ let sparePart = {
       success: handlePartCreationSuccess,
       error: handleIssueCreationError,
     });
-  }
-}
+  },
+};
 
 // Hàm xử lý thành công khi tạo vấn đề mới
 function handlePartCreationSuccess(data) {
@@ -392,7 +394,7 @@ function clearForm() {
   $(
     "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action"
   ).val("");
-  $("btn-update-issue").prop("disabled", true)
+  $("btn-update-issue").prop("disabled", true);
   gChangedParts = [];
   updatePartTable();
 }
@@ -529,10 +531,9 @@ function loadIssueToInput(pIssues) {
 
 function changedColor() {
   const selectedOption = $("#sel-status option:selected");
-  const backgroundColor = selectedOption.css('background-color');
-  $("#sel-status").css('background-color', backgroundColor);
+  const backgroundColor = selectedOption.css("background-color");
+  $("#sel-status").css("background-color", backgroundColor);
 }
-
 
 $("#btn-add-issue").click(issue.onCreateNewIssueClick);
 $("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
@@ -545,22 +546,21 @@ $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 $("#imageInput").change(handleImageSelection);
 
 //Date range picker with time picker
-$('#time-condition').daterangepicker({
+$("#time-condition").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    format: 'MM/DD/YYYY hh:mm:ss'
-  }
-})
+    format: "MM/DD/YYYY hh:mm:ss",
+  },
+});
 //Date range picker with time picker
-$('#created-issue-search').daterangepicker({
+$("#created-issue-search").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    format: 'MM/DD/YYYY hh:mm:ss'
-  }
-})
-
+    format: "MM/DD/YYYY hh:mm:ss",
+  },
+});
 
 // Xử lý sự kiện khi người dùng chọn hình ảnh và hiển thị nó
 function handleImageSelection() {
@@ -579,4 +579,20 @@ function handleImageSelection() {
     // Đọc và hiển thị hình ảnh
     reader.readAsDataURL(imageInput.files[0]);
   }
+}
+
+function loadSearchIssueToTable() {
+  let condition = {
+    departmentId: $("#departmentId-condition").val(),
+    equipmentId: $("#equipmentId-condition").val(),
+    error: $("#error-condition").val(),
+    bigIssue: $("#bigIssue-condition").val(),
+    ycsc: $("#ycsc-condition").val(),
+    issueDateStart: $("#issueDateStart-condition").val(),
+    issueDateEnd: $("#issueDateEnd-condition").val(),
+    createDateStart: $("#createDateStart-condition").val(),
+    createDateEnd: $("#createDateEnd-condition").val(),
+    status: $("#status-condition").val(),
+  };
+  
 }
