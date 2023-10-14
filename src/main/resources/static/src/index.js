@@ -545,22 +545,6 @@ $("#btn-save-new-part").click(sparePart.onSaveNewSparePartClick);
 // Lắng nghe sự kiện khi người dùng chọn hình ảnh
 $("#imageInput").change(handleImageSelection);
 
-//Date range picker with time picker
-$("#time-condition").daterangepicker({
-  timePicker: true,
-  timePickerIncrement: 30,
-  locale: {
-    format: "MM/DD/YYYY hh:mm:ss",
-  },
-});
-//Date range picker with time picker
-$("#created-issue-search").daterangepicker({
-  timePicker: true,
-  timePickerIncrement: 30,
-  locale: {
-    format: "MM/DD/YYYY hh:mm:ss",
-  },
-});
 
 // Xử lý sự kiện khi người dùng chọn hình ảnh và hiển thị nó
 function handleImageSelection() {
@@ -582,17 +566,36 @@ function handleImageSelection() {
 }
 
 function loadSearchIssueToTable() {
+
   let condition = {
-    departmentId: $("#departmentId-condition").val(),
-    equipmentId: $("#equipmentId-condition").val(),
-    error: $("#error-condition").val(),
-    bigIssue: $("#bigIssue-condition").val(),
-    ycsc: $("#ycsc-condition").val(),
-    issueDateStart: $("#issueDateStart-condition").val(),
-    issueDateEnd: $("#issueDateEnd-condition").val(),
-    createDateStart: $("#createDateStart-condition").val(),
-    createDateEnd: $("#createDateEnd-condition").val(),
-    status: $("#status-condition").val(),
+    departmentId: $("#departmentId-search").val(),
+    equipmentId: $("#equipmentId-search").val(),
+    error: $("#error-search").val(),
+    bigIssue: $("#bigIssue-search").val(),
+    ycsc: $("#ycsc-search").val(),
+    issueDateStart: $("#issueDate-search").data('daterangepicker').startDate.format("MM/DD/YYYY hh:mm:ss"),
+    issueDateEnd: $("#issueDate-search").data('daterangepicker').endDate.format("MM/DD/YYYY hh:mm:ss"),
+    createDateStart: $("#created-issue-search").data('daterangepicker').startDate.format("MM/DD/YYYY hh:mm:ss"),
+    createDateEnd: $("#created-issue-search").data('daterangepicker').endDate.format("MM/DD/YYYY hh:mm:ss"),
+    status: $("#status-search").val(),
   };
-  
+
+  console.log(condition);
+
 }
+//Date range picker with time picker
+$("#issueDate-search").daterangepicker({
+  timePicker: true,
+  timePickerIncrement: 30,
+  locale: {
+    format: "MM/DD/YYYY hh:mm:ss",
+  },
+});
+//Date range picker with time picker
+$("#created-issue-search").daterangepicker({
+  timePicker: true,
+  timePickerIncrement: 30,
+  locale: {
+    format: "MM/DD/YYYY hh:mm:ss",
+  },
+});

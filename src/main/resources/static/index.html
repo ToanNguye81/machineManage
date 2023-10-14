@@ -476,9 +476,14 @@
               </div>
               <div class="col-sm-3">
                 <div class="form-group">
-                  <label for="department-search">Choose Department</label>
+                  <label for="departmentId-search">Choose Department</label>
                   <div class="input-group">
-                    <select type="text" class="form-control float-right" id="department-search">
+                    <select type="text" class="form-control float-right" id="departmentId-search">
+                      <option value="0"></option>
+                      <option value="1">Nguyeen</option>
+                      <option value="2">thsdfh  </option>
+                      <option value="3">sjdks </option>
+                      <option value="4">sdf</option>
                     </select>
                   </div>
                 </div>
@@ -487,7 +492,12 @@
                 <div class="form-group">
                   <label for="equipment-search">Choose Equipment</label>
                   <div class="input-group">
-                    <select type="text" class="form-control float-right" id="equipment-search">
+                    <select type="text" class="form-control float-right" id="equipmentId-search">
+                      <option value="0"></option>
+                      <option value="1">Nguyeen</option>
+                      <option value="2">thsdfh  </option>
+                      <option value="3">sjdks </option>
+                      <option value="4">sdf</option>
                     </select>
                   </div>
                 </div>
@@ -497,6 +507,11 @@
                   <label for="error-search">Choose Error</label>
                   <div class="input-group">
                     <select type="text" class="form-control float-right" id="error-search">
+                      <option value="0"></option>
+                      <option value="1">Nguyeen</option>
+                      <option value="2">thsdfh  </option>
+                      <option value="3">sjdks </option>
+                      <option value="4">sdf</option>
                     </select>
                   </div>
                 </div>
@@ -511,15 +526,26 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-clock"></i></span>
                     </div>
-                    <input type="text" class="form-control float-right" id="time-condition">
+                    <input type="text" class="form-control float-right" id="issueDate-search">
                   </div>
                 </div>
               </div>
               <div class="col-sm-3">
                 <div class="form-group">
+                  <label for="bigIssue-search">Big Issue</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control float-right" id="bigIssue-search">
+                      <option value="0">Not Big Issue</option>
+                      <option value="1">Big Issue</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
                   <label for="status">Status</label>
                   <div class="input-group">
-                    <select type="text" class="form-control float-right" id="status-condition">
+                    <select type="text" class="form-control float-right" id="status-search">
                       <option value="done" class="bg-success">Done</option>
                       <option value="follow" class="bg-warning">Follow</option>
                       <option value="pending" class="bg-danger">Pending</option>
@@ -527,13 +553,16 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <div class="form-group">
-                  <label for="big-issue-condition">Big Issue</label>
+                  <label for="yscs">YCSC</label>
                   <div class="input-group">
-                    <select type="text" class="form-control float-right" id="big-issue-condition">
-                      <option value="1">Big Issue</option>
-                      <option value="0">Not Big Issue</option>
+                    <select type="text" class="form-control float-right" id="ycsc-search">
+                      <option value="0"></option>
+                      <option value="1">Nguyeen</option>
+                      <option value="2">thsdfh  </option>
+                      <option value="3">sjdks </option>
+                      <option value="4">sdf</option>
                     </select>
                   </div>
                 </div>
@@ -542,8 +571,10 @@
                 <div class="form-group">
                   <label for="act">Search</label>
                   <div class="input-group">
-                    <button class="btn btn-primary co-sm-12" id="btn-search">
-                      <i class="fa fa-search"></i>
+                    <button class="btn btn-primary col-sm-12" id="btn-search">
+                      <i class="fa fa-search">
+                      </i>
+                      Search
                     </button>
                   </div>
                 </div>
