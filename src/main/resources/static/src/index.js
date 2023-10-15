@@ -445,7 +445,7 @@ function getIssueFromDb() {
   "use strict";
   $.get("issue", (issue) => {
     console.log(issue);
-    loadIssueOnTable(issue);
+    loadIssueToTable(issue);
   });
 }
 let issueTable = $("#issue-table").DataTable({
@@ -492,7 +492,7 @@ function buildChangedPartsCell(changedParts) {
   return ""; // Trả về chuỗi trống nếu changedParts không phải là mảng
 }
 
-function loadIssueOnTable(pIssue) {
+function loadIssueToTable(pIssue) {
   "use strict";
   issueTable.clear();
   issueTable.rows.add(pIssue);
@@ -566,29 +566,42 @@ function handleImageSelection() {
 }
 
 function loadSearchIssueToTable() {
+  // Lấy giá trị của các input
+  let departmentId = $("#departmentId-search").val();
+  let equipmentId = $("#equipmentId-search").val();
+  let error = $("#error-search").val();
+  let bigIssue = $("#bigIssue-search").val();
+  let ycsc = $("#ycsc-search").val();
+  let issueDateStart = $("#issueDate-search").data('daterangepicker').startDate.format("YYYY-MM-DD");
+  let issueDateEnd = $("#issueDate-search").data('daterangepicker').endDate.format("YYYY-MM-DD");
+  let createDateStart = $("#created-issue-search").data('daterangepicker').startDate.format("YYYY-MM-DD");
+  let createDateEnd = $("#created-issue-search").data('daterangepicker').endDate.format("YYYY-MM-DD");
+  let status = $("#status-search").val();
 
+  // Tạo một đối tượng chứa điều kiện tìm kiếm
   let condition = {
-    departmentId: $("#departmentId-search").val(),
-    equipmentId: $("#equipmentId-search").val(),
-    error: $("#error-search").val(),
-    bigIssue: $("#bigIssue-search").val(),
-    ycsc: $("#ycsc-search").val(),
-    issueDateStart: $("#issueDate-search").data('daterangepicker').startDate.format("MM/DD/YYYY hh:mm:ss"),
-    issueDateEnd: $("#issueDate-search").data('daterangepicker').endDate.format("MM/DD/YYYY hh:mm:ss"),
-    createDateStart: $("#created-issue-search").data('daterangepicker').startDate.format("MM/DD/YYYY hh:mm:ss"),
-    createDateEnd: $("#created-issue-search").data('daterangepicker').endDate.format("MM/DD/YYYY hh:mm:ss"),
-    status: $("#status-search").val(),
+    departmentId: departmentId,
+    equipmentId: equipmentId,
+    error: error,
+    bigIssue: bigIssue,
+    ycsc: ycsc,
+    issueDateStart: issueDateStart,
+    issueDateEnd: issueDateEnd,
+    createDateStart: createDateStart,
+    createDateEnd: createDateEnd,
+    status: status
   };
 
-  console.log(condition);
-
+  // Gọi hàm để lấy dữ liệu từ backend
+  getSearchIssueFromDb(condition);
 }
 //Date range picker with time picker
 $("#issueDate-search").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    format: "MM/DD/YYYY hh:mm:ss",
+    // format: "MM/DD/YYYY hh:mm:ss",
+    format: "MM/DD/YYYY",
   },
 });
 //Date range picker with time picker
@@ -596,6 +609,15 @@ $("#created-issue-search").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    format: "MM/DD/YYYY hh:mm:ss",
+    // format: "MM/DD/YYYY hh:mm:ss",
+    format: "MM/DD/YYYY",
   },
 });
+
+function getSearchIssueFromDb(condition) {
+  console.log(condition)
+  $.get("issue/search", condition, (issue) => {
+    console.log(issue);
+    loadIssueToTable(issue);
+  });
+}
