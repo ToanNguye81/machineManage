@@ -567,7 +567,7 @@ function handleImageSelection() {
 
 function loadSearchIssueToTable() {
   // Lấy giá trị của các input
-  let departmentId = $("#departmentId-search").val();
+  let departmentId = $("#departmentId-search").val()
   let equipmentId = $("#equipmentId-search").val();
   let error = $("#error-search").val();
   let bigIssue = $("#bigIssue-search").val();
