@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -66,6 +68,7 @@ public class IssueController {
     .body(issueList);
     }
 
+    // Ver 1
     // @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','MANAGER')")
     @GetMapping(value = "/issue/search")
     public ResponseEntity<List<Issue>> searchIssues(
@@ -83,8 +86,6 @@ public class IssueController {
             @RequestParam(name = "createDateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateStart,
             @RequestParam(name = "createDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateEnd,
             @RequestParam(name = "status", required = false) String status) {
-
-            
         Specification<Issue> specification = IssueSpecification.filterByParameters(
                 departmentId, equipmentId, error, bigIssue, ycsc,
                 issueDateStart, issueDateEnd, createDateStart, createDateEnd,
@@ -94,6 +95,62 @@ public class IssueController {
 
         return ResponseEntity.ok(issues);
     }
+
+//    //Ver 2
+//     // @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','MANAGER')")
+//     @GetMapping(value = "/issue/search")
+//     public ResponseEntity<List<Issue>> searchIssues(
+//         @RequestParam(name = "departmentId", required = false) String departmentId,
+//         @RequestParam(name = "equipmentId", required = false) String equipmentId,
+//         @RequestParam(name = "error", required = false) String error,
+//         @RequestParam(name = "bigIssue", required = false) Boolean bigIssue,
+//         @RequestParam(name = "ycsc", required = false) String ycsc,
+//         @RequestParam(name = "issueDateStart", required = false) String issueDateStartStr,
+//         @RequestParam(name = "issueDateEnd", required = false) String issueDateEndStr,
+//         @RequestParam(name = "createDateStart", required = false) String createDateStartStr,
+//         @RequestParam(name = "createDateEnd", required = false) String createDateEndStr,
+//         @RequestParam(name = "status", required = false) String status) {
+
+//                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+
+//                 LocalDateTime issueDateStart = null;
+//                 LocalDateTime issueDateEnd = null;
+//                 LocalDateTime createDateStart = null;
+//                 LocalDateTime createDateEnd = null;
+            
+//                 if (issueDateStartStr != null) {
+//                     issueDateStart = LocalDateTime.parse(issueDateStartStr, formatter);
+//                 }
+            
+//                 if (issueDateEndStr != null) {
+//                     issueDateEnd = LocalDateTime.parse(issueDateEndStr, formatter);
+//                 }
+            
+//                 if (createDateStartStr != null) {
+//                     createDateStart = LocalDateTime.parse(createDateStartStr, formatter);
+//                 }
+            
+//                 if (createDateEndStr != null) {
+//                     createDateEnd = LocalDateTime.parse(createDateEndStr, formatter);
+//                 }
+            
+//                 // Create effectively final variables for use in the lambda expression
+//                 final LocalDateTime finalIssueDateStart = issueDateStart;
+//                 final LocalDateTime finalIssueDateEnd = issueDateEnd;
+//                 final LocalDateTime finalCreateDateStart = createDateStart;
+//                 final LocalDateTime finalCreateDateEnd = createDateEnd;
+            
+//                 Specification<Issue> specification = IssueSpecification.filterByParameters(
+//                         departmentId, equipmentId, error, bigIssue, ycsc,
+//                         finalIssueDateStart, finalIssueDateEnd, finalCreateDateStart, finalCreateDateEnd,
+//                         status);
+            
+//                 List<Issue> issues = issueService.getFilteredIssues(specification);
+            
+//                 return ResponseEntity.ok(issues);
+//     }
+
+
 
     // get issue by id
     @GetMapping("/issue/{issueId}")

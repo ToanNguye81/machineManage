@@ -600,7 +600,6 @@ $("#issueDate-search").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    // format: "MM/DD/YYYY hh:mm:ss",
     format: "MM/DD/YYYY",
   },
 });
@@ -609,7 +608,6 @@ $("#created-issue-search").daterangepicker({
   timePicker: true,
   timePickerIncrement: 30,
   locale: {
-    // format: "MM/DD/YYYY hh:mm:ss",
     format: "MM/DD/YYYY",
   },
 });
