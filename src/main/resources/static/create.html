@@ -200,13 +200,13 @@
             <ul class="nav nav-treeview">
           </li>
           <li class="nav-item">
-            <a href="./index.html" class="nav-link active ">
+            <a href="./index.html" class="nav-link  ">
               <i class="far fa-circle nav-icon"></i>
               <p>Read</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="./create.html" class="nav-link ">
+            <a href="./table.html" class="nav-link active">
               <i class="far fa-circle nav-icon"></i>
               <p>Create</p>
             </a>
@@ -217,7 +217,7 @@
               <p>Chart</p>
             </a>
           </li>
- <li class="nav-item">
+          <li class="nav-item">
             <a href="./part.html" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Spare Part</p>
@@ -239,12 +239,12 @@
       <div class="container-fluid">
         <div class="row ">
           <div class="col-sm-6">
-            <h1 class="m-0">Find data</h1>
+            <h1 class="m-0">Issue management</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="./#">Home</a></li>
-              <li class="breadcrumb-item active">Data Table</li>
+              <li class="breadcrumb-item active">Issue management</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -255,9 +255,222 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <h2 style="text-align: center">DATA TABLE</h2>
+        <h2 style="text-align: center">Issue detail</h2>
+        <div class="jumbotron container pt-3">
+
+          <!-- checkbox -->
+          <div class="row text-right">
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="sel-department">Department</label>
+                </div>
+                <div class="col-sm-10">
+                  <select name="" id="sel-department" class="form-control sel-department">
+                    <option value="">Choose department </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="sel-status">Status</label>
+                </div>
+                <div class="col-sm-6">
+                  <select name="" id="sel-status" class="form-control sel-status text-white">
+                    <option value="done" class="bg-success">Done</option>
+                    <option value="follow" class="bg-warning">Follow</option>
+                    <option value="pending" class="bg-danger">Pending</option>
+                  </select>
+                </div>
+                <div class="col-sm-4 mt-2">
+                  <div class="icheck-success d-inline">
+                    <input type="checkbox" id="big-issue">
+                    <label for="big-issue" class="mr-2">
+                      BIG ISSUE
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-right">
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2 ">
+                  <label for="sel-equipment">Equipment</label>
+                </div>
+                <div class="col-sm-10">
+                  <select name="" id="sel-equipment" class="form-control sel-equipment">
+                    <option value="">Choose Equipment </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-createdBy">Create by</label>
+                </div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inp-createdBy" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row text-right">
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-error">Error </label>
+                </div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inp-error">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-ycsc">YCSC</label>
+                </div>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inp-ycsc">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-right">
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-issue-date">Date</label>
+                </div>
+                <div class="col-sm-4 input-group">
+                  <input type="date" class="form-control float-right" id="inp-issue-date">
+                </div>
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-start">Start</label>
+                </div>
+                <div class="col-sm-4 input-group">
+                  <input type="text" class="form-control float-right" id="inp-start">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-end">End</label>
+                </div>
+                <div class="col-sm-4 input-group">
+                  <input type="text" class="form-control float-right" id="inp-end">
+                </div>
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-downtime">Downtime</label>
+                </div>
+                <div class="col-sm-4 input-group">
+                  <input type="text" class="form-control float-right" id="inp-downtime">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-right">
+            <div class="col-sm-12">
+              <div class="row form-group">
+                <div class="col-sm-1">
+                  <label for="description">Description or Cause </label>
+                </div>
+                <div class="col-sm-11">
+                  <textarea class="form-control" id="inp-description" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-right">
+            <div class="col-sm-12">
+              <div class="row form-group">
+                <div class="col-sm-1 mt-2">
+                  <label for="action">Action</label>
+                </div>
+                <div class="col-sm-11">
+                  <textarea class="form-control" id="inp-action" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-right">
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="sel-part">Changed part</label>
+                </div>
+                <div class="col-sm-7">
+                  <select name="" id="sel-spare-part" class="form-control ">
+                    <option value="">Choose part </option>
+                  </select>
+                </div>
+                <div class="col-sm-1">
+                  <button class="btn btn-success" id="btn-add-part">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-primary container-fluid" id="btn-create-new-part">New</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row form-group">
+                <div class="col-sm-2 mt-2">
+                  <label for="inp-notes">Notes</label>
+                </div>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="inp-notes" rows="1"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="text-align: center">Changed Part</h3>
+            <table class="table text-center" id="part-table">
+              <thead>
+                <tr>
+                  <th>Part code</th>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="row mb-3 pull-right">
+            <div class="col-sm-12 d-flex justify-content-end">
+              <button class="btn btn-warning mr-4" id="btn-update-issue">
+                Update issue
+              </button>
+              <button class="btn btn-secondary mr-4" id="btn-clear-form">
+                Clear form
+              </button>
+              <button class="btn btn-success" id="btn-add-issue">
+                Add issue
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div> <!-- card -->
-          <div class="card pt-3">
+          <div class="card">
             <!-- Date and time range -->
             <div class="card-body row mb-0 mt-0 pt-0 pb-0">
               <div class="col-sm-3">
@@ -268,34 +481,6 @@
                       <span class="input-group-text"><i class="far fa-clock"></i></span>
                     </div>
                     <input type="text" class="form-control float-right" id="created-issue-search">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label for="departmentId-search">Choose Department</label>
-                  <div class="input-group">
-                    <select type="text" class="form-control float-right" id="departmentId-search">
-                      <option value=""></option>
-                      <option value="1">Nguyeen</option>
-                      <option value="2">thsdfh </option>
-                      <option value="3">sjdks </option>
-                      <option value="4">sdf</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label for="equipment-search">Choose Equipment</label>
-                  <div class="input-group">
-                    <select type="text" class="form-control float-right" id="equipmentId-search">
-                      <option value=""></option>
-                      <option value="1">Nguyeen</option>
-                      <option value="2">thsdfh </option>
-                      <option value="3">sjdks </option>
-                      <option value="4">sdf</option>
-                    </select>
                   </div>
                 </div>
               </div>
@@ -546,7 +731,7 @@
   <script src="plugins/daterangepicker/daterangepicker.js"></script>
   <!-- AdminLTE App -->
   <script src="dist/js/adminlte.js"></script>
-  <script src="src/index.js"></script>
+  <script src="src/create.js"></script>
 </body>
 
 </html>

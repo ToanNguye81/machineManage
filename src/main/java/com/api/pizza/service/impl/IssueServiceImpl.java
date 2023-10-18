@@ -49,7 +49,6 @@ public class IssueServiceImpl implements IssueService {
         issue.setDowntime(dto.getDowntime());
         issue.setStatus(dto.getStatus());
         issue.setAction(dto.getAction());
-        // issue.setChangedParts(dto.getChangedParts());
         return issue;
     }
 
