@@ -475,7 +475,7 @@
             <div class="card-body row mb-0 mt-0 pt-0 pb-0">
               <div class="col-sm-3">
                 <div class="form-group">
-                  <label>Created date and time range:</label>
+                  <label>Created Date:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-clock"></i></span>
@@ -484,7 +484,19 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-3">
+               <!-- Date and time range -->
+               <div class="col-sm-3">
+                <div class="form-group">
+                  <label>Issue Date:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="issueDate-search">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
                 <div class="form-group">
                   <label for="error-search">Choose Error</label>
                   <div class="input-group">
@@ -499,19 +511,9 @@
                 </div>
               </div>
             </div>
-            <!-- Date and time range -->
             <div class="card-body row mb-0 mt-0 pt-0 pb-0">
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label>Issue date and time range:</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="far fa-clock"></i></span>
-                    </div>
-                    <input type="text" class="form-control float-right" id="issueDate-search">
-                  </div>
-                </div>
-              </div>
+             
+              <!-- Choose bigIssue Condition -->
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="bigIssue-search">Big Issue</label>
@@ -524,7 +526,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="status">Status</label>
                   <div class="input-group">
@@ -537,7 +539,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="yscs">YCSC</label>
                   <div class="input-group">
@@ -551,7 +553,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="act">Search</label>
                   <div class="input-group">
