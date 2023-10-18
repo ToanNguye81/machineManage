@@ -306,64 +306,64 @@ let sparePart = {
   onCreateNewSparePartClick() {
     $("#modal-create-part").modal("show");
   },
-  // onSaveNewSparePartClick() {
-  //   // Khởi tạo newSparePart với các trường thông tin khác
-  //   this.newSparePart = {
-  //     code: $("#inp-part-code").val().trim(),
-  //     name: $("#inp-part-name").val().trim(),
-  //     price: $("#inp-part-price").val().trim(),
-  //     imageUrl: $("#imageInput")[0].files[0]
-  //       ? URL.createObjectURL($("#imageInput")[0].files[0])
-  //       : "", // Ternary operator to set imageUrl
-  //   };
 
-  //   console.log(this.newSparePart)
-
-  //   // Gửi AJAX request (with imageUrl set to the URL of the selected image or an empty string)
-  //   $.ajax({
-  //     url: `spare-part`,
-  //     method: "POST",
-  //     data: JSON.stringify(this.newSparePart),
-  //     contentType: "application/json",
-  //     success: handlePartCreationSuccess,
-  //     error: handleIssueCreationError,
-  //   });
-  // }
-
-  // }
   onSaveNewSparePartClick() {
-    const code = $("#inp-part-code").val().trim();
-    const name = $("#inp-part-name").val().trim();
-    const price = $("#inp-part-price").val().trim();
-    const imageInput = $("#imageInput")[0];
+    // Khởi tạo newSparePart với các trường thông tin khác
+    this.newSparePart = {
+      code: $("#inp-part-code").val().trim(),
+      name: $("#inp-part-name").val().trim(),
+      price: $("#inp-part-price").val().trim(),
+      imageUrl:""
+      //   ? URL.createObjectURL($("#imageInput")[0].files[0])
+      //   : "", // Ternary operator to set imageUrl
+    };
 
-    // Kiểm tra xem có ảnh được chọn không
-    let imageFile = null;
-    if (imageInput.files.length > 0) {
-      imageFile = imageInput.files[0];
-    }
+    console.log(this.newSparePart)
 
-    const formData = new FormData();
-    formData.append("code", code);
-    formData.append("name", name);
-    formData.append("price", price);
-
-    // Kiểm tra xem có ảnh được chọn không
-    if (imageFile !== null) {
-      formData.append("image", imageFile);
-    }
-
-    // Gửi yêu cầu AJAX để tạo Part mới
+    // Gửi AJAX request (with imageUrl set to the URL of the selected image or an empty string)
     $.ajax({
-      url: "spare-part",
+      url: `spare-part`,
       method: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
+      data: JSON.stringify(this.newSparePart),
+      contentType: "application/json",
       success: handlePartCreationSuccess,
       error: handleIssueCreationError,
     });
   },
+
+  // onSaveNewSparePartClick() {
+  //   const code = $("#inp-part-code").val().trim();
+  //   const name = $("#inp-part-name").val().trim();
+  //   const price = $("#inp-part-price").val().trim();
+  //   // const imageInput = $("#imageInput")[0];
+
+  //   // // Kiểm tra xem có ảnh được chọn không
+  //   // let imageFile = null;
+  //   // if (imageInput.files.length > 0) {
+  //   //   imageFile = imageInput.files[0];
+  //   // }
+
+  //   const formData = new FormData();
+  //   formData.append("code", code);
+  //   formData.append("name", name);
+  //   formData.append("price", price);
+
+  //   // // Kiểm tra xem có ảnh được chọn không
+  //   // if (imageFile !== null) {
+  //   //   formData.append("image", imageFile);
+  //   // }
+
+  //   // Gửi yêu cầu AJAX để tạo Part mới
+  //   $.ajax({
+  //     url: "spare-part",
+  //     method: "POST",
+  //     data: JSON.stringify(formData),
+  //     contentType: false,
+  //     processData: false,
+  //     success: handlePartCreationSuccess,
+  //     error: handleIssueCreationError,
+  //   });
+  // },
 };
 
 // Hàm xử lý thành công khi tạo vấn đề mới
