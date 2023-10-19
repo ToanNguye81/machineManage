@@ -9,11 +9,11 @@ var selectedCountries = [
   "Sweden",
 ];
 $.get(
-  "/customers/count?countries=" + selectedCountries.join(","),
+  "/issue/count?countries=" + selectedCountries.join(","),
   loadCustomerOnChart
 );
 let gCustomerId = 0;
-let customer = {
+let issue = {
   newCustomer: {
     firstName: "",
     lastName: "",
@@ -44,7 +44,7 @@ let customer = {
     };
     if (validateCustomer(this.newCustomer)) {
       $.ajax({
-        url: "/customers",
+        url: "/issue",
         method: "POST",
         data: JSON.stringify(this.newCustomer),
         contentType: "application/json",
@@ -59,9 +59,9 @@ let customer = {
   },
   onUpdateCustomerClick() {
     let vSelectedRow = $(this).parents("tr");
-    let vSelectedData = customerTable.row(vSelectedRow).data();
+    let vSelectedData = issueTable.row(vSelectedRow).data();
     gCustomerId = vSelectedData.id;
-    $.get(`/customers/${gCustomerId}`, loadCustomerToInput);
+    $.get(`/issue/${gCustomerId}`, loadCustomerToInput);
   },
   onSaveCustomerClick() {
     this.newCustomer = {
@@ -79,7 +79,7 @@ let customer = {
     };
     if (validateCustomer(this.newCustomer)) {
       $.ajax({
-        url: `/customers/${gCustomerId}`,
+        url: `/issue/${gCustomerId}`,
         method: "PUT",
         data: JSON.stringify(this.newCustomer),
         contentType: "application/json",
@@ -94,35 +94,35 @@ let customer = {
     }
   },
   onDeleteCustomerByIdClick() {
-    $("#modal-delete-customer").modal("show");
+    $("#modal-delete-issue").modal("show");
     let vSelectedRow = $(this).parents("tr");
-    let vSelectedData = customerTable.row(vSelectedRow).data();
+    let vSelectedData = issueTable.row(vSelectedRow).data();
     gCustomerId = vSelectedData.id;
   },
   onDeleteAllCustomerClick() {
-    $("#modal-delete-customer").modal("show");
+    $("#modal-delete-issue").modal("show");
     gCustomerId = 0;
   },
   onDeleteConfirmClick() {
     if (gCustomerId == 0) {
       $.ajax({
-        url: "/customers",
+        url: "/issue",
         method: "DELETE",
         success: () => {
-          alert("All customer were successfully deleted");
+          alert("All issue were successfully deleted");
           getCustomerFromDb();
-          $("#modal-delete-customer").modal("hide");
+          $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
       });
     } else {
       $.ajax({
-        url: `/customers/${gCustomerId}`,
+        url: `/issue/${gCustomerId}`,
         method: "DELETE",
         success: () => {
           alert(`Customer with id: ${gCustomerId} was successfully deleted`);
           getCustomerFromDb();
-          $("#modal-delete-customer").modal("hide");
+          $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
       });
@@ -130,7 +130,7 @@ let customer = {
   },
 };
 
-let customerTable = $("#customer-table").DataTable({
+let issueTable = $("#issue-table").DataTable({
   responsive: true,
   lengthChange: false,
   autoWidth: false,
@@ -157,33 +157,33 @@ let customerTable = $("#customer-table").DataTable({
 });
 function loadCustomerOnTable(pCustomers) {
   "use strict";
-  customerTable.clear();
-  customerTable.rows.add(pCustomers);
-  customerTable
+  issueTable.clear();
+  issueTable.rows.add(pCustomers);
+  issueTable
     .draw()
     .buttons()
     .container()
-    .appendTo("#customer-table_wrapper .col-md-6:eq(0)");
+    .appendTo("#issue-table_wrapper .col-md-6:eq(0)");
 }
 
 function getCustomerFromDb() {
   "use strict";
-  $.get("/customers?size=20", (customer) => {
-    loadCustomerOnTable(customer);
+  $.get("/issue?size=20", (issue) => {
+    loadCustomerOnTable(issue);
   });
 }
 getCustomerFromDb();
 
-$("#create-customer").click(customer.onCreateNewCustomerClick);
-$("#customer-table").on("click", ".fa-edit", customer.onUpdateCustomerClick);
-$("#customer-table").on(
+$("#create-issue").click(issue.onCreateNewCustomerClick);
+$("#issue-table").on("click", ".fa-edit", issue.onUpdateCustomerClick);
+$("#issue-table").on(
   "click",
   ".fa-trash",
-  customer.onDeleteCustomerByIdClick
+  issue.onDeleteCustomerByIdClick
 );
-$("#update-customer").click(customer.onSaveCustomerClick);
-$("#delete-all-customer").click(customer.onDeleteAllCustomerClick);
-$("#delete-customer").click(customer.onDeleteConfirmClick);
+$("#update-issue").click(issue.onSaveCustomerClick);
+$("#delete-all-issue").click(issue.onDeleteAllCustomerClick);
+$("#delete-issue").click(issue.onDeleteConfirmClick);
 
 function loadCustomerToInput(pCustomers) {
   $("#input-first-name").val(pCustomers.firstName);
@@ -276,7 +276,7 @@ function loadCustomerOnChart(countList) {
         pointStrokeColor: "rgba(60,141,188,1)",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(60,141,188,1)",
-        data: countList.map((data) => data.customerCount),
+        data: countList.map((data) => data.issueCount),
       },
     ],
   };
