@@ -22,9 +22,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.validation.Valid;
 
 @RestController
@@ -180,6 +183,27 @@ public class IssueController {
         } else {
             Issue vIssueNull = new Issue();
             return new ResponseEntity<>(vIssueNull, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+      @GetMapping("/issue/count")
+    public ResponseEntity<List<Map<String, Object>>> getIssueCountByError(@RequestParam List<String> countries) {
+        try {
+            // Thực hiện truy vấn động để lấy số lượng khách hàng cho từng quốc gia
+            List<Map<String, Object>> issueList = new ArrayList<>();
+
+            for (String country : countries) {
+                long issueCount = issueRepository.countIssuesByError(country);
+                Map<String, Object> issueMap = new HashMap<>();
+                issueMap.put("country", country);
+                issueMap.put("issueCount", issueCount);
+                issueList.add(issueMap);
+            }
+
+            return ResponseEntity.ok().body(issueList);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
