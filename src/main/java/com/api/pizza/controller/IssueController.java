@@ -1,6 +1,7 @@
 package com.api.pizza.controller;
 
 import com.api.pizza.entity.ChangedPart;
+import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
@@ -51,20 +52,20 @@ public class IssueController {
     @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','MANAGER')")
     @GetMapping(value = "/issue")
     public ResponseEntity<List<Issue>> getAllIssue(
-    @RequestParam(value = "page", defaultValue = "0") int page,
-    @RequestParam(value = "size", defaultValue = "100") int size) {
-    // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
-    Pageable pageable = PageRequest.of(page, size);
-    // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
-    Page<Issue> issuePage = issueRepository.findAll(pageable);
-    // để lấy danh sách các đối tượng
-    List<Issue> issueList = issuePage.getContent();
-    // Đếm tổng phần tử
-    Long totalElement = issuePage.getTotalElements();
-    // Trả về thành công
-    return ResponseEntity.ok()
-    .header("totalCount", String.valueOf(totalElement))
-    .body(issueList);
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "100") int size) {
+        // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
+        Pageable pageable = PageRequest.of(page, size);
+        // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
+        Page<Issue> issuePage = issueRepository.findAll(pageable);
+        // để lấy danh sách các đối tượng
+        List<Issue> issueList = issuePage.getContent();
+        // Đếm tổng phần tử
+        Long totalElement = issuePage.getTotalElements();
+        // Trả về thành công
+        return ResponseEntity.ok()
+                .header("totalCount", String.valueOf(totalElement))
+                .body(issueList);
     }
 
     // Ver 1
@@ -76,7 +77,7 @@ public class IssueController {
             @RequestParam(name = "error", required = false) String error,
             @RequestParam(name = "bigIssue", required = false) Boolean bigIssue,
             @RequestParam(name = "ycsc", required = false) String ycsc,
-            @RequestParam(name = "issueDateStart", required = false)  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate  issueDateStart,
+            @RequestParam(name = "issueDateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDateStart,
             @RequestParam(name = "issueDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDateEnd,
             @RequestParam(name = "createDateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateStart,
             @RequestParam(name = "createDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateEnd,
@@ -137,14 +138,14 @@ public class IssueController {
     @PutMapping("/issue/{issueId}")
     public ResponseEntity<Issue> updateIssue(@PathVariable int issueId, Authentication authentication,
             @Valid @RequestBody IssueDto issueDto) {
-  //Find existingIssue
-                Issue existingIssue = issueRepository.findById(issueId).orElse(null);
+        // Find existingIssue
+        Issue existingIssue = issueRepository.findById(issueId).orElse(null);
 
         if (existingIssue == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        
-        //get username update_ing
+
+        // get username update_ing
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String updateByUsername = userPrincipal.getUsername();
         existingIssue.setUpdatedByUsername(updateByUsername);
@@ -186,19 +187,80 @@ public class IssueController {
         }
     }
 
+    // @GetMapping("/issue/count")
+    // public ResponseEntity<List<Map<String, Object>>> getIssueCountByEquipment(@RequestParam List<String> equipmentList) {
+    //     try {
+    //         // Thực hiện truy vấn động để lấy số lượng khách hàng cho từng quốc gia
+    //         List<Map<String, Object>> issueList = new ArrayList<>();
 
-      @GetMapping("/issue/count")
-    public ResponseEntity<List<Map<String, Object>>> getIssueCountByError(@RequestParam List<String> countries) {
+    //         for (String equipment : equipmentList) {
+    //             long issueCount = issueRepository.countIssueByEquipment(equipment);
+    //             Map<String, Object> issueMap = new HashMap<>();
+    //             issueMap.put("equipment", equipment);
+    //             issueMap.put("issueCount", issueCount);
+    //             issueList.add(issueMap);
+    //         }
+
+    //         return ResponseEntity.ok().body(issueList);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
+    // @GetMapping("/issue/count")
+    // public ResponseEntity<List<Map<String, Object>>> getIssueCountByEquipment(
+    //         @RequestParam List<String> equipmentList) {
+    //     try {
+    //         List<Map<String, Object>> issueList = new ArrayList<>();
+
+    //         for (String equipment : equipmentList) {
+    //             long issueCount = issueRepository.countIssuesByEquipment(equipment);
+    //             Map<String, Object> issueMap = new HashMap<>();
+    //             issueMap.put("equipment", equipment);
+    //             issueMap.put("issueCount", issueCount);
+    //             issueList.add(issueMap);
+    //         }
+
+    //         return ResponseEntity.ok().body(issueList);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+
+    // @GetMapping("/issue/count")
+    // public ResponseEntity<List<Map<String, Object>> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
+    //     try {
+    //         List<Map<String, Object>> issueList = new ArrayList<>();
+    
+    //         for (int equipmentId : equipmentIds) {
+    //             long issueCount = issueRepository.countIssuesByEquipmentId(equipmentId);
+    //             Map<String, Object> issueMap = new HashMap<>();
+    //             issueMap.put("equipmentId", equipmentId);
+    //             issueMap.put("issueCount", issueCount);
+    //             issueList.add(issueMap);
+    //         }
+    
+    //         return ResponseEntity.ok().body(issueList);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+    
+     @GetMapping("/issue/count")
+    public ResponseEntity<List<Map<String, Object>> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
-            // Thực hiện truy vấn động để lấy số lượng khách hàng cho từng quốc gia
             List<Map<String, Object>> issueList = new ArrayList<>();
 
-            for (String country : countries) {
-                long issueCount = issueRepository.countIssuesByError(country);
-                Map<String, Object> issueMap = new HashMap<>();
-                issueMap.put("country", country);
-                issueMap.put("issueCount", issueCount);
-                issueList.add(issueMap);
+            for (Integer equipmentId : equipmentIds) {
+                Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
+                if (equipment != null) {
+                    long issueCount = issueRepository.countIssuesByEquipment(equipment);
+                    Map<String, Object> issueMap = new HashMap<>();
+                    issueMap.put("equipmentId", equipmentId);
+                    issueMap.put("equipmentName", equipment.getName());
+                    issueMap.put("issueCount", issueCount);
+                    issueList.add(issueMap);
+                }
             }
 
             return ResponseEntity.ok().body(issueList);
@@ -206,4 +268,5 @@ public class IssueController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
