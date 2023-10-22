@@ -5,6 +5,7 @@ import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
 import com.api.pizza.repository.IDepartmentRepository;
+import com.api.pizza.repository.IEquipmentRepository;
 import com.api.pizza.repository.IIssueRepository;
 import com.api.pizza.security.UserPrincipal;
 import com.api.pizza.service.IssueService;
@@ -47,6 +48,9 @@ public class IssueController {
 
     @Autowired
     IDepartmentRepository departmentRepository;
+   
+    @Autowired
+    IEquipmentRepository equipmentRepository;
 
     // get all issue
     @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN','MANAGER')")
@@ -247,7 +251,7 @@ public class IssueController {
     // }
     
      @GetMapping("/issue/count")
-    public ResponseEntity<List<Map<String, Object>> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
+    public ResponseEntity<Object> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
             List<Map<String, Object>> issueList = new ArrayList<>();
 
