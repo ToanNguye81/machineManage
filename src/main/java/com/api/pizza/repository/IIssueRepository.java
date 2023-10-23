@@ -16,4 +16,7 @@ public interface IIssueRepository extends JpaRepository<Issue, Integer> {
 
     long countIssuesByEquipment(Equipment equipment);
 
+    List<Issue> findByEquipment(Equipment equipment);
+
+
 }
