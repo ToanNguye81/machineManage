@@ -1,20 +1,17 @@
 "use strict";
-var selectedCountries = [
-  "usa",
-  "canada",
-  "Australia",
-  "germany",
-  "Poland",
-  "France",
-  "Sweden",
+var selectedEquipmentIds = [
+  "1",
+  "2",
+  "3",
+  "4",
 ];
 $.get(
-  "/issue/count?countries=" + selectedCountries.join(","),
-  loadCustomerOnChart
+  "/issue/count?equipmentIds=" + selectedEquipmentIds.join(","),
+  loadIssueOnChart
 );
-let gCustomerId = 0;
+let gIssueId = 0;
 let issue = {
-  newCustomer: {
+  newIssue: {
     firstName: "",
     lastName: "",
     phoneNumber: "",
@@ -28,8 +25,8 @@ let issue = {
     creditLimit: "",
   },
 
-  onCreateNewCustomerClick() {
-    this.newCustomer = {
+  onCreateNewIssueClick() {
+    this.newIssue = {
       firstName: $("#input-first-name").val().trim(),
       lastName: $("#input-last-name").val().trim(),
       phoneNumber: $("#input-phone-number").val().trim(),
@@ -42,29 +39,29 @@ let issue = {
       salesRepEmployeeNumber: $("#input-credit-limit").val().trim(),
       creditLimit: $("#input-employee-number").val().trim(),
     };
-    if (validateCustomer(this.newCustomer)) {
+    if (validateIssue(this.newIssue)) {
       $.ajax({
         url: "/issue",
         method: "POST",
-        data: JSON.stringify(this.newCustomer),
+        data: JSON.stringify(this.newIssue),
         contentType: "application/json",
         success: (data) => {
-          alert("Customer created successfully");
-          getCustomerFromDb();
-          resetCustomerInput();
+          alert("Issue created successfully");
+          getIssueFromDb();
+          resetIssueInput();
         },
         error: (err) => alert(err.responseText),
       });
     }
   },
-  onUpdateCustomerClick() {
+  onUpdateIssueClick() {
     let vSelectedRow = $(this).parents("tr");
     let vSelectedData = issueTable.row(vSelectedRow).data();
-    gCustomerId = vSelectedData.id;
-    $.get(`/issue/${gCustomerId}`, loadCustomerToInput);
+    gIssueId = vSelectedData.id;
+    $.get(`/issue/${gIssueId}`, loadIssueToInput);
   },
-  onSaveCustomerClick() {
-    this.newCustomer = {
+  onSaveIssueClick() {
+    this.newIssue = {
       firstName: $("#input-first-name").val().trim(),
       lastName: $("#input-last-name").val().trim(),
       phoneNumber: $("#input-phone-number").val().trim(),
@@ -77,51 +74,51 @@ let issue = {
       creditLimit: $("#input-credit-limit").val(),
       salesRepEmployeeNumber: $("#input-employee-number").val(),
     };
-    if (validateCustomer(this.newCustomer)) {
+    if (validateIssue(this.newIssue)) {
       $.ajax({
-        url: `/issue/${gCustomerId}`,
+        url: `/issue/${gIssueId}`,
         method: "PUT",
-        data: JSON.stringify(this.newCustomer),
+        data: JSON.stringify(this.newIssue),
         contentType: "application/json",
         success: (data) => {
-          alert("Customer updated successfully");
-          getCustomerFromDb();
-          gCustomerId = 0;
-          resetCustomerInput();
+          alert("Issue updated successfully");
+          getIssueFromDb();
+          gIssueId = 0;
+          resetIssueInput();
         },
         error: (err) => alert(err.responseText),
       });
     }
   },
-  onDeleteCustomerByIdClick() {
+  onDeleteIssueByIdClick() {
     $("#modal-delete-issue").modal("show");
     let vSelectedRow = $(this).parents("tr");
     let vSelectedData = issueTable.row(vSelectedRow).data();
-    gCustomerId = vSelectedData.id;
+    gIssueId = vSelectedData.id;
   },
-  onDeleteAllCustomerClick() {
+  onDeleteAllIssueClick() {
     $("#modal-delete-issue").modal("show");
-    gCustomerId = 0;
+    gIssueId = 0;
   },
   onDeleteConfirmClick() {
-    if (gCustomerId == 0) {
+    if (gIssueId == 0) {
       $.ajax({
         url: "/issue",
         method: "DELETE",
         success: () => {
           alert("All issue were successfully deleted");
-          getCustomerFromDb();
+          getIssueFromDb();
           $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
       });
     } else {
       $.ajax({
-        url: `/issue/${gCustomerId}`,
+        url: `/issue/${gIssueId}`,
         method: "DELETE",
         success: () => {
-          alert(`Customer with id: ${gCustomerId} was successfully deleted`);
-          getCustomerFromDb();
+          alert(`Issue with id: ${gIssueId} was successfully deleted`);
+          getIssueFromDb();
           $("#modal-delete-issue").modal("hide");
         },
         error: (err) => alert(err.responseText),
@@ -155,10 +152,10 @@ let issueTable = $("#issue-table").DataTable({
     },
   ],
 });
-function loadCustomerOnTable(pCustomers) {
+function loadIssueOnTable(pIssues) {
   "use strict";
   issueTable.clear();
-  issueTable.rows.add(pCustomers);
+  issueTable.rows.add(pIssues);
   issueTable
     .draw()
     .buttons()
@@ -166,40 +163,40 @@ function loadCustomerOnTable(pCustomers) {
     .appendTo("#issue-table_wrapper .col-md-6:eq(0)");
 }
 
-function getCustomerFromDb() {
+function getIssueFromDb() {
   "use strict";
   $.get("/issue?size=20", (issue) => {
-    loadCustomerOnTable(issue);
+    loadIssueOnTable(issue);
   });
 }
-getCustomerFromDb();
+getIssueFromDb();
 
-$("#create-issue").click(issue.onCreateNewCustomerClick);
-$("#issue-table").on("click", ".fa-edit", issue.onUpdateCustomerClick);
+$("#create-issue").click(issue.onCreateNewIssueClick);
+$("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
 $("#issue-table").on(
   "click",
   ".fa-trash",
-  issue.onDeleteCustomerByIdClick
+  issue.onDeleteIssueByIdClick
 );
-$("#update-issue").click(issue.onSaveCustomerClick);
-$("#delete-all-issue").click(issue.onDeleteAllCustomerClick);
+$("#update-issue").click(issue.onSaveIssueClick);
+$("#delete-all-issue").click(issue.onDeleteAllIssueClick);
 $("#delete-issue").click(issue.onDeleteConfirmClick);
 
-function loadCustomerToInput(pCustomers) {
-  $("#input-first-name").val(pCustomers.firstName);
-  $("#input-last-name").val(pCustomers.lastName);
-  $("#input-phone-number").val(pCustomers.phoneNumber);
-  $("#input-email").val(pCustomers.email);
-  $("#input-address").val(pCustomers.address);
-  $("#input-city").val(pCustomers.city);
-  $("#input-state").val(pCustomers.state);
-  $("#input-country").val(pCustomers.country);
-  $("#input-postal-code").val(pCustomers.postalCode);
-  $("#input-employee-number").val(pCustomers.creditLimit);
-  $("#input-credit-limit").val(pCustomers.salesRepEmployeeNumber);
+function loadIssueToInput(pIssues) {
+  $("#input-first-name").val(pIssues.firstName);
+  $("#input-last-name").val(pIssues.lastName);
+  $("#input-phone-number").val(pIssues.phoneNumber);
+  $("#input-email").val(pIssues.email);
+  $("#input-address").val(pIssues.address);
+  $("#input-city").val(pIssues.city);
+  $("#input-state").val(pIssues.state);
+  $("#input-country").val(pIssues.country);
+  $("#input-postal-code").val(pIssues.postalCode);
+  $("#input-employee-number").val(pIssues.creditLimit);
+  $("#input-credit-limit").val(pIssues.salesRepEmployeeNumber);
 }
 
-function resetCustomerInput() {
+function resetIssueInput() {
   $("#input-first-name").val("");
   $("#input-last-name").val("");
   $("#input-phone-number").val("");
@@ -213,47 +210,47 @@ function resetCustomerInput() {
   $("#input-credit-limit").val("");
 }
 
-function validateCustomer(pCustomers) {
+function validateIssue(pIssues) {
   "use strict";
   let vResult = true;
   try {
-    if (pCustomers.firstName == "") {
+    if (pIssues.firstName == "") {
       vResult = false;
       throw "100.input first name";
     }
-    if (pCustomers.lastName == "") {
+    if (pIssues.lastName == "") {
       vResult = false;
       throw "200.input last name";
     }
-    if (!/^\d{10}$/.test(pCustomers.phoneNumber)) {
+    if (!/^\d{10}$/.test(pIssues.phoneNumber)) {
       vResult = false;
       throw "300.input phone number is 10 digitals";
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pCustomers.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pIssues.email)) {
       vResult = false;
       throw "400.Email not valid";
     }
-    if (pCustomers.address == "") {
+    if (pIssues.address == "") {
       vResult = false;
       throw "500.input address";
     }
-    if (pCustomers.city == "") {
+    if (pIssues.city == "") {
       vResult = false;
       throw "600.input city";
     }
-    if (pCustomers.country == "") {
+    if (pIssues.country == "") {
       vResult = false;
       throw "700.input country";
     }
-    if (pCustomers.postalCode == "") {
+    if (pIssues.postalCode == "") {
       vResult = false;
       throw "800.input postal code";
     }
-    if (!/^\d+$/.test(pCustomers.salesRepEmployeeNumber)) {
+    if (!/^\d+$/.test(pIssues.salesRepEmployeeNumber)) {
       vResult = false;
       throw "900.Sales rep employee number is digitals";
     }
-    if (!/^\d+$/.test(pCustomers.creditLimit)) {
+    if (!/^\d+$/.test(pIssues.creditLimit)) {
       vResult = false;
       throw "1000.Sales rep employee number is digitals";
     }
@@ -263,9 +260,10 @@ function validateCustomer(pCustomers) {
   return vResult;
 }
 
-function loadCustomerOnChart(countList) {
+function loadIssueOnChart(equipmentIds) {
+  console.log(equipmentIds)
   let areaChartData = {
-    labels: countList.map((data) => data.country),
+    labels: equipmentIds.map((data) => data.equipmentName),
     datasets: [
       {
         label: "Digital Goods",
@@ -276,7 +274,7 @@ function loadCustomerOnChart(countList) {
         pointStrokeColor: "rgba(60,141,188,1)",
         pointHighlightFill: "#fff",
         pointHighlightStroke: "rgba(60,141,188,1)",
-        data: countList.map((data) => data.issueCount),
+        data: equipmentIds.map((data) => data.issueCount),
       },
     ],
   };

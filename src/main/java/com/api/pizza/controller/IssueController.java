@@ -306,22 +306,4 @@ public class IssueController {
         }
     }
 
-    // @GetMapping("/pie-chart")
-    // public ResponseEntity<Object> PieChart(@RequestParam List<Integer> equipmentIds) {
-    //     try {
-    //         List<DowntimeData> pieChartData = new ArrayList<>();
-
-    //         for (Integer equipmentId : equipmentIds) {
-    //             String equipmentName = issueService.getEquipmentNameById(equipmentId); // Lấy tên thiết bị từ cơ sở dữ liệu hoặc từ nguồn dữ liệu khác
-    //             double downtimePercentage = issueService.calculateDowntimePercentageByEquipment(equipmentId); // Sử dụng service để tính toán tỷ lệ thời gian downtime
-
-    //             pieChartData.add(new DowntimeData(equipmentName, downtimePercentage));
-    //         }
-
-    //         return ResponseEntity.ok().body(pieChartData);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
 }
