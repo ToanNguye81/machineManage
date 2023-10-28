@@ -190,137 +190,124 @@
 // });
 // ========================================
 "use strict";
-var selectedEquipmentIds = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-];
-$.get(
-  "/issue/count?equipmentIds=" + selectedEquipmentIds.join(","),
-  loadIssueOnChart
-);
-let gIssueId = 0;
-let issue = {
-  newIssue: {
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    postalCode: "",
-    salesRepEmployeeNumber: "",
-    creditLimit: "",
-  },
 
-  onCreateNewIssueClick() {
-    this.newIssue = {
-      firstName: $("#input-first-name").val().trim(),
-      lastName: $("#input-last-name").val().trim(),
-      phoneNumber: $("#input-phone-number").val().trim(),
-      email: $("#input-email").val().trim(),
-      address: $("#input-address").val().trim(),
-      city: $("#input-city").val().trim(),
-      state: $("#input-state").val().trim(),
-      country: $("#input-country").val().trim(),
-      postalCode: $("#input-postal-code").val().trim(),
-      salesRepEmployeeNumber: $("#input-credit-limit").val().trim(),
-      creditLimit: $("#input-employee-number").val().trim(),
-    };
-    if (validateIssue(this.newIssue)) {
-      $.ajax({
-        url: "/issue",
-        method: "POST",
-        data: JSON.stringify(this.newIssue),
-        contentType: "application/json",
-        success: (data) => {
-          alert("Issue created successfully");
-          getIssueFromDb();
-          resetIssueInput();
-        },
-        error: (err) => alert(err.responseText),
-      });
-    }
-  },
-  onUpdateIssueClick() {
-    let vSelectedRow = $(this).parents("tr");
-    let vSelectedData = issueTable.row(vSelectedRow).data();
-    gIssueId = vSelectedData.id;
-    $.get(`/issue/${gIssueId}`, loadIssueToInput);
-  },
-  onSaveIssueClick() {
-    this.newIssue = {
-      firstName: $("#input-first-name").val().trim(),
-      lastName: $("#input-last-name").val().trim(),
-      phoneNumber: $("#input-phone-number").val().trim(),
-      email: $("#input-email").val().trim(),
-      address: $("#input-address").val().trim(),
-      city: $("#input-city").val().trim(),
-      state: $("#input-state").val().trim(),
-      country: $("#input-country").val().trim(),
-      postalCode: $("#input-postal-code").val().trim(),
-      creditLimit: $("#input-credit-limit").val(),
-      salesRepEmployeeNumber: $("#input-employee-number").val(),
-    };
-    if (validateIssue(this.newIssue)) {
-      $.ajax({
-        url: `/issue/${gIssueId}`,
-        method: "PUT",
-        data: JSON.stringify(this.newIssue),
-        contentType: "application/json",
-        success: (data) => {
-          alert("Issue updated successfully");
-          getIssueFromDb();
-          gIssueId = 0;
-          resetIssueInput();
-        },
-        error: (err) => alert(err.responseText),
-      });
-    }
-  },
-  onDeleteIssueByIdClick() {
-    $("#modal-delete-issue").modal("show");
-    let vSelectedRow = $(this).parents("tr");
-    let vSelectedData = issueTable.row(vSelectedRow).data();
-    gIssueId = vSelectedData.id;
-  },
-  onDeleteAllIssueClick() {
-    $("#modal-delete-issue").modal("show");
-    gIssueId = 0;
-  },
-  onDeleteConfirmClick() {
-    if (gIssueId == 0) {
-      $.ajax({
-        url: "/issue",
-        method: "DELETE",
-        success: () => {
-          alert("All issue were successfully deleted");
-          getIssueFromDb();
-          $("#modal-delete-issue").modal("hide");
-        },
-        error: (err) => alert(err.responseText),
-      });
-    } else {
-      $.ajax({
-        url: `/issue/${gIssueId}`,
-        method: "DELETE",
-        success: () => {
-          alert(`Issue with id: ${gIssueId} was successfully deleted`);
-          getIssueFromDb();
-          $("#modal-delete-issue").modal("hide");
-        },
-        error: (err) => alert(err.responseText),
-      });
-    }
-  },
-};
+// let gIssueId = 0;
+// let issue = {
+//   newIssue: {
+//     firstName: "",
+//     lastName: "",
+//     phoneNumber: "",
+//     email: "",
+//     address: "",
+//     city: "",
+//     state: "",
+//     country: "",
+//     postalCode: "",
+//     salesRepEmployeeNumber: "",
+//     creditLimit: "",
+//   },
+
+//   onCreateNewIssueClick() {
+//     this.newIssue = {
+//       firstName: $("#input-first-name").val().trim(),
+//       lastName: $("#input-last-name").val().trim(),
+//       phoneNumber: $("#input-phone-number").val().trim(),
+//       email: $("#input-email").val().trim(),
+//       address: $("#input-address").val().trim(),
+//       city: $("#input-city").val().trim(),
+//       state: $("#input-state").val().trim(),
+//       country: $("#input-country").val().trim(),
+//       postalCode: $("#input-postal-code").val().trim(),
+//       salesRepEmployeeNumber: $("#input-credit-limit").val().trim(),
+//       creditLimit: $("#input-employee-number").val().trim(),
+//     };
+//     if (validateIssue(this.newIssue)) {
+//       $.ajax({
+//         url: "/issue",
+//         method: "POST",
+//         data: JSON.stringify(this.newIssue),
+//         contentType: "application/json",
+//         success: (data) => {
+//           alert("Issue created successfully");
+//           getIssueFromDb();
+//           resetIssueInput();
+//         },
+//         error: (err) => alert(err.responseText),
+//       });
+//     }
+//   },
+//   onUpdateIssueClick() {
+//     let vSelectedRow = $(this).parents("tr");
+//     let vSelectedData = issueTable.row(vSelectedRow).data();
+//     gIssueId = vSelectedData.id;
+//     $.get(`/issue/${gIssueId}`, loadIssueToInput);
+//   },
+//   onSaveIssueClick() {
+//     this.newIssue = {
+//       firstName: $("#input-first-name").val().trim(),
+//       lastName: $("#input-last-name").val().trim(),
+//       phoneNumber: $("#input-phone-number").val().trim(),
+//       email: $("#input-email").val().trim(),
+//       address: $("#input-address").val().trim(),
+//       city: $("#input-city").val().trim(),
+//       state: $("#input-state").val().trim(),
+//       country: $("#input-country").val().trim(),
+//       postalCode: $("#input-postal-code").val().trim(),
+//       creditLimit: $("#input-credit-limit").val(),
+//       salesRepEmployeeNumber: $("#input-employee-number").val(),
+//     };
+//     if (validateIssue(this.newIssue)) {
+//       $.ajax({
+//         url: `/issue/${gIssueId}`,
+//         method: "PUT",
+//         data: JSON.stringify(this.newIssue),
+//         contentType: "application/json",
+//         success: (data) => {
+//           alert("Issue updated successfully");
+//           getIssueFromDb();
+//           gIssueId = 0;
+//           resetIssueInput();
+//         },
+//         error: (err) => alert(err.responseText),
+//       });
+//     }
+//   },
+//   onDeleteIssueByIdClick() {
+//     $("#modal-delete-issue").modal("show");
+//     let vSelectedRow = $(this).parents("tr");
+//     let vSelectedData = issueTable.row(vSelectedRow).data();
+//     gIssueId = vSelectedData.id;
+//   },
+//   onDeleteAllIssueClick() {
+//     $("#modal-delete-issue").modal("show");
+//     gIssueId = 0;
+//   },
+//   onDeleteConfirmClick() {
+//     if (gIssueId == 0) {
+//       $.ajax({
+//         url: "/issue",
+//         method: "DELETE",
+//         success: () => {
+//           alert("All issue were successfully deleted");
+//           getIssueFromDb();
+//           $("#modal-delete-issue").modal("hide");
+//         },
+//         error: (err) => alert(err.responseText),
+//       });
+//     } else {
+//       $.ajax({
+//         url: `/issue/${gIssueId}`,
+//         method: "DELETE",
+//         success: () => {
+//           alert(`Issue with id: ${gIssueId} was successfully deleted`);
+//           getIssueFromDb();
+//           $("#modal-delete-issue").modal("hide");
+//         },
+//         error: (err) => alert(err.responseText),
+//       });
+//     }
+//   },
+// };
 
 let issueTable = $("#issue-table").DataTable({
   responsive: true,
@@ -366,13 +353,54 @@ function getIssueFromDb() {
 }
 getIssueFromDb();
 
-$("#create-issue").click(issue.onCreateNewIssueClick);
-$("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
-$("#issue-table").on(
-  "click",
-  ".fa-trash",
-  issue.onDeleteIssueByIdClick
+function getData(){
+
+  // let condition = {
+  //  equipmentIds:
+  // };
+
+  // $.get("issue/issue-count", condition, (issue) => {
+  //   console.log(issue);
+  //   loadIssueToTable(issue);
+  // });
+
+//   var selectedEquipmentIds = [
+//   "1",
+//   "2",
+//   "3",
+//   "4",
+//   "5",
+//   "6",
+//   "7",
+//   "8",
+//   "9",
+//   "10",
+//   "11",
+//   "12",
+//   "13",
+// ];
+
+var selectedEquipmentIds = [];
+
+$("input[name='equipment']:checked").each(function () {
+  selectedEquipmentIds.push($(this).val());
+});
+
+console.log(selectedEquipmentIds)
+$.get(
+  "/issue/issue-count?equipmentIds=" + selectedEquipmentIds.join(","),
+  loadIssueOnChart
 );
+}
+
+$("#btn-search").click(getData);
+// $("#create-issue").click(issue.onCreateNewIssueClick);
+// $("#issue-table").on("click", ".fa-edit", issue.onUpdateIssueClick);
+// $("#issue-table").on(
+//   "click",
+//   ".fa-trash",
+//   issue.onDeleteIssueByIdClick
+// );
 
 $("#count-issue").change(function() {
   if ($(this).is(":checked")) {
@@ -386,87 +414,87 @@ $("#count-downtime").change(function() {
   }
 });
 
-$("#update-issue").click(issue.onSaveIssueClick);
-$("#delete-all-issue").click(issue.onDeleteAllIssueClick);
-$("#delete-issue").click(issue.onDeleteConfirmClick);
+// $("#update-issue").click(issue.onSaveIssueClick);
+// $("#delete-all-issue").click(issue.onDeleteAllIssueClick);
+// $("#delete-issue").click(issue.onDeleteConfirmClick);
 
-function loadIssueToInput(pIssues) {
-  $("#input-first-name").val(pIssues.firstName);
-  $("#input-last-name").val(pIssues.lastName);
-  $("#input-phone-number").val(pIssues.phoneNumber);
-  $("#input-email").val(pIssues.email);
-  $("#input-address").val(pIssues.address);
-  $("#input-city").val(pIssues.city);
-  $("#input-state").val(pIssues.state);
-  $("#input-country").val(pIssues.country);
-  $("#input-postal-code").val(pIssues.postalCode);
-  $("#input-employee-number").val(pIssues.creditLimit);
-  $("#input-credit-limit").val(pIssues.salesRepEmployeeNumber);
-}
+// function loadIssueToInput(pIssues) {
+//   $("#input-first-name").val(pIssues.firstName);
+//   $("#input-last-name").val(pIssues.lastName);
+//   $("#input-phone-number").val(pIssues.phoneNumber);
+//   $("#input-email").val(pIssues.email);
+//   $("#input-address").val(pIssues.address);
+//   $("#input-city").val(pIssues.city);
+//   $("#input-state").val(pIssues.state);
+//   $("#input-country").val(pIssues.country);
+//   $("#input-postal-code").val(pIssues.postalCode);
+//   $("#input-employee-number").val(pIssues.creditLimit);
+//   $("#input-credit-limit").val(pIssues.salesRepEmployeeNumber);
+// }
 
-function resetIssueInput() {
-  $("#input-first-name").val("");
-  $("#input-last-name").val("");
-  $("#input-phone-number").val("");
-  $("#input-email").val("");
-  $("#input-address").val("");
-  $("#input-city").val("");
-  $("#input-state").val("");
-  $("#input-country").val("");
-  $("#input-postal-code").val("");
-  $("#input-employee-number").val("");
-  $("#input-credit-limit").val("");
-}
+// function resetIssueInput() {
+//   $("#input-first-name").val("");
+//   $("#input-last-name").val("");
+//   $("#input-phone-number").val("");
+//   $("#input-email").val("");
+//   $("#input-address").val("");
+//   $("#input-city").val("");
+//   $("#input-state").val("");
+//   $("#input-country").val("");
+//   $("#input-postal-code").val("");
+//   $("#input-employee-number").val("");
+//   $("#input-credit-limit").val("");
+// }
 
-function validateIssue(pIssues) {
-  "use strict";
-  let vResult = true;
-  try {
-    if (pIssues.firstName == "") {
-      vResult = false;
-      throw "100.input first name";
-    }
-    if (pIssues.lastName == "") {
-      vResult = false;
-      throw "200.input last name";
-    }
-    if (!/^\d{10}$/.test(pIssues.phoneNumber)) {
-      vResult = false;
-      throw "300.input phone number is 10 digitals";
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pIssues.email)) {
-      vResult = false;
-      throw "400.Email not valid";
-    }
-    if (pIssues.address == "") {
-      vResult = false;
-      throw "500.input address";
-    }
-    if (pIssues.city == "") {
-      vResult = false;
-      throw "600.input city";
-    }
-    if (pIssues.country == "") {
-      vResult = false;
-      throw "700.input country";
-    }
-    if (pIssues.postalCode == "") {
-      vResult = false;
-      throw "800.input postal code";
-    }
-    if (!/^\d+$/.test(pIssues.salesRepEmployeeNumber)) {
-      vResult = false;
-      throw "900.Sales rep employee number is digitals";
-    }
-    if (!/^\d+$/.test(pIssues.creditLimit)) {
-      vResult = false;
-      throw "1000.Sales rep employee number is digitals";
-    }
-  } catch (e) {
-    alert(e);
-  }
-  return vResult;
-}
+// function validateIssue(pIssues) {
+//   "use strict";
+//   let vResult = true;
+//   try {
+//     if (pIssues.firstName == "") {
+//       vResult = false;
+//       throw "100.input first name";
+//     }
+//     if (pIssues.lastName == "") {
+//       vResult = false;
+//       throw "200.input last name";
+//     }
+//     if (!/^\d{10}$/.test(pIssues.phoneNumber)) {
+//       vResult = false;
+//       throw "300.input phone number is 10 digitals";
+//     }
+//     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pIssues.email)) {
+//       vResult = false;
+//       throw "400.Email not valid";
+//     }
+//     if (pIssues.address == "") {
+//       vResult = false;
+//       throw "500.input address";
+//     }
+//     if (pIssues.city == "") {
+//       vResult = false;
+//       throw "600.input city";
+//     }
+//     if (pIssues.country == "") {
+//       vResult = false;
+//       throw "700.input country";
+//     }
+//     if (pIssues.postalCode == "") {
+//       vResult = false;
+//       throw "800.input postal code";
+//     }
+//     if (!/^\d+$/.test(pIssues.salesRepEmployeeNumber)) {
+//       vResult = false;
+//       throw "900.Sales rep employee number is digitals";
+//     }
+//     if (!/^\d+$/.test(pIssues.creditLimit)) {
+//       vResult = false;
+//       throw "1000.Sales rep employee number is digitals";
+//     }
+//   } catch (e) {
+//     alert(e);
+//   }
+//   return vResult;
+// }
 
 function loadIssueOnChart(equipmentIds) {
   console.log(equipmentIds)

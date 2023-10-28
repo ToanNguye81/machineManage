@@ -254,7 +254,7 @@ public class IssueController {
     // }
 
     // Count issue by equipment
-    @GetMapping("/issue/count")
+    @GetMapping("/issue/issue-count")
     public ResponseEntity<Object> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
             List<Map<String, Object>> issueList = new ArrayList<>();
@@ -278,7 +278,7 @@ public class IssueController {
     }
 
     // Data for timeline chart
-    @GetMapping("/issue/timeline")
+    @GetMapping("/issue/timeline-count")
     public ResponseEntity<Object> getIssueTimelineByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
             List<Map<String, Object>> timelineData = new ArrayList<>();
