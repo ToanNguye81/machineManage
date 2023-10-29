@@ -45,31 +45,6 @@ getIssueFromDb();
 
 function getData(){
 
-  // let condition = {
-  //  equipmentIds:
-  // };
-
-  // $.get("issue/issue-count", condition, (issue) => {
-  //   console.log(issue);
-  //   loadIssueToTable(issue);
-  // });
-
-//   var selectedEquipmentIds = [
-//   "1",
-//   "2",
-//   "3",
-//   "4",
-//   "5",
-//   "6",
-//   "7",
-//   "8",
-//   "9",
-//   "10",
-//   "11",
-//   "12",
-//   "13",
-// ];
-
 var selectedEquipmentIds = [];
 
 $("input[name='equipment']:checked").each(function () {
