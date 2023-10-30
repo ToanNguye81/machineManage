@@ -5,11 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-// import org.springframework.data.annotation.CreatedDate;
-// import org.springframework.data.annotation.LastModifiedDate;
-// import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
@@ -20,11 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Issue extends BaseEntity {
-
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(name = "id", unique = true)
-    // private int id;
 
     @ManyToOne
     @NotNull(message = "Department is required")
@@ -84,17 +74,5 @@ public class Issue extends BaseEntity {
 
     @Column(name = "updatedByUsername")
     private String updatedByUsername;
-
-    // @LastModifiedDate
-    // @Column(name = "updated_date")
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
-    // private Date updatedDate;
-
-    // @CreatedDate
-    // @Column(name = "created_date", updatable = false)
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @JsonFormat(pattern = "HH:mm:ss yyyy-MM-dd", timezone = "GMT+7")
-    // private Date createDate;
 
 }

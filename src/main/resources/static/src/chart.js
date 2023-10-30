@@ -53,7 +53,7 @@ $("input[name='equipment']:checked").each(function () {
 
 console.log(selectedEquipmentIds)
 $.get(
-  "/issue/issue-count?equipmentIds=" + selectedEquipmentIds.join(","),
+  "/issue/equipment/issue-count?equipmentIds=" + selectedEquipmentIds.join(","),
   loadIssueOnChart
 );
 }

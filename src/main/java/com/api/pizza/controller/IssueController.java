@@ -1,6 +1,7 @@
 package com.api.pizza.controller;
 
 import com.api.pizza.entity.ChangedPart;
+import com.api.pizza.entity.Department;
 import com.api.pizza.entity.Equipment;
 import com.api.pizza.entity.Issue;
 import com.api.pizza.repository.IChangedPartRepository;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -254,7 +256,7 @@ public class IssueController {
     // }
 
     // Count issue by equipment
-    @GetMapping("/issue/issue-count")
+    @GetMapping("/issue/equipment/issue-count")
     public ResponseEntity<Object> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
             List<Map<String, Object>> issueList = new ArrayList<>();
@@ -277,8 +279,32 @@ public class IssueController {
         }
     }
 
+    // Count issue by department
+    @GetMapping("/issue/department/issue-count")
+    public ResponseEntity<Object> getIssueCountByDepartment(@RequestParam List<Integer> departmentIds) {
+        try {
+            List<Map<String, Object>> issueList = new ArrayList<>();
+
+            for (Integer departmentId : departmentIds) {
+                Department department = departmentRepository.findById(departmentId).orElse(null);
+                if (department != null) {
+                    long issueCount = issueRepository.countIssuesByDepartment(department);
+                    Map<String, Object> issueMap = new HashMap<>();
+                    issueMap.put("departmentId", departmentId);
+                    issueMap.put("departmentName", department.getName());
+                    issueMap.put("issueCount", issueCount);
+                    issueList.add(issueMap);
+                }
+            }
+
+            return ResponseEntity.ok().body(issueList);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Data for timeline chart
-    @GetMapping("/issue/timeline-count")
+    @GetMapping("/issue/equipment/timeline-count")
     public ResponseEntity<Object> getIssueTimelineByEquipment(@RequestParam List<Integer> equipmentIds) {
         try {
             List<Map<String, Object>> timelineData = new ArrayList<>();
@@ -305,5 +331,42 @@ public class IssueController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/issue/equipment/total-downtime")
+public ResponseEntity<List<String>> calculateTotalDowntimeByEquipmentIds(@RequestParam List<Long> equipmentIds) {
+    List<String> totalDowntimes = new ArrayList<>();
+
+    for (Long equipmentId : equipmentIds) {
+        List<Issue> issues = equipmentRepository.findById(equipmentId);
+        System.out.println("=================");
+        System.out.println(issues);
+        System.out.println("=================");
+
+        // Calculate total downtime for the retrieved issues
+        Duration totalDowntime = Duration.ZERO;
+
+        for (Issue issue : issues) {
+            if (issue.getDowntime() != null) {
+                String[] parts = issue.getDowntime().split(":");
+                if (parts.length == 3) {
+                    int hours = Integer.parseInt(parts[0]);
+                    int minutes = Integer.parseInt(parts[1]);
+                    int seconds = Integer.parseInt(parts[2]);
+                    totalDowntime = totalDowntime.plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
+                }
+            }
+        }
+
+        // Convert the total downtime duration to a formatted string
+        long totalHours = totalDowntime.toHours();
+        long totalMinutes = totalDowntime.toMinutesPart();
+        long totalSeconds = totalDowntime.toSecondsPart();
+
+        String formattedTotalDowntime = String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds);
+        totalDowntimes.add(formattedTotalDowntime);
+    }
+
+    return ResponseEntity.ok(totalDowntimes);
+}
 
 }
