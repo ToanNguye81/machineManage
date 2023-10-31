@@ -332,41 +332,54 @@ public class IssueController {
         }
     }
 
+    
     @GetMapping("/issue/equipment/total-downtime")
-public ResponseEntity<List<String>> calculateTotalDowntimeByEquipmentIds(@RequestParam List<Long> equipmentIds) {
-    List<String> totalDowntimes = new ArrayList<>();
-
-    for (Long equipmentId : equipmentIds) {
-        List<Issue> issues = equipmentRepository.findById(equipmentId);
-        System.out.println("=================");
-        System.out.println(issues);
-        System.out.println("=================");
-
-        // Calculate total downtime for the retrieved issues
-        Duration totalDowntime = Duration.ZERO;
-
-        for (Issue issue : issues) {
-            if (issue.getDowntime() != null) {
-                String[] parts = issue.getDowntime().split(":");
-                if (parts.length == 3) {
-                    int hours = Integer.parseInt(parts[0]);
-                    int minutes = Integer.parseInt(parts[1]);
-                    int seconds = Integer.parseInt(parts[2]);
-                    totalDowntime = totalDowntime.plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
+    public ResponseEntity<List<Map<String, Object>>> calculateTotalDowntimeByEquipmentIds(@RequestParam List<Integer> equipmentIds) {
+        List<Map<String, Object>> equipmentDowntimes = new ArrayList<>();
+    
+        for (Integer equipmentId : equipmentIds) {
+            Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
+            if (equipment == null) {
+                // Handle the case where equipment is not found for the given ID
+                Map<String, Object> info = new HashMap<>();
+                info.put("equipmentId", equipmentId);
+                info.put("equipmentName", "Equipment not found");
+                info.put("downtimeTotal", "N/A");
+                equipmentDowntimes.add(info);
+            } else {
+                List<Issue> issues = issueRepository.findByEquipment(equipment);
+    
+                // Calculate total downtime for the retrieved issues
+                Duration totalDowntime = Duration.ZERO;
+    
+                for (Issue issue : issues) {
+                    if (issue.getDowntime() != null) {
+                        String[] parts = issue.getDowntime().split(":");
+                        if (parts.length == 3) {
+                            int hours = Integer.parseInt(parts[0]);
+                            int minutes = Integer.parseInt(parts[1]);
+                            int seconds = Integer.parseInt(parts[2]);
+                            totalDowntime = totalDowntime.plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
+                        }
+                    }
                 }
+    
+                // Convert the total downtime duration to a formatted string
+                long totalHours = totalDowntime.toHours();
+                long totalMinutes = totalDowntime.toMinutesPart();
+                long totalSeconds = totalDowntime.toSecondsPart();
+    
+                Map<String, Object> info = new HashMap<>();
+                info.put("equipmentId", equipmentId);
+                info.put("equipmentName", equipment.getName());
+                info.put("downtimeTotal", String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds));
+                equipmentDowntimes.add(info);
             }
         }
-
-        // Convert the total downtime duration to a formatted string
-        long totalHours = totalDowntime.toHours();
-        long totalMinutes = totalDowntime.toMinutesPart();
-        long totalSeconds = totalDowntime.toSecondsPart();
-
-        String formattedTotalDowntime = String.format("%02d:%02d:%02d", totalHours, totalMinutes, totalSeconds);
-        totalDowntimes.add(formattedTotalDowntime);
+    
+        return ResponseEntity.ok(equipmentDowntimes);
     }
-
-    return ResponseEntity.ok(totalDowntimes);
-}
+    
+    
 
 }
