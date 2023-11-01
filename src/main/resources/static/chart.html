@@ -201,8 +201,32 @@
               <p>Read</p>
             </a>
           </li>
+ <li class="nav-item">
+            <a href="./processing.html" class="nav-link  ">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Processing</p>
+            </a>
+          </li>
+<li class="nav-item">
+            <a href="./filling.html" class="nav-link  ">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Filling</p>
+            </a>
+          </li>
+<li class="nav-item">
+            <a href="./de.html" class="nav-link  ">
+              <i class="far fa-circle nav-icon"></i>
+              <p>DE</p>
+            </a>
+          </li>
+<li class="nav-item">
+            <a href="./ktm.html" class="nav-link  ">
+              <i class="far fa-circle nav-icon"></i>
+              <p>KTM</p>
+            </a>
+          </li>
           <li class="nav-item">
-            <a href="./table.html" class="nav-link">
+            <a href="./create.html" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Create-Update-Delete</p>
             </a>
@@ -431,8 +455,9 @@
                   </div>
                 </div>
               </div>
-              <div>
-                <button class="btn btn-primary container-fluid" id="btn-search">Search</button>
+              <div class="row justify-content-around">
+                <button class="btn btn-primary" id="btn-issue-count">Count Issue</button>
+                <button class="btn btn-danger" id="btn-total-downtime">Total Downtime</button>
               </div>
             </div>
           </div>
@@ -459,6 +484,9 @@
           <div class="chart">
             <canvas id="barChart"
               style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+          </div>
+          <div class="chart">
+            <canvas id="myChart"></canvas>
           </div>
         </div>
         <!-- /.card-body -->

@@ -193,8 +193,7 @@
             <a href="./#" class="nav-link active">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Manage
-                <i class="right fas fa-angle-left"></i>
+                Manage <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -218,7 +217,7 @@
             </a>
           </li>
 <li class="nav-item">
-            <a href="./de.html" class="nav-link  ">
+            <a href="./de.html" class="nav-link active ">
               <i class="far fa-circle nav-icon"></i>
               <p>DE</p>
             </a>
@@ -230,24 +229,24 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="./create.html" class="nav-link">
+            <a href="./create.html" class="nav-link ">
               <i class="far fa-circle nav-icon"></i>
               <p>Create-Update-Delete</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="./chart.html" class="nav-link">
+            <a href="./chart.html" class="nav-link  ">
               <i class="far fa-circle nav-icon"></i>
               <p>Chart</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="./part.html" class="nav-link active">
+            <a href="./part.html" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Spare part</p>
+              <p>Spare Part</p>
             </a>
           </li>
-K
+
         </ul>
         <!--  -->
       </nav>
@@ -291,7 +290,7 @@ K
                 </div>
                 <div class="col-sm-10">
                   <select name="" id="sel-department" class="form-control sel-department">
-                    <option value="0">Choose department </option>
+                    <option value="">Choose department </option>
                   </select>
                 </div>
               </div>
@@ -328,7 +327,7 @@ K
                 </div>
                 <div class="col-sm-10">
                   <select name="" id="sel-equipment" class="form-control sel-equipment">
-                    <option value="0">Choose Equipment </option>
+                    <option value="">Choose Equipment </option>
                   </select>
                 </div>
               </div>
@@ -499,7 +498,7 @@ K
             <div class="card-body row mb-0 mt-0 pt-0 pb-0">
               <div class="col-sm-3">
                 <div class="form-group">
-                  <label>Created date and time range:</label>
+                  <label>Created Date:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-clock"></i></span>
@@ -508,35 +507,19 @@ K
                   </div>
                 </div>
               </div>
-              <div class="col-sm-3">
+               <!-- Date and time range -->
+               <div class="col-sm-3">
                 <div class="form-group">
-                  <label for="departmentId-search">Choose Department</label>
+                  <label>Issue Date:</label>
                   <div class="input-group">
-                    <select type="text" class="form-control float-right" id="departmentId-search">
-                      <option value=""></option>
-                      <option value="1">Nguyeen</option>
-                      <option value="2">thsdfh </option>
-                      <option value="3">sjdks </option>
-                      <option value="4">sdf</option>
-                    </select>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="far fa-clock"></i></span>
+                    </div>
+                    <input type="text" class="form-control float-right" id="issueDate-search">
                   </div>
                 </div>
               </div>
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label for="equipment-search">Choose Equipment</label>
-                  <div class="input-group">
-                    <select type="text" class="form-control float-right" id="equipmentId-search">
-                      <option value=""></option>
-                      <option value="1">Nguyeen</option>
-                      <option value="2">thsdfh </option>
-                      <option value="3">sjdks </option>
-                      <option value="4">sdf</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <label for="error-search">Choose Error</label>
                   <div class="input-group">
@@ -551,19 +534,9 @@ K
                 </div>
               </div>
             </div>
-            <!-- Date and time range -->
             <div class="card-body row mb-0 mt-0 pt-0 pb-0">
-              <div class="col-sm-3">
-                <div class="form-group">
-                  <label>Issue date and time range:</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="far fa-clock"></i></span>
-                    </div>
-                    <input type="text" class="form-control float-right" id="issueDate-search">
-                  </div>
-                </div>
-              </div>
+             
+              <!-- Choose bigIssue Condition -->
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="bigIssue-search">Big Issue</label>
@@ -576,7 +549,7 @@ K
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="status">Status</label>
                   <div class="input-group">
@@ -589,7 +562,7 @@ K
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="yscs">YCSC</label>
                   <div class="input-group">
@@ -603,7 +576,7 @@ K
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label for="act">Search</label>
                   <div class="input-group">
@@ -783,7 +756,7 @@ K
   <script src="plugins/daterangepicker/daterangepicker.js"></script>
   <!-- AdminLTE App -->
   <script src="dist/js/adminlte.js"></script>
-  <script src="src/part.js"></script>
+  <script src="src/create.js"></script>
 </body>
 
 </html>
