@@ -1,6 +1,6 @@
 let gChangedParts = [];
 let gEquipmentId = 0;
-let gDepartmentId = 0;
+let gDepartmentId = $("#sel-department").val();
 
 $.get(`department`, loadDepartmentToSelect);
 $.get(`spare-part`, loadSparePartToSelect);
