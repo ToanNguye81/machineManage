@@ -2,8 +2,13 @@ let gChangedParts = [];
 let gEquipmentId = 0;
 let gDepartmentId = $("#sel-department").val();
 
-$.get(`department`, loadDepartmentToSelect);
+// $.get(`department`, loadDepartmentToSelect);
 $.get(`spare-part`, loadSparePartToSelect);
+$.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
+  loadEquipmentToSelect(pEquipment);
+  // After setting the equipment value,
+  $("#sel-equipment").trigger("change");
+});
 $("#btn-add-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#btn-search").click(loadSearchIssueToTable);
