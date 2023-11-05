@@ -30,16 +30,20 @@ public class Equipment {
     @JoinColumn(name = "owner_id")
     private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    @JsonIgnore
-    private Department department;
+    // @ManyToOne
+    // @JoinColumn(name = "department_id")
+    // @JsonIgnore
+    // private Department department;
 
     @ManyToMany(mappedBy = "equipments")
     private Set<Component> components;
+   
+    @ManyToMany(mappedBy = "equipments")
+    private Set<Department> departments;
 
     @OneToMany(mappedBy = "equipment",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Issue> issues;
+
 
 }
