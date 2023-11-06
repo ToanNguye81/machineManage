@@ -37,13 +37,13 @@ public class Equipment {
 
     @ManyToMany(mappedBy = "equipments")
     private Set<Component> components;
-   
-    @ManyToMany(mappedBy = "equipments")
-    private Set<Department> departments;
 
-    @OneToMany(mappedBy = "equipment",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Issue> issues;
 
+    @ManyToMany(mappedBy = "equipments")
+    @JsonIgnore
+    private Set<Department> departments;
 
 }
