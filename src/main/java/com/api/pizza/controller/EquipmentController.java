@@ -99,7 +99,7 @@ public class EquipmentController {
 
     @GetMapping("/department/{departmentId}/equipment")
 public ResponseEntity<Object> getEquipmentByDepartmentId(@Valid @PathVariable Integer departmentId) {
-    List<Equipment> equipmentList = equipmentRepository.findByDepartments_Id(departmentId);
+    List<Equipment> equipmentList = equipmentRepository.findByDepartmentsId(departmentId);
     return new ResponseEntity<>(equipmentList, HttpStatus.OK);
 }
 
