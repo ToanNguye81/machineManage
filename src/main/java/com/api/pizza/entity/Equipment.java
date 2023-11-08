@@ -29,12 +29,7 @@ public class Equipment {
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Employee employee;
-
-    // @ManyToOne
-    // @JoinColumn(name = "department_id")
-    // @JsonIgnore
-    // private Department department;
-
+    
     @ManyToMany(mappedBy = "equipments")
     private Set<Component> components;
 

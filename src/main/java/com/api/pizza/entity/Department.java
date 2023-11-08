@@ -29,12 +29,7 @@ public class Department {
     @Column(name = "name")
     @NotNull(message = "input department name")
     private String name;
-
-
-    // @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // @JsonIgnore
-    // private Set<Equipment> equipments;
-
+    
     @ManyToMany
     @JsonIgnore
     @JoinTable(name = "department_equipment", joinColumns = @JoinColumn(name = "department_id"), inverseJoinColumns = @JoinColumn(name = "equipment_id"))
