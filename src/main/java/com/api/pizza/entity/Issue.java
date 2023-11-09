@@ -74,5 +74,10 @@ public class Issue extends BaseEntity {
 
     @Column(name = "updatedByUsername")
     private String updatedByUsername;
+ 
+    @Column(name = "workOrder")
+    private String workOrder;
+
+
 
 }
