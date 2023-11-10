@@ -101,7 +101,7 @@ public class IssueController {
 
     // get issue by id
     @GetMapping("/issue/{issueId}")
-    public ResponseEntity<Object> getIssueById(@Valid @PathVariable Integer issueId) {
+    public ResponseEntity<Object> getIssueById(@Valid @PathVariable Long issueId) {
         Optional<Issue> vIssueData = issueRepository.findById(issueId);
         if (vIssueData.isPresent()) {
             Issue vIssue = vIssueData.get();
@@ -143,7 +143,7 @@ public class IssueController {
 
     // Update issue
     @PutMapping("/issue/{issueId}")
-    public ResponseEntity<Issue> updateIssue(@PathVariable int issueId, Authentication authentication,
+    public ResponseEntity<Issue> updateIssue(@PathVariable Long issueId, Authentication authentication,
             @Valid @RequestBody IssueDto issueDto) {
         // Find existingIssue
         Issue existingIssue = issueRepository.findById(issueId).orElse(null);
@@ -179,7 +179,7 @@ public class IssueController {
 
     // Delete issue by id
     @DeleteMapping("/issue/{issueId}")
-    public ResponseEntity<Object> deleteIssueById(@PathVariable Integer issueId) {
+    public ResponseEntity<Object> deleteIssueById(@PathVariable Long issueId) {
         Optional<Issue> vIssueData = issueRepository.findById(issueId);
         if (vIssueData.isPresent()) {
             try {

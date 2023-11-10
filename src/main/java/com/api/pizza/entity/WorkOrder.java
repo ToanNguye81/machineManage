@@ -20,14 +20,12 @@ public class WorkOrder {
     @Column(name = "id", unique = true)
     private int id;
 
-    @Column(name = "name", unique = true)
-    private String name;
+    @Column(name = "code", unique = true)
+    private String code;
 
-    @Column(name = "description")
-    private String description;
-
-    @ManyToMany(mappedBy = "workOrders")
     @JsonIgnore
-    private Set<Department> departments;
+    @OneToOne
+    @JoinColumn(name = "issue_id") // Tên cột khóa ngoại trong bảng "issue"
+    private Issue issue;
 
 }

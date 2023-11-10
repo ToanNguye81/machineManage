@@ -11,5 +11,7 @@ public interface IChangedPartRepository extends JpaRepository<ChangedPart, Integ
 
     List<ChangedPart> findByIssueId(int issueId);
 
+    List<ChangedPart> findByIssueId(long issueId);
+
 
 }

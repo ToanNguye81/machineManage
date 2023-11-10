@@ -90,12 +90,6 @@ public class EquipmentController {
 
     }
 
-    // // get equipment by department id
-    // @GetMapping("/department/{departmentId}/equipment")
-    // public ResponseEntity<Object> getEquipmentByDepartmentId(@Valid @PathVariable Integer departmentId) {
-    //     List<Equipment> equipmentList = equipmentRepository.findByDepartment(departmentId);
-    //     return new ResponseEntity<>(equipmentList, HttpStatus.OK);
-    // }
 
     @GetMapping("/department/{departmentId}/equipment")
 public ResponseEntity<Object> getEquipmentByDepartmentId(@Valid @PathVariable Integer departmentId) {

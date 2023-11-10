@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -74,10 +75,9 @@ public class Issue extends BaseEntity {
 
     @Column(name = "updatedByUsername")
     private String updatedByUsername;
- 
-    @Column(name = "workOrder")
-    private String workOrder;
 
-
+     // @JsonIgnore
+    @OneToOne(mappedBy = "issue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private WorkOrder workOrder;
 
 }
