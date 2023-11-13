@@ -42,6 +42,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setDescription(dto.getDescription());
         issue.setBigIssue(dto.getBigIssue());
         issue.setYcsc(dto.getYcsc());
+        issue.setWorkOrder(dto.getWorkOrder());
         issue.setNotes(dto.getNotes());
         issue.setIssueDate(dto.getIssueDate());
         issue.setStart(dto.getStart());

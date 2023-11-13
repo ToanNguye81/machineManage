@@ -75,9 +75,10 @@ public class Issue extends BaseEntity {
 
     @Column(name = "updatedByUsername")
     private String updatedByUsername;
-
-     // @JsonIgnore
-    @OneToOne(mappedBy = "issue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private WorkOrder workOrder;
+    
+    // @JsonIgnore
+    // @OneToOne(mappedBy = "issue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "workOrder")
+    private String workOrder;
 
 }

@@ -21,6 +21,7 @@ public class IssueDto {
     private String description;
     private Boolean bigIssue;
     private String ycsc;
+    private String workOrder;
     private String notes;
 
 
