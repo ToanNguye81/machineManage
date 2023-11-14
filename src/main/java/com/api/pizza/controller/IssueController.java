@@ -195,67 +195,6 @@ public class IssueController {
         }
     }
 
-    // @GetMapping("/issue/count")
-    // public ResponseEntity<List<Map<String, Object>>>
-    // getIssueCountByEquipment(@RequestParam List<String> equipmentList) {
-    // try {
-    // // Thực hiện truy vấn động để lấy số lượng khách hàng cho từng quốc gia
-    // List<Map<String, Object>> issueList = new ArrayList<>();
-
-    // for (String equipment : equipmentList) {
-    // long issueCount = issueRepository.countIssueByEquipment(equipment);
-    // Map<String, Object> issueMap = new HashMap<>();
-    // issueMap.put("equipment", equipment);
-    // issueMap.put("issueCount", issueCount);
-    // issueList.add(issueMap);
-    // }
-
-    // return ResponseEntity.ok().body(issueList);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
-    // @GetMapping("/issue/count")
-    // public ResponseEntity<List<Map<String, Object>>> getIssueCountByEquipment(
-    // @RequestParam List<String> equipmentList) {
-    // try {
-    // List<Map<String, Object>> issueList = new ArrayList<>();
-
-    // for (String equipment : equipmentList) {
-    // long issueCount = issueRepository.countIssuesByEquipment(equipment);
-    // Map<String, Object> issueMap = new HashMap<>();
-    // issueMap.put("equipment", equipment);
-    // issueMap.put("issueCount", issueCount);
-    // issueList.add(issueMap);
-    // }
-
-    // return ResponseEntity.ok().body(issueList);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
-    // @GetMapping("/issue/count")
-    // public ResponseEntity<List<Map<String, Object>>
-    // getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
-    // try {
-    // List<Map<String, Object>> issueList = new ArrayList<>();
-
-    // for (int equipmentId : equipmentIds) {
-    // long issueCount = issueRepository.countIssuesByEquipmentId(equipmentId);
-    // Map<String, Object> issueMap = new HashMap<>();
-    // issueMap.put("equipmentId", equipmentId);
-    // issueMap.put("issueCount", issueCount);
-    // issueList.add(issueMap);
-    // }
-
-    // return ResponseEntity.ok().body(issueList);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
-
     // Count issue by equipment
     @GetMapping("/issue/equipment/issue-count")
     public ResponseEntity<Object> getIssueCountByEquipment(@RequestParam List<Integer> equipmentIds) {
