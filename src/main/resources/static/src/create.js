@@ -132,7 +132,7 @@ function removePart(id) {
 
 // Vô hiệu hóa các trường YCSC, downtime, status và sel-part ngay khi trang được tải
 const disableFields = () => {
-  $("#inp-ycsc,#inp-notes,#inp-description, #btn-update-issue")
+  $("#inp-notes, #btn-update-issue")
     .prop("disabled", true)
     .val("");
 };
@@ -142,7 +142,7 @@ disableFields();
 // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
 $("#big-issue").on("change", function () {
   const isChecked = $(this).prop("checked");
-  $("#inp-ycsc,#inp-notes,#inp-description").prop("disabled", !isChecked);
+  $("#inp-notes").prop("disabled", !isChecked);
 });
 
 //load department to select
