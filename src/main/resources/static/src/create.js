@@ -206,6 +206,7 @@ let issue = {
     description: "",
     action: "",
     notes: "",
+    workOrder:"",
     changedParts: [],
   },
 
@@ -216,6 +217,7 @@ let issue = {
       createdBy: $("#inp-createdBy").val().trim(),
       error: $("#inp-error").val().trim(),
       ycsc: $("#inp-ycsc").val().trim(),
+      workOrder: $("#inp-workOrder").val().trim(),
       issueDate: $("#inp-issue-date").val().trim(),
       start: $("#inp-start").val().trim(),
       end: $("#inp-end").val().trim(),
@@ -252,6 +254,7 @@ let issue = {
       createdBy: $("#inp-createdBy").val().trim(),
       error: $("#inp-error").val().trim(),
       ycsc: $("#inp-ycsc").val().trim(),
+      workOrder: $("#inp-workOrder").val().trim(),
       issueDate: $("#inp-issue-date").val().trim(),
       start: $("#inp-start").val().trim(),
       end: $("#inp-end").val().trim(),
@@ -397,7 +400,7 @@ function handleIssueCreationError(error) {
 
 function clearForm() {
   $(
-    "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action"
+    "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action","inp-workOrder"
   ).val("");
   $("btn-update-issue").prop("disabled", true);
   gChangedParts = [];
@@ -516,6 +519,7 @@ function loadIssueToInput(pIssues) {
   $("#inp-createdBy").val(pIssues.createdBy);
   $("#inp-error").val(pIssues.error);
   $("#inp-ycsc").val(pIssues.ycsc);
+  $("#inp-workOrder").val(pIssues.workOrder);
   $("#inp-issue-date").val(pIssues.issueDate);
   $("#inp-start").val(pIssues.start);
   $("#inp-end").val(pIssues.end);
@@ -582,12 +586,14 @@ function loadSearchIssueToTable() {
   let createDateStart = $("#created-issue-search").data('daterangepicker').startDate.format("YYYY-MM-DD");
   let createDateEnd = $("#created-issue-search").data('daterangepicker').endDate.format("YYYY-MM-DD");
   let status = $("#status-search").val();
+  let workOrder = $("#inp-workOrder").val();
 
   // Tạo một đối tượng chứa điều kiện tìm kiếm
   let condition = {
     departmentId,
     equipmentId,
     error,
+    workOrder,
     bigIssue,
     ycsc,
     issueDateStart,
