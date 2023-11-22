@@ -11,7 +11,4 @@ import com.api.pizza.entity.Equipment;
 public interface IEquipmentRepository extends JpaRepository<Equipment, Integer> {
 
     List<Equipment> findByDepartmentsId(@Valid Integer departmentId);
-
-    // List<Equipment> findByDepartmentId(Integer departmentId);
-
 }
