@@ -30,9 +30,6 @@ public class Equipment {
     @JoinColumn(name = "owner_id")
     private Employee employee;
     
-    @ManyToMany(mappedBy = "equipments")
-    private Set<Component> components;
-
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Issue> issues;
