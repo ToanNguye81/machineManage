@@ -21,10 +21,10 @@ public class SparePart {
     @Column(name = "id", unique = true)
     private int id;
 
-    @Column(name = "code",unique = true)
+    @Column(name = "code")
     private String code;
   
-    @Column(name = "spc",unique = true)
+    @Column(name = "spc")
     private String spc;
 
     @Column(name = "name")
@@ -42,19 +42,16 @@ public class SparePart {
     @Column(name = "position")
     private String position;
     
-    // @Column(name = "department")
-    // private String department;
+    @Column(name = "department")
+    private String department;
    
     @Column(name = "unit")
     private String unit;
 
-
-
     @Column(name = "in_Stock")
     private int inStock;
 
-
-
+    // Sử dụng kiểu dữ liệu byte[] cho ảnh
     @Column(name = "image_Url")
-    private String imageUrl; // Sử dụng kiểu dữ liệu byte[] cho ảnh
+    private String imageUrl; 
 }
