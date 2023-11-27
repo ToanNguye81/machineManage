@@ -30,10 +30,10 @@ public class SparePartController {
     public ResponseEntity<List<SparePart>> getAllSpareParts() {
         try {
             List<SparePart> sparePartList = gSparePartRepository.findAll();
-            // Long totalElement = (long) sparePartList.size();
+            Long totalElement = (long) sparePartList.size();
 
             return ResponseEntity.ok()
-                    // .header("totalCount", String.valueOf(totalElement))
+                    .header("totalCount", String.valueOf(totalElement))
                     .body(sparePartList);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

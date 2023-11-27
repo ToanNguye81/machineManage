@@ -53,8 +53,8 @@ public class EquipmentController {
         Optional<Equipment> vEquipmentData = equipmentRepository.findById(equipmentId);
         if (vEquipmentData.isPresent()) {
             try {
-                Equipment vEquipment = vEquipmentData.get();
-                return new ResponseEntity<>(vEquipment, HttpStatus.OK);
+            Equipment vEquipment = vEquipmentData.get();
+            return new ResponseEntity<>(vEquipment, HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
