@@ -1,4 +1,5 @@
 package com.api.pizza.controller;
+
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -21,7 +22,7 @@ import com.api.pizza.repository.ISparePartRepository;
 @CrossOrigin
 @RequestMapping("/")
 public class SparePartController {
-    
+
     @Autowired
     ISparePartRepository gSparePartRepository;
 
@@ -40,7 +41,22 @@ public class SparePartController {
         }
     }
 
-    // create new spare part 
+    // get all SparePart
+    @GetMapping("/spare-part/search")
+    public ResponseEntity<List<SparePart>> searchSpareParts() {
+        try {
+            List<SparePart> sparePartList = gSparePartRepository.findAll();
+            Long totalElement = (long) sparePartList.size();
+
+            return ResponseEntity.ok()
+                    .header("totalCount", String.valueOf(totalElement))
+                    .body(sparePartList);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // create new spare part
     @PostMapping("/spare-part")
     public ResponseEntity<Object> createNewSparePart(
             @Valid @RequestBody SparePart pSparePart) {
@@ -59,7 +75,6 @@ public class SparePartController {
         }
 
     }
-    
 
     // get de by id
     @GetMapping("/spare-part/{sparePartId}")
