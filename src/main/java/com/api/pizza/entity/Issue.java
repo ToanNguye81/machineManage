@@ -39,8 +39,8 @@ public class Issue extends BaseEntity {
     @Column(name = "ycsc")
     private String ycsc;
 
-    @Column(name = "notes")
-    private String notes;
+    // @Column(name = "notes")
+    // private String notes;
 
     @Column(name = "issue_date")
     @Temporal(TemporalType.DATE) // Changed to DATE type

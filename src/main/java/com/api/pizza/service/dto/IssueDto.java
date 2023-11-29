@@ -22,7 +22,7 @@ public class IssueDto {
     private Boolean bigIssue;
     private String ycsc;
     private String workOrder;
-    private String notes;
+    // private String notes;
 
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+7")

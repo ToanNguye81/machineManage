@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.api.pizza.entity.SparePart;
 import com.api.pizza.repository.ISparePartRepository;
@@ -43,18 +44,29 @@ public class SparePartController {
 
     // get all SparePart
     @GetMapping("/spare-part/search")
-    public ResponseEntity<List<SparePart>> searchSpareParts() {
-        try {
-            List<SparePart> sparePartList = gSparePartRepository.findAll();
-            Long totalElement = (long) sparePartList.size();
+public ResponseEntity<List<SparePart>> searchSpareParts(
+        @RequestParam(name = "keyWord", required = false) String keyWord) {
+    try {
+        List<SparePart> sparePartList;
 
-            return ResponseEntity.ok()
-                    .header("totalCount", String.valueOf(totalElement))
-                    .body(sparePartList);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        if (keyWord != null && !keyWord.isEmpty()) {
+            // Tìm kiếm theo kí tự trong cả code và name
+            sparePartList = gSparePartRepository.findByCodeContainingOrNameContaining(keyWord, keyWord);
+        } else {
+            // Nếu không có thông tin tìm kiếm, trả về toàn bộ danh sách
+            sparePartList = gSparePartRepository.findAll();
         }
+
+        Long totalElement = (long) sparePartList.size();
+
+        return ResponseEntity.ok()
+                .header("totalCount", String.valueOf(totalElement))
+                .body(sparePartList);
+    } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
+
 
     // create new spare part
     @PostMapping("/spare-part")
