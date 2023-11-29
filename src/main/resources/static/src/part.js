@@ -4,7 +4,7 @@ let gDepartmentId = 0;
 
 $.get(`department`, loadDepartmentToSelect);
 $.get(`spare-part`, loadSparePartToSelect);
-$("#btn-add-part").click(addPartToTable);
+$("#btn-search-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#btn-search").click(loadSearchIssueToTable);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);

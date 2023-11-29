@@ -9,7 +9,7 @@ $.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
   // After setting the equipment value,
   $("#sel-equipment").trigger("change");
 });
-$("#btn-add-part").click(addPartToTable);
+$("#btn-search-part").click(addPartToTable);
 $("#btn-clear-form").click(clearForm);
 $("#btn-search").click(loadSearchIssueToTable);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
@@ -132,7 +132,8 @@ function removePart(id) {
 
 // Vô hiệu hóa các trường YCSC, downtime, status và sel-part ngay khi trang được tải
 const disableFields = () => {
-  $("#inp-notes, #btn-update-issue")
+  // $("#inp-notes, #btn-update-issue")
+  $("#btn-update-issue")
     .prop("disabled", true)
     .val("");
 };
@@ -142,7 +143,7 @@ disableFields();
 // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
 $("#big-issue").on("change", function () {
   const isChecked = $(this).prop("checked");
-  $("#inp-notes").prop("disabled", !isChecked);
+  // $("#inp-notes").prop("disabled", !isChecked);
 });
 
 //load department to select
@@ -205,7 +206,7 @@ let issue = {
     status: "",
     description: "",
     action: "",
-    notes: "",
+    // notes: "",
     workOrder:"",
     changedParts: [],
   },
@@ -226,7 +227,7 @@ let issue = {
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
       bigIssue: $("#big-issue").prop("checked"),
-      notes: $("#inp-notes").val(),
+      // notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
     console.log(this.newIssue);
@@ -263,7 +264,7 @@ let issue = {
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
       bigIssue: $("#big-issue").prop("checked"),
-      notes: $("#inp-notes").val(),
+      // notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
     if (validateIssue(this.newIssue)) {
@@ -400,7 +401,7 @@ function handleIssueCreationError(error) {
 
 function clearForm() {
   $(
-    "#inp-ycsc, #inp-downtime, #inp-notes, #inp-description, #big-issue,#inp-action","inp-workOrder"
+    "#inp-ycsc, #inp-downtime, #inp-description, #big-issue,#inp-action","inp-workOrder"
   ).val("");
   $("btn-update-issue").prop("disabled", true);
   gChangedParts = [];
@@ -529,7 +530,7 @@ function loadIssueToInput(pIssues) {
   $("#inp-description").val(pIssues.description);
   $("#inp-action").val(pIssues.action);
   $("#big-issue").prop("checked", pIssues.bigIssue);
-  $("#inp-notes").val(pIssues.notes);
+  // $("#inp-notes").val(pIssues.notes);
   gChangedParts = pIssues.changedParts;
   // After setting the department value, trigger a change event to load equipment
   $("select").trigger("change");
