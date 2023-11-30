@@ -2,14 +2,13 @@ let gChangedParts = [];
 let gEquipmentId = 0;
 let gDepartmentId = $("#sel-department").val();
 
-// $.get(`department`, loadDepartmentToSelect);
-$.get(`spare-part`, loadSparePartToSelect);
 $.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
   loadEquipmentToSelect(pEquipment);
   // After setting the equipment value,
   $("#sel-equipment").trigger("change");
 });
-$("#btn-search-part").click(addPartToTable);
+
+$("#btn-search-part").click(searchPart);
 $("#btn-clear-form").click(clearForm);
 $("#btn-search").click(loadSearchIssueToTable);
 $("#inp-issue-date").val(new Date().toISOString().split("T")[0]);
@@ -45,25 +44,7 @@ function calculateDowntime() {
   downtime.val(`${hours}:${minutes}:${seconds}`);
 }
 
-//load sparePart to select
-function loadSparePartToSelect(pSparePart) {
-  console.log(pSparePart);
-  pSparePart.forEach((sparePart) => {
-    $("<option>", {
-      text: sparePart.code + "-" + sparePart.name,
-      value: sparePart.id, // Set the value to spare part's ID
-      "data-code": sparePart.code,
-      "data-name": sparePart.name,
-      "data-price": sparePart.price,
-    }).appendTo($("#sel-spare-part"));
-  });
-}
-
-function addPartToTable() {
-  var selectedOption = $("#sel-spare-part option:selected");
-  var partId = selectedOption.val(); // Get the selected part's ID
-  var partCode = selectedOption.data("code");
-  var partName = selectedOption.data("name");
+function addPartToTable(partId,partCode,partName) {
 
   if (!partId) return; // Check if partId is not empty or falsy
 
@@ -79,6 +60,42 @@ function addPartToTable() {
     });
   }
   updatePartTable();
+}
+
+function searchPart() {
+  var keyWord = $("#inp-search-part").val().trim();
+  $.get(`spare-part/search?keyWord=${keyWord}`,loadPartResult);
+}
+
+function loadPartResult(result) {
+ // Xóa dữ liệu cũ trong bảng
+  $("#table-part-result tbody").empty();
+
+  // Thêm dữ liệu mới vào bảng
+  result.forEach(part => {
+    var row = `<tr>
+                  <td>${part.code}</td>
+                  <td>${part.spc}</td>
+                  <td>${part.name}</td>
+                  <td>${part.position}</td>
+                  <td>${part.inStock}</td>
+                  <td>${part.imageUrl}</td>
+                  <td><button class="btn btn-info btn-add-changed-part"
+                  data-id="${part.id}"
+                  data-name="${part.name}"
+                  data-code="${part.code}">
+                  <i class="fas fa-plus"></i></button></td>
+                </tr>`;
+    $("#table-part-result tbody").append(row);
+  });
+
+  // Gán sự kiện click cho nút "Add to List"
+  $(".btn-add-changed-part").click(function() {
+    var partId = $(this).data("id");
+    var partCode = $(this).data("code");
+    var partName = $(this).data("name");
+    addPartToTable(partId,partCode, partName);
+  });
 }
 
 function updatePartTable() {
@@ -246,7 +263,7 @@ let issue = {
     let vSelectedData = $(this).attr("id"); // Use closest() instead of parents() for better accuracy
     gIssueId = vSelectedData;
     console.log(gIssueId);
-    $.get(`machine/issue/${gIssueId}`, loadIssueToInput);
+    $.get(`issue/${gIssueId}`, loadIssueToInput);
   },
   onSaveIssueClick() {
     this.newIssue = {
@@ -339,40 +356,6 @@ let sparePart = {
       error: handleIssueCreationError,
     });
   },
-
-  // onSaveNewSparePartClick() {
-  //   const code = $("#inp-part-code").val().trim();
-  //   const name = $("#inp-part-name").val().trim();
-  //   const price = $("#inp-part-price").val().trim();
-  //   // const imageInput = $("#imageInput")[0];
-
-  //   // // Kiểm tra xem có ảnh được chọn không
-  //   // let imageFile = null;
-  //   // if (imageInput.files.length > 0) {
-  //   //   imageFile = imageInput.files[0];
-  //   // }
-
-  //   const formData = new FormData();
-  //   formData.append("code", code);
-  //   formData.append("name", name);
-  //   formData.append("price", price);
-
-  //   // // Kiểm tra xem có ảnh được chọn không
-  //   // if (imageFile !== null) {
-  //   //   formData.append("image", imageFile);
-  //   // }
-
-  //   // Gửi yêu cầu AJAX để tạo Part mới
-  //   $.ajax({
-  //     url: "spare-part",
-  //     method: "POST",
-  //     data: JSON.stringify(formData),
-  //     contentType: false,
-  //     processData: false,
-  //     success: handlePartCreationSuccess,
-  //     error: handleIssueCreationError,
-  //   });
-  // },
 };
 
 // Hàm xử lý thành công khi tạo vấn đề mới
@@ -530,7 +513,6 @@ function loadIssueToInput(pIssues) {
   $("#inp-description").val(pIssues.description);
   $("#inp-action").val(pIssues.action);
   $("#big-issue").prop("checked", pIssues.bigIssue);
-  // $("#inp-notes").val(pIssues.notes);
   gChangedParts = pIssues.changedParts;
   // After setting the department value, trigger a change event to load equipment
   $("select").trigger("change");
