@@ -37,7 +37,6 @@ public class ChangedPart {
     @Column(name = "price")
     private Integer price;
 
-    
     @Column(name = "image")
     private byte[] image; // Sử dụng kiểu dữ liệu byte[] cho ảnh
  

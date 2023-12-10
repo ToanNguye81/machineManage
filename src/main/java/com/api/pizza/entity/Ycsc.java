@@ -22,6 +22,7 @@ public class Ycsc extends BaseEntity {
     @Column(name ="index")
     private Integer index;
 
+    //ManyToOne
     @Column(name = "department")
     private String department;
 
