@@ -28,11 +28,15 @@ public class ChangedPart {
     @Column(name = "code")
     private String code;
 
+    
     @Column(name = "name")
     private String name;
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "position")
+    private String position;
 
     @Column(name = "price")
     private Integer price;

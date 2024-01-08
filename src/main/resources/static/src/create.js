@@ -44,7 +44,7 @@ function calculateDowntime() {
   downtime.val(`${hours}:${minutes}:${seconds}`);
 }
 
-function addPartToTable(partId,partCode,partName) {
+function addPartToTable(partId,partCode,partName,partPosition) {
 
   if (!partId) return; // Check if partId is not empty or falsy
 
@@ -56,6 +56,7 @@ function addPartToTable(partId,partCode,partName) {
       id: partId, // Store the selected part's ID
       code: partCode,
       name: partName,
+      position: partPosition,
       quantity: 1,
     });
   }
@@ -82,6 +83,7 @@ function loadPartResult(result) {
                   <td>${part.imageUrl}</td>
                   <td><button class="btn btn-info btn-add-changed-part"
                   data-id="${part.id}"
+                  data-position="${part.position}"
                   data-name="${part.name}"
                   data-code="${part.code}">
                   <i class="fas fa-plus"></i></button></td>
@@ -94,7 +96,8 @@ function loadPartResult(result) {
     var partId = $(this).data("id");
     var partCode = $(this).data("code");
     var partName = $(this).data("name");
-    addPartToTable(partId,partCode, partName);
+    var partPosition = $(this).data("position");
+    addPartToTable(partId,partCode, partName,partPosition);
   });
 }
 
@@ -103,15 +106,21 @@ function updatePartTable() {
 
   gChangedParts.forEach((part) => {
     if (part.quantity > 0) {
-      var row = createTableRow(part.id, part.code, part.name, part.quantity); // Pass part's ID to createTableRow
+      var row = createTableRow(part.id, part.code, part.name, part.position, part.quantity); // Pass part's ID to createTableRow
       tbody.append(row);
     }
   });
 }
 
-function createTableRow(id, code, name, quantity) {
+function createTableRow(id, code, name,position, quantity) {
   var row = $("<tr></tr>").append(
-    `<td>${code}</td><td>${name}</td><td><button class="btn btn-sm btn-success btn-increment">+</button> <span class="quantity">${quantity}</span> <button class="btn btn-sm btn-warning btn-decrement">-</button></td><td><button class="btn btn-danger btn-sm btn-remove">Remove</button></td>`
+    `<td>${code}</td>
+     <td>${name}</td>
+     <td>${position}</td>
+     <td><button class="btn btn-sm btn-success btn-increment">+</button> 
+     <span class="quantity">${quantity}</span> 
+     <button class="btn btn-sm btn-warning btn-decrement">-</button></td>
+     <td><button class="btn btn-danger btn-sm btn-remove">Remove</button></td>`
   );
 
   row.find(".btn-increment").click(() => incrementQuantity(id));
@@ -281,6 +290,7 @@ let issue = {
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
       bigIssue: $("#big-issue").prop("checked"),
+      
       // notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
@@ -462,6 +472,7 @@ let issueTable = $("#issue-table").DataTable({
         return buildChangedPartsCell(data);
       },
     },
+    { data: "wordOrder" },
     {
       data: "id",
       render: (data) =>
@@ -477,7 +488,7 @@ function buildChangedPartsCell(changedParts) {
   // Đảm bảo rằng changedParts thực sự là một mảng
   if (Array.isArray(changedParts)) {
     return changedParts
-      .map((part, index) => `${part.quantity} - ${part.code} - ${part.name} `)
+      .map((part, index) => ` quant: ${part.quantity} |code: ${part.code} |name: ${part.name} | pos: ${part.position} `)
       .join("<br>");
   }
 
