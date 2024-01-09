@@ -472,7 +472,8 @@ let issueTable = $("#issue-table").DataTable({
         return buildChangedPartsCell(data);
       },
     },
-    { data: "wordOrder" },
+    { data: "workOrder" },
+    { data: "ycsc" },
     {
       data: "id",
       render: (data) =>
@@ -488,7 +489,7 @@ function buildChangedPartsCell(changedParts) {
   // Đảm bảo rằng changedParts thực sự là một mảng
   if (Array.isArray(changedParts)) {
     return changedParts
-      .map((part, index) => ` quant: ${part.quantity} |code: ${part.code} |name: ${part.name} | pos: ${part.position} `)
+      .map((part, index) => ` qty: ${part.quantity} |code: ${part.code} |name: ${part.name} | pos: ${part.position} `)
       .join("<br>");
   }
 
@@ -497,6 +498,8 @@ function buildChangedPartsCell(changedParts) {
 
 function loadIssueToTable(pIssue) {
   "use strict";
+  console.log("use strict");
+  // console.log(pIssue);
   issueTable.clear();
   issueTable.rows.add(pIssue);
   issueTable
