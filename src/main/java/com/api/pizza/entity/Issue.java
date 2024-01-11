@@ -55,7 +55,8 @@ public class Issue extends BaseEntity {
     @Column(name = "end")
     @Temporal(TemporalType.TIME)
     @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
-    private Date end; // Changed to Date type
+    // Changed to Date type
+    private Date end; 
 
     @Column(name = "downtime")
     @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+7")
