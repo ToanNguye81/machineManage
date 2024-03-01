@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,6 @@ import java.util.Optional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.validation.Valid;
@@ -60,9 +60,9 @@ public class IssueController {
     @GetMapping(value = "/issue")
     public ResponseEntity<List<Issue>> getAllIssue(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "100") int size) {
+            @RequestParam(value = "size", defaultValue = "6000") int size) {
         // tạo ra một đối tượng Pageable để đại diện cho thông tin về phân trang.
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size,Sort.by("createdAt").descending());
         // truy vấn CSDL và trả về một trang của đối tượng CIssue với thông tin trang
         Page<Issue> issuePage = issueRepository.findAll(pageable);
         // để lấy danh sách các đối tượng
@@ -82,16 +82,20 @@ public class IssueController {
             @RequestParam(name = "departmentId", required = false) String departmentId,
             @RequestParam(name = "equipmentId", required = false) String equipmentId,
             @RequestParam(name = "error", required = false) String error,
-            @RequestParam(name = "bigIssue", required = false) Boolean bigIssue,
             @RequestParam(name = "ycsc", required = false) String ycsc,
-            // @RequestParam(name = "workOrder", required = false) String workOrder,
             @RequestParam(name = "issueDateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDateStart,
             @RequestParam(name = "issueDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDateEnd,
             @RequestParam(name = "createDateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateStart,
             @RequestParam(name = "createDateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createDateEnd,
-            @RequestParam(name = "status", required = false) String status) {
+            @RequestParam(name = "workOrder", required = false) String workOrder,
+            @RequestParam(name = "status", required = false) String status
+            // @RequestParam(name = "bigIssue", required = false) Boolean bigIssue,
+            ) {
         Specification<Issue> specification = IssueSpecification.filterByParameters(
-                departmentId, equipmentId, error, bigIssue, ycsc,
+                departmentId, equipmentId, error,
+                //  bigIssue,
+                 ycsc,
+                 workOrder,
                 issueDateStart, issueDateEnd, createDateStart, createDateEnd,
                 status);
 

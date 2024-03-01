@@ -40,7 +40,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setEquipment(equipmentRepository.findById(dto.getEquipmentId()).orElse(null));
         issue.setError(dto.getError());
         issue.setDescription(dto.getDescription());
-        issue.setBigIssue(dto.getBigIssue());
+        // issue.setBigIssue(dto.getBigIssue());
         issue.setYcsc(dto.getYcsc());
         issue.setWorkOrder(dto.getWorkOrder());
         // issue.setNotes(dto.getNotes());

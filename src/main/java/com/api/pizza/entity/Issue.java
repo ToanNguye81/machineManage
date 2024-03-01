@@ -32,12 +32,12 @@ public class Issue extends BaseEntity {
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "big_issue")
-    private Boolean bigIssue;
-
+    
     @Column(name = "ycsc")
     private String ycsc;
+
+    // @Column(name = "big_issue")
+    // private Boolean bigIssue;
 
     // @Column(name = "notes")
     // private String notes;

@@ -6,6 +6,11 @@ $.get(`department/${gDepartmentId}/equipment`, function (pEquipment) {
   loadEquipmentToSelect(pEquipment);
   // After setting the equipment value,
   $("#sel-equipment").trigger("change");
+
+  //Load sel-search
+  loadEquipmentToSelectSearch(pEquipment);
+  // After setting the equipment value,
+  $("#search-equipment").trigger("change");
 });
 
 $("#btn-search-part").click(searchPart);
@@ -166,11 +171,11 @@ const disableFields = () => {
 
 disableFields();
 
-// Lắng nghe sự kiện khi checkbox bigIssue thay đổi
-$("#big-issue").on("change", function () {
-  const isChecked = $(this).prop("checked");
-  // $("#inp-notes").prop("disabled", !isChecked);
-});
+// // Lắng nghe sự kiện khi checkbox bigIssue thay đổi
+// $("#big-issue").on("change", function () {
+//   const isChecked = $(this).prop("checked");
+//   // $("#inp-notes").prop("disabled", !isChecked);
+// });
 
 //load department to select
 function loadDepartmentToSelect(pDepartment) {
@@ -200,6 +205,22 @@ function loadEquipmentToSelect(pEquipment) {
   }
 }
 
+// Function to load equipment options into the select input
+function loadEquipmentToSelectSearch(pEquipment) {
+  $("#equipment-search")
+    .empty()
+    .append('<option value="">Choose equipment</option>');
+  pEquipment.forEach((equipment) => {
+    $("<option>", {
+      text: equipment.name,
+      value: equipment.id,
+    }).appendTo($("#equipment-search"));
+  });
+
+  if (gEquipmentId !== 0) {
+    $("#equipment-search").val(gEquipmentId);
+  }
+}
 // on get department change
 function onGetDepartmentChange(event) {
   gDepartmentId = event.target.value;
@@ -214,6 +235,9 @@ function onGetDepartmentChange(event) {
       loadEquipmentToSelect(pEquipment);
       // After setting the equipment value,
       $("#sel-equipment").trigger("change");
+      loadEquipmentToSelectSearch(pEquipment);
+      // After setting the equipment value,
+      $("#equipment-search").trigger("change");
     });
   }
 }
@@ -252,7 +276,7 @@ let issue = {
       status: $("#sel-status").val() || "done",
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
-      bigIssue: $("#big-issue").prop("checked"),
+      // bigIssue: $("#big-issue").prop("checked"),
       // notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
     };
@@ -289,7 +313,7 @@ let issue = {
       status: $("#sel-status").val() || "done",
       description: $("#inp-description").val().trim(),
       action: $("#inp-action").val().trim(),
-      bigIssue: $("#big-issue").prop("checked"),
+      // bigIssue: $("#big-issue").prop("checked"),
       
       // notes: $("#inp-notes").val(),
       changedParts: gChangedParts,
@@ -393,9 +417,8 @@ function handleIssueCreationError(error) {
 }
 
 function clearForm() {
-  $(
-    "#inp-ycsc, #inp-downtime, #inp-description, #big-issue,#inp-action","inp-workOrder"
-  ).val("");
+  //ver 1: $("#inp-ycsc, #inp-downtime, #inp-description, #big-issue,#inp-action","inp-workOrder").val("");
+  $("#inp-ycsc, #inp-downtime, #inp-description,#inp-action","inp-workOrder").val("");
   $("btn-update-issue").prop("disabled", true);
   gChangedParts = [];
   updatePartTable();
@@ -464,7 +487,7 @@ let issueTable = $("#issue-table").DataTable({
     { data: "downtime" },
     { data: "description" },
     { data: "action" },
-    { data: "bigIssue" },
+    // { data: "bigIssue" },
     { data: "status" },
     {
       data: "changedParts",
@@ -526,11 +549,11 @@ function loadIssueToInput(pIssues) {
   $("#sel-status").val(pIssues.status);
   $("#inp-description").val(pIssues.description);
   $("#inp-action").val(pIssues.action);
-  $("#big-issue").prop("checked", pIssues.bigIssue);
+  // $("#big-issue").prop("checked", pIssues.bigIssue);
   gChangedParts = pIssues.changedParts;
   // After setting the department value, trigger a change event to load equipment
   $("select").trigger("change");
-  $("#big-issue").trigger("change");
+  // $("#big-issue").trigger("change");
   $("#btn-update-issue").prop("disabled", false);
   updatePartTable();
 }
@@ -576,7 +599,7 @@ function loadSearchIssueToTable() {
   let departmentId = $("#sel-department").val()
   let equipmentId = $("#sel-equipment").val();
   let error = $("#error-search").val();
-  let bigIssue = $("#bigIssue-search").val();
+  // let bigIssue = $("#bigIssue-search").val();
   let ycsc = $("#ycsc-search").val();
   let issueDateStart = $("#issueDate-search").data('daterangepicker').startDate.format("YYYY-MM-DD");
   let issueDateEnd = $("#issueDate-search").data('daterangepicker').endDate.format("YYYY-MM-DD");
@@ -591,7 +614,7 @@ function loadSearchIssueToTable() {
     equipmentId,
     error,
     workOrder,
-    bigIssue,
+    // bigIssue,
     ycsc,
     issueDateStart,
     issueDateEnd,
